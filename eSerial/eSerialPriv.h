@@ -3,7 +3,7 @@
  *  eSerial
  *
  *  Created by Paul O'Neil on 3/21/11.
- *  Copyright 2011 __MyCompanyName__. All rights reserved.
+ *  Copyright 2011 Paul O'Neil. All rights reserved.
  *
  */
 

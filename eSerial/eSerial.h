@@ -3,12 +3,12 @@
  *  eSerial
  *
  *  Created by Paul O'Neil on 3/21/11.
- *  Copyright 2011 __MyCompanyName__. All rights reserved.
+ *  Copyright 2011 Paul O'Neil. All rights reserved.
  *
  */
 
-#ifndef eSerial_
-#define eSerial_
+#ifndef __ESERIAL_H__
+#define __ESERIAL_H__
 
 /* The classes below are exported */
 #pragma GCC visibility push(default)
@@ -20,4 +20,5 @@ class eSerial
 };
 
 #pragma GCC visibility pop
-#endif
+
+#endif // __ESERIAL_H__

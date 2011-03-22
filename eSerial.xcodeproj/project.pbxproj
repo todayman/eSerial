@@ -9,16 +9,23 @@
 /* Begin PBXBuildFile section */
 		DA2C381D13382E200013BE0F /* eSerial.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2C381C13382E200013BE0F /* eSerial.h */; };
 		DA2C382013382E200013BE0F /* eSerial.cp in Sources */ = {isa = PBXBuildFile; fileRef = DA2C381F13382E200013BE0F /* eSerial.cp */; };
+		DA2C383213382F450013BE0F /* eParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2C382E13382F450013BE0F /* eParser.cpp */; };
+		DA2C383313382F450013BE0F /* eParser.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2C382F13382F450013BE0F /* eParser.h */; };
+		DA2C383413382F450013BE0F /* eWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2C383013382F450013BE0F /* eWriter.cpp */; };
+		DA2C383513382F450013BE0F /* eWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2C383113382F450013BE0F /* eWriter.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		DA2C381513382E200013BE0F /* eSerial.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = eSerial.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
-		DA2C381913382E200013BE0F /* eSerial-Prefix.pch */ = {isa = PBXFileReference; path = "eSerial-Prefix.pch"; sourceTree = "<group>"; };
-		DA2C381A13382E200013BE0F /* eSerialProj.xcconfig */ = {isa = PBXFileReference; path = eSerialProj.xcconfig; sourceTree = "<group>"; };
-		DA2C381B13382E200013BE0F /* eSerialTarget.xcconfig */ = {isa = PBXFileReference; path = eSerialTarget.xcconfig; sourceTree = "<group>"; };
+		DA2C381A13382E200013BE0F /* eSerialProj.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = eSerialProj.xcconfig; sourceTree = "<group>"; };
+		DA2C381B13382E200013BE0F /* eSerialTarget.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = eSerialTarget.xcconfig; sourceTree = "<group>"; };
 		DA2C381C13382E200013BE0F /* eSerial.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = eSerial.h; sourceTree = "<group>"; };
-		DA2C381E13382E200013BE0F /* eSerialPriv.h */ = {isa = PBXFileReference; path = eSerialPriv.h; sourceTree = "<group>"; };
+		DA2C381E13382E200013BE0F /* eSerialPriv.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = eSerialPriv.h; sourceTree = "<group>"; };
 		DA2C381F13382E200013BE0F /* eSerial.cp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = eSerial.cp; sourceTree = "<group>"; };
+		DA2C382E13382F450013BE0F /* eParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = eParser.cpp; sourceTree = "<group>"; };
+		DA2C382F13382F450013BE0F /* eParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = eParser.h; sourceTree = "<group>"; };
+		DA2C383013382F450013BE0F /* eWriter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = eWriter.cpp; sourceTree = "<group>"; };
+		DA2C383113382F450013BE0F /* eWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = eWriter.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,7 +71,10 @@
 		DA2C381813382E200013BE0F /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				DA2C381913382E200013BE0F /* eSerial-Prefix.pch */,
+				DA2C382F13382F450013BE0F /* eParser.h */,
+				DA2C382E13382F450013BE0F /* eParser.cpp */,
+				DA2C383113382F450013BE0F /* eWriter.h */,
+				DA2C383013382F450013BE0F /* eWriter.cpp */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -77,6 +87,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA2C381D13382E200013BE0F /* eSerial.h in Headers */,
+				DA2C383313382F450013BE0F /* eParser.h in Headers */,
+				DA2C383513382F450013BE0F /* eWriter.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -128,6 +140,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA2C382013382E200013BE0F /* eSerial.cp in Sources */,
+				DA2C383213382F450013BE0F /* eParser.cpp in Sources */,
+				DA2C383413382F450013BE0F /* eWriter.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
