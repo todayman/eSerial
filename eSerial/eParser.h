@@ -11,6 +11,7 @@
 #include <map>
 #include <string>
 #include <stack>
+#include "macros.h"
 using namespace std;
 
 #ifndef __E_WRITER__
@@ -54,19 +55,7 @@ class eParser {
 #define PARSE_TYPE( x )	void read(const char * name, x * val) {												\
 							(*val) = (dynamic_cast<EOSData<x>*>(classes.top()->data[string(name)]))->data;	\
 						}
-	PARSE_TYPE( uint8_t )
-	PARSE_TYPE( uint16_t )
-	PARSE_TYPE( uint32_t )
-	PARSE_TYPE( uint64_t )
-	PARSE_TYPE( int8_t )
-	PARSE_TYPE( int16_t )
-	PARSE_TYPE( int32_t )
-	PARSE_TYPE( int64_t )
-	PARSE_TYPE( float )
-	PARSE_TYPE( double )
-	PARSE_TYPE( long double )
-	PARSE_TYPE( bool )
-	PARSE_TYPE( char* )
+  PRIMITIVE_TYPES(PARSE_TYPE)
 #undef PARSE_TYPE
 	void read(const char * name, eWritable ** val);
 	
@@ -74,18 +63,7 @@ class eParser {
 								(*elements) = (dynamic_cast<EOSArrayData<x>*>(classes.top()->data[string(name)]))->data;			\
 								if(count) (*count) = (dynamic_cast<EOSArrayData<x>*>(classes.top()->data[string(name)]))->count;	\
 							}
-	PARSE_ARRAY( uint8_t )
-	PARSE_ARRAY( uint16_t )
-	PARSE_ARRAY( uint32_t )
-	PARSE_ARRAY( uint64_t )
-	PARSE_ARRAY( int8_t )
-	PARSE_ARRAY( int16_t )
-	PARSE_ARRAY( int32_t )
-	PARSE_ARRAY( int64_t )
-	PARSE_ARRAY( float )
-	PARSE_ARRAY( double )
-	PARSE_ARRAY( long double )
-	PARSE_ARRAY( bool )
+  PRIMITIVE_TYPES(PARSE_ARRAY)
 #undef PARSE_ARRAY
 	void readArray(const char * name, eWritable *** elements, uint32_t * count = NULL);
 	

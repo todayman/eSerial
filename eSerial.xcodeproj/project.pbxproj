@@ -7,25 +7,26 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		DA2C381D13382E200013BE0F /* eSerial.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2C381C13382E200013BE0F /* eSerial.h */; };
-		DA2C382013382E200013BE0F /* eSerial.cp in Sources */ = {isa = PBXBuildFile; fileRef = DA2C381F13382E200013BE0F /* eSerial.cp */; };
 		DA2C383213382F450013BE0F /* eParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2C382E13382F450013BE0F /* eParser.cpp */; };
 		DA2C383313382F450013BE0F /* eParser.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2C382F13382F450013BE0F /* eParser.h */; };
 		DA2C383413382F450013BE0F /* eWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2C383013382F450013BE0F /* eWriter.cpp */; };
 		DA2C383513382F450013BE0F /* eWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2C383113382F450013BE0F /* eWriter.h */; };
+		DA2C38371338330D0013BE0F /* eWritable.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2C38361338330D0013BE0F /* eWritable.h */; };
+		DA2C3852133838840013BE0F /* eData.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2C3851133838840013BE0F /* eData.h */; };
+		DA2C385413383A350013BE0F /* macros.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2C385313383A350013BE0F /* macros.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		DA2C381513382E200013BE0F /* eSerial.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = eSerial.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA2C381A13382E200013BE0F /* eSerialProj.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = eSerialProj.xcconfig; sourceTree = "<group>"; };
 		DA2C381B13382E200013BE0F /* eSerialTarget.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = eSerialTarget.xcconfig; sourceTree = "<group>"; };
-		DA2C381C13382E200013BE0F /* eSerial.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = eSerial.h; sourceTree = "<group>"; };
-		DA2C381E13382E200013BE0F /* eSerialPriv.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = eSerialPriv.h; sourceTree = "<group>"; };
-		DA2C381F13382E200013BE0F /* eSerial.cp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = eSerial.cp; sourceTree = "<group>"; };
 		DA2C382E13382F450013BE0F /* eParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = eParser.cpp; sourceTree = "<group>"; };
 		DA2C382F13382F450013BE0F /* eParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = eParser.h; sourceTree = "<group>"; };
 		DA2C383013382F450013BE0F /* eWriter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = eWriter.cpp; sourceTree = "<group>"; };
 		DA2C383113382F450013BE0F /* eWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = eWriter.h; sourceTree = "<group>"; };
+		DA2C38361338330D0013BE0F /* eWritable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = eWritable.h; sourceTree = "<group>"; };
+		DA2C3851133838840013BE0F /* eData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = eData.h; sourceTree = "<group>"; };
+		DA2C385313383A350013BE0F /* macros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = macros.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,23 +61,15 @@
 			children = (
 				DA2C381A13382E200013BE0F /* eSerialProj.xcconfig */,
 				DA2C381B13382E200013BE0F /* eSerialTarget.xcconfig */,
-				DA2C381C13382E200013BE0F /* eSerial.h */,
-				DA2C381E13382E200013BE0F /* eSerialPriv.h */,
-				DA2C381F13382E200013BE0F /* eSerial.cp */,
-				DA2C381813382E200013BE0F /* Supporting Files */,
-			);
-			path = eSerial;
-			sourceTree = "<group>";
-		};
-		DA2C381813382E200013BE0F /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
+				DA2C385313383A350013BE0F /* macros.h */,
+				DA2C38361338330D0013BE0F /* eWritable.h */,
+				DA2C3851133838840013BE0F /* eData.h */,
 				DA2C382F13382F450013BE0F /* eParser.h */,
 				DA2C382E13382F450013BE0F /* eParser.cpp */,
 				DA2C383113382F450013BE0F /* eWriter.h */,
 				DA2C383013382F450013BE0F /* eWriter.cpp */,
 			);
-			name = "Supporting Files";
+			path = eSerial;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -86,9 +79,11 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DA2C381D13382E200013BE0F /* eSerial.h in Headers */,
 				DA2C383313382F450013BE0F /* eParser.h in Headers */,
 				DA2C383513382F450013BE0F /* eWriter.h in Headers */,
+				DA2C38371338330D0013BE0F /* eWritable.h in Headers */,
+				DA2C3852133838840013BE0F /* eData.h in Headers */,
+				DA2C385413383A350013BE0F /* macros.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -117,6 +112,9 @@
 /* Begin PBXProject section */
 		DA2C380C13382E200013BE0F /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				ORGANIZATIONNAME = "Paul O'Neil";
+			};
 			buildConfigurationList = DA2C380F13382E200013BE0F /* Build configuration list for PBXProject "eSerial" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
@@ -139,7 +137,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DA2C382013382E200013BE0F /* eSerial.cp in Sources */,
 				DA2C383213382F450013BE0F /* eParser.cpp in Sources */,
 				DA2C383413382F450013BE0F /* eWriter.cpp in Sources */,
 			);
@@ -221,6 +218,7 @@
 				DA2C382513382E200013BE0F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
