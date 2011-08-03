@@ -9,6 +9,15 @@
 
 #include "eWriter.h"
 #include "eParser.h"
+using namespace std;
+
+void eFactory::registerClass(const string &className, constructor_t ctor) {
+  ctors.insert( pair<string, constructor_t>(className, ctor) );
+}
+
+eWritable * eFactory::newObject(std::string className) {
+  return /*dynamic_cast<eWritable*>(*/ctors[className]()/*)*/;
+}
 
 void eParser::parseFile(const char * filename)
 {

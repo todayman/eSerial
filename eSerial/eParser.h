@@ -11,8 +11,8 @@
 #include <map>
 #include <string>
 #include <stack>
+#include "eData.h"
 #include "macros.h"
-using namespace std;
 
 #ifndef __E_WRITER__
 class eWriter;
@@ -24,45 +24,48 @@ class eParser;
 #define __E_PARSER__
 
 class eFactory {
+  std::map<std::string, constructor_t> ctors;
 public:
-	virtual eWritable * newObject(std::string className)=0;
+  void registerClass(const std::string& className, constructor_t ctor);
+	eWritable * newObject(std::string className);
 };
 
 class eParser {
-	ifstream input;
+  std::ifstream input;
 	
-	string istring;
-	string buff; // strings to read in random stuff, instead of a different string in every method
+  std::string istring;
+  std::string buff; // strings to read in random stuff
+                    // instead of a different string in every method
+                    // I got sick of declaring it every time
 	void addObject();
 	void parseClass(EOSClass * c);
 	
-	protected:
-	map<size_t, EOSObject*> data;
+protected:
+  std::map<size_t, EOSObject*> data;
 	virtual void firstPass(const char * filename)=0;
 	
-	private:
-	map<size_t, eWritable*>objects;
+private:
+  std::map<size_t, eWritable*>objects;
 	eFactory * factory;
-	stack<EOSClass*> classes;
+  std::stack<EOSClass*> classes;
 	void secondPass();
 	void parseObject(EOSObject * curObj);
 	
-	public:
+public:
 	void parseFile(const char * filename);
 	void setFactory(eFactory * newFactory);
-
-
+  
 #define PARSE_TYPE( x )	void read(const char * name, x * val) {												\
-							(*val) = (dynamic_cast<EOSData<x>*>(classes.top()->data[string(name)]))->data;	\
-						}
+       (*val) = (dynamic_cast<EOSData<x>*>(classes.top()->data[std::string(name)]))->data;	\
+     }
   PRIMITIVE_TYPES(PARSE_TYPE)
 #undef PARSE_TYPE
 	void read(const char * name, eWritable ** val);
 	
 #define PARSE_ARRAY( x )	void readArray(const char * name, x ** elements, uint32_t * count = NULL) {									\
-								(*elements) = (dynamic_cast<EOSArrayData<x>*>(classes.top()->data[string(name)]))->data;			\
-								if(count) (*count) = (dynamic_cast<EOSArrayData<x>*>(classes.top()->data[string(name)]))->count;	\
-							}
+      (*elements) = (dynamic_cast<EOSArrayData<x>*>(classes.top()->data[std::string(name)]))->data;			\
+      if(count) (*count) = (dynamic_cast<EOSArrayData<x>*>(classes.top()->data[std::string(name)]))->count;	\
+    }
   PRIMITIVE_TYPES(PARSE_ARRAY)
 #undef PARSE_ARRAY
 	void readArray(const char * name, eWritable *** elements, uint32_t * count = NULL);
@@ -76,18 +79,18 @@ class eParser {
 };
 
 #define READ_SUPERCLASS( reader, x )	reader->pushClass(#x);	\
-										x::read(reader);		\
-										reader->popClass()
+x::read(reader);		\
+reader->popClass()
 
 class eTextParser : public eParser {
-	ifstream input;
-	string istring;
-	string buff;
+  std::ifstream input;
+  std::string istring;
+  std::string buff;
 	
 	void addObject();
 	void parseClass(EOSClass * c);
 	
-	protected:
+protected:
 	virtual void firstPass(const char * filename);
 };
 

@@ -8,26 +8,26 @@
 
 #include <map>
 
+#ifndef __E_WRITEABLE_H__
+class eWritable;
+#endif
+
 #ifndef __E_DATA_H__
 #define __E_DATA_H__
 
 class _EOSData {
-protected:
-	virtual size_t getData()=0;// to enable polymorphism
+public:
+  virtual ~_EOSData() { }
 };
 typedef _EOSData * pEOSData;
 
 template<typename T> class EOSData : public _EOSData {
-protected:
-	virtual size_t getData() { return 0; } // to enable polymorphism
 public:
 	EOSData(T d=NULL) { data = d; }
 	T data;
 };
 
 template<> class EOSData<eWritable*> : public _EOSData {
-protected:
-	virtual size_t getData() { return i; } // to enable polymorphism
 public:
 	EOSData(size_t ident=0) {i = ident; }
 	
@@ -35,16 +35,12 @@ public:
 };
 
 template<typename T> class EOSArrayData : public _EOSData {
-protected:
-	virtual size_t getData() { return 0; } // to enable polymorphism
 public:
 	uint32_t count;
 	T * data;
 };
 
 template<> class EOSArrayData<eWritable*> : public _EOSData {
-protected:
-	virtual size_t getData() { return 0; } // to enable polymorphism
 public:
 	uint32_t count;
 	uint32_t * data;
@@ -57,8 +53,10 @@ struct EOSClass {
 };
 
 struct EOSObject {
-	size_t i;
+	uint64_t i;
 	EOSClass * data;
 };
+
+typedef eWritable * (^constructor_t)(/*EOSClass * data*/) ;
 
 #endif // __E_DATA_H__
