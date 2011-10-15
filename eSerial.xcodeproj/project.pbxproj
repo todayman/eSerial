@@ -113,6 +113,7 @@
 		DA2C380C13382E200013BE0F /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastUpgradeCheck = 0420;
 				ORGANIZATIONNAME = "Paul O'Neil";
 			};
 			buildConfigurationList = DA2C380F13382E200013BE0F /* Build configuration list for PBXProject "eSerial" */;

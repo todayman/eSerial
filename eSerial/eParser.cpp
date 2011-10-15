@@ -30,7 +30,7 @@ void eParser::secondPass()
 {
 	map<size_t, EOSObject*>::iterator end = data.end();
 	for(map<size_t, EOSObject*>::iterator iter = data.begin(); iter != end; iter ++ ) {
-		if(!objects[iter->first])
+		if(!objects.count(iter->first))
 			parseObject(iter->second);
 	}
 }
@@ -38,7 +38,7 @@ void eParser::secondPass()
 void eParser::parseObject(EOSObject * curObj)
 {
 	eWritable * obj = factory->newObject(curObj->data->name);
-	objects[curObj->i] = obj;
+  objects.insert(std::map<size_t, eWritable*>::value_type(curObj->i, obj));
 	classes.push(curObj->data);
 	obj->read(this);
 	classes.pop();
@@ -46,7 +46,7 @@ void eParser::parseObject(EOSObject * curObj)
 
 void eParser::read(const char * name, eWritable ** val) {
 	EOSData<eWritable*>* newObj = dynamic_cast<EOSData<eWritable*>*> ( classes.top()->data[string(name)] );
-	if(!objects[newObj->i])
+	if(!objects.count(newObj->i))
 		parseObject(data[newObj->i]);
 	(*val) = objects[newObj->i];
 }
