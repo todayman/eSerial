@@ -18,8 +18,6 @@
 
 /* Begin PBXFileReference section */
 		DA2C381513382E200013BE0F /* eSerial.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = eSerial.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
-		DA2C381A13382E200013BE0F /* eSerialProj.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = eSerialProj.xcconfig; sourceTree = "<group>"; };
-		DA2C381B13382E200013BE0F /* eSerialTarget.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = eSerialTarget.xcconfig; sourceTree = "<group>"; };
 		DA2C382E13382F450013BE0F /* eParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = eParser.cpp; sourceTree = "<group>"; };
 		DA2C382F13382F450013BE0F /* eParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = eParser.h; sourceTree = "<group>"; };
 		DA2C383013382F450013BE0F /* eWriter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = eWriter.cpp; sourceTree = "<group>"; };
@@ -59,8 +57,6 @@
 		DA2C381713382E200013BE0F /* eSerial */ = {
 			isa = PBXGroup;
 			children = (
-				DA2C381A13382E200013BE0F /* eSerialProj.xcconfig */,
-				DA2C381B13382E200013BE0F /* eSerialTarget.xcconfig */,
 				DA2C385313383A350013BE0F /* macros.h */,
 				DA2C38361338330D0013BE0F /* eWritable.h */,
 				DA2C3851133838840013BE0F /* eData.h */,
