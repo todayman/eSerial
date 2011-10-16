@@ -7,16 +7,88 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DA013886144A01EC0014EBD1 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA013885144A01EC0014EBD1 /* main.cpp */; };
+		DA01388E144A028E0014EBD1 /* libxml2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DA01388D144A028E0014EBD1 /* libxml2.2.dylib */; };
 		DA2C383213382F450013BE0F /* eParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2C382E13382F450013BE0F /* eParser.cpp */; };
-		DA2C383313382F450013BE0F /* eParser.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2C382F13382F450013BE0F /* eParser.h */; };
+		DA2C383313382F450013BE0F /* eParser.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2C382F13382F450013BE0F /* eParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA2C383413382F450013BE0F /* eWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2C383013382F450013BE0F /* eWriter.cpp */; };
-		DA2C383513382F450013BE0F /* eWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2C383113382F450013BE0F /* eWriter.h */; };
-		DA2C38371338330D0013BE0F /* eWritable.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2C38361338330D0013BE0F /* eWritable.h */; };
-		DA2C3852133838840013BE0F /* eData.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2C3851133838840013BE0F /* eData.h */; };
-		DA2C385413383A350013BE0F /* macros.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2C385313383A350013BE0F /* macros.h */; };
+		DA2C383513382F450013BE0F /* eWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2C383113382F450013BE0F /* eWriter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DA2C38371338330D0013BE0F /* eWritable.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2C38361338330D0013BE0F /* eWritable.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DA2C3852133838840013BE0F /* eData.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2C3851133838840013BE0F /* eData.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DA2C385413383A350013BE0F /* macros.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2C385313383A350013BE0F /* macros.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DA5EA858144A5D86000DC973 /* b64.c in Sources */ = {isa = PBXBuildFile; fileRef = DA5EA857144A5D86000DC973 /* b64.c */; };
+		DA5EA85A144A634C000DC973 /* b64.c in Sources */ = {isa = PBXBuildFile; fileRef = DA5EA857144A5D86000DC973 /* b64.c */; };
+		DA5EA85C144A66A4000DC973 /* b64.h in Headers */ = {isa = PBXBuildFile; fileRef = DA5EA85B144A66A4000DC973 /* b64.h */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		DA013880144A01EB0014EBD1 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		DA0138191449F8D90014EBD1 /* c14n.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = c14n.h; sourceTree = "<group>"; };
+		DA01381A1449F8D90014EBD1 /* catalog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = catalog.h; sourceTree = "<group>"; };
+		DA01381B1449F8D90014EBD1 /* chvalid.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = chvalid.h; sourceTree = "<group>"; };
+		DA01381C1449F8D90014EBD1 /* debugXML.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = debugXML.h; sourceTree = "<group>"; };
+		DA01381D1449F8D90014EBD1 /* dict.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = dict.h; sourceTree = "<group>"; };
+		DA01381E1449F8D90014EBD1 /* DOCBparser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DOCBparser.h; sourceTree = "<group>"; };
+		DA01381F1449F8D90014EBD1 /* encoding.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = encoding.h; sourceTree = "<group>"; };
+		DA0138201449F8D90014EBD1 /* entities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = entities.h; sourceTree = "<group>"; };
+		DA0138211449F8D90014EBD1 /* globals.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = globals.h; sourceTree = "<group>"; };
+		DA0138221449F8D90014EBD1 /* hash.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = hash.h; sourceTree = "<group>"; };
+		DA0138231449F8D90014EBD1 /* HTMLparser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLparser.h; sourceTree = "<group>"; };
+		DA0138241449F8D90014EBD1 /* HTMLtree.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLtree.h; sourceTree = "<group>"; };
+		DA0138251449F8D90014EBD1 /* list.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = list.h; sourceTree = "<group>"; };
+		DA0138261449F8D90014EBD1 /* nanoftp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = nanoftp.h; sourceTree = "<group>"; };
+		DA0138271449F8D90014EBD1 /* nanohttp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = nanohttp.h; sourceTree = "<group>"; };
+		DA0138281449F8D90014EBD1 /* parser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = parser.h; sourceTree = "<group>"; };
+		DA0138291449F8D90014EBD1 /* parserInternals.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = parserInternals.h; sourceTree = "<group>"; };
+		DA01382A1449F8D90014EBD1 /* pattern.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = pattern.h; sourceTree = "<group>"; };
+		DA01382B1449F8D90014EBD1 /* relaxng.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = relaxng.h; sourceTree = "<group>"; };
+		DA01382C1449F8D90014EBD1 /* SAX.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SAX.h; sourceTree = "<group>"; };
+		DA01382D1449F8D90014EBD1 /* SAX2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SAX2.h; sourceTree = "<group>"; };
+		DA01382E1449F8D90014EBD1 /* schemasInternals.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = schemasInternals.h; sourceTree = "<group>"; };
+		DA01382F1449F8D90014EBD1 /* schematron.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = schematron.h; sourceTree = "<group>"; };
+		DA0138301449F8D90014EBD1 /* threads.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = threads.h; sourceTree = "<group>"; };
+		DA0138311449F8D90014EBD1 /* tree.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = tree.h; sourceTree = "<group>"; };
+		DA0138321449F8D90014EBD1 /* uri.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = uri.h; sourceTree = "<group>"; };
+		DA0138331449F8D90014EBD1 /* valid.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = valid.h; sourceTree = "<group>"; };
+		DA0138341449F8D90014EBD1 /* xinclude.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = xinclude.h; sourceTree = "<group>"; };
+		DA0138351449F8D90014EBD1 /* xlink.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = xlink.h; sourceTree = "<group>"; };
+		DA0138361449F8D90014EBD1 /* xmlautomata.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = xmlautomata.h; sourceTree = "<group>"; };
+		DA0138371449F8D90014EBD1 /* xmlerror.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = xmlerror.h; sourceTree = "<group>"; };
+		DA0138381449F8D90014EBD1 /* xmlexports.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = xmlexports.h; sourceTree = "<group>"; };
+		DA0138391449F8D90014EBD1 /* xmlIO.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = xmlIO.h; sourceTree = "<group>"; };
+		DA01383A1449F8D90014EBD1 /* xmlmemory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = xmlmemory.h; sourceTree = "<group>"; };
+		DA01383B1449F8D90014EBD1 /* xmlmodule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = xmlmodule.h; sourceTree = "<group>"; };
+		DA01383C1449F8D90014EBD1 /* xmlreader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = xmlreader.h; sourceTree = "<group>"; };
+		DA01383D1449F8D90014EBD1 /* xmlregexp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = xmlregexp.h; sourceTree = "<group>"; };
+		DA01383E1449F8D90014EBD1 /* xmlsave.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = xmlsave.h; sourceTree = "<group>"; };
+		DA01383F1449F8D90014EBD1 /* xmlschemas.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = xmlschemas.h; sourceTree = "<group>"; };
+		DA0138401449F8D90014EBD1 /* xmlschemastypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = xmlschemastypes.h; sourceTree = "<group>"; };
+		DA0138411449F8D90014EBD1 /* xmlstring.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = xmlstring.h; sourceTree = "<group>"; };
+		DA0138421449F8D90014EBD1 /* xmlunicode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = xmlunicode.h; sourceTree = "<group>"; };
+		DA0138431449F8D90014EBD1 /* xmlversion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = xmlversion.h; sourceTree = "<group>"; };
+		DA0138441449F8D90014EBD1 /* xmlwriter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = xmlwriter.h; sourceTree = "<group>"; };
+		DA0138451449F8D90014EBD1 /* xpath.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = xpath.h; sourceTree = "<group>"; };
+		DA0138461449F8D90014EBD1 /* xpathInternals.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = xpathInternals.h; sourceTree = "<group>"; };
+		DA0138471449F8D90014EBD1 /* xpointer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = xpointer.h; sourceTree = "<group>"; };
+		DA0138481449FDA70014EBD1 /* load_save.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = load_save.c; path = "../../../Users/paul/Library/Caches/Homebrew/dia-0.97.1/app/load_save.c"; sourceTree = "<group>"; };
+		DA0138491449FDA70014EBD1 /* load_save.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = load_save.h; path = "../../../Users/paul/Library/Caches/Homebrew/dia-0.97.1/app/load_save.h"; sourceTree = "<group>"; };
+		DA013882144A01EB0014EBD1 /* test */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = test; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA013885144A01EC0014EBD1 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		DA01388D144A028E0014EBD1 /* libxml2.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.2.dylib; path = ../../../../../usr/lib/libxml2.2.dylib; sourceTree = "<group>"; };
+		DA01388F144A03360014EBD1 /* dia_xml_libxml.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = dia_xml_libxml.h; path = "../../../Users/paul/Library/Caches/Homebrew/dia-0.97.1/lib/dia_xml_libxml.h"; sourceTree = "<group>"; };
+		DA013890144A03360014EBD1 /* dia_xml.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = dia_xml.c; path = "../../../Users/paul/Library/Caches/Homebrew/dia-0.97.1/lib/dia_xml.c"; sourceTree = "<group>"; };
+		DA013891144A03360014EBD1 /* dia_xml.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = dia_xml.h; path = "../../../Users/paul/Library/Caches/Homebrew/dia-0.97.1/lib/dia_xml.h"; sourceTree = "<group>"; };
 		DA2C381513382E200013BE0F /* eSerial.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = eSerial.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA2C382E13382F450013BE0F /* eParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = eParser.cpp; sourceTree = "<group>"; };
 		DA2C382F13382F450013BE0F /* eParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = eParser.h; sourceTree = "<group>"; };
@@ -25,9 +97,19 @@
 		DA2C38361338330D0013BE0F /* eWritable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = eWritable.h; sourceTree = "<group>"; };
 		DA2C3851133838840013BE0F /* eData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = eData.h; sourceTree = "<group>"; };
 		DA2C385313383A350013BE0F /* macros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = macros.h; sourceTree = "<group>"; };
+		DA5EA857144A5D86000DC973 /* b64.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = b64.c; sourceTree = "<group>"; };
+		DA5EA85B144A66A4000DC973 /* b64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = b64.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		DA01387F144A01EB0014EBD1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA01388E144A028E0014EBD1 /* libxml2.2.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DA2C381213382E200013BE0F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -38,10 +120,88 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DA0138171449F8D90014EBD1 /* libxml2 */ = {
+			isa = PBXGroup;
+			children = (
+				DA0138491449FDA70014EBD1 /* load_save.h */,
+				DA01388F144A03360014EBD1 /* dia_xml_libxml.h */,
+				DA013890144A03360014EBD1 /* dia_xml.c */,
+				DA013891144A03360014EBD1 /* dia_xml.h */,
+				DA0138481449FDA70014EBD1 /* load_save.c */,
+				DA0138181449F8D90014EBD1 /* libxml */,
+			);
+			name = libxml2;
+			path = /usr/include/libxml2;
+			sourceTree = "<absolute>";
+		};
+		DA0138181449F8D90014EBD1 /* libxml */ = {
+			isa = PBXGroup;
+			children = (
+				DA0138191449F8D90014EBD1 /* c14n.h */,
+				DA01381A1449F8D90014EBD1 /* catalog.h */,
+				DA01381B1449F8D90014EBD1 /* chvalid.h */,
+				DA01381C1449F8D90014EBD1 /* debugXML.h */,
+				DA01381D1449F8D90014EBD1 /* dict.h */,
+				DA01381E1449F8D90014EBD1 /* DOCBparser.h */,
+				DA01381F1449F8D90014EBD1 /* encoding.h */,
+				DA0138201449F8D90014EBD1 /* entities.h */,
+				DA0138211449F8D90014EBD1 /* globals.h */,
+				DA0138221449F8D90014EBD1 /* hash.h */,
+				DA0138231449F8D90014EBD1 /* HTMLparser.h */,
+				DA0138241449F8D90014EBD1 /* HTMLtree.h */,
+				DA0138251449F8D90014EBD1 /* list.h */,
+				DA0138261449F8D90014EBD1 /* nanoftp.h */,
+				DA0138271449F8D90014EBD1 /* nanohttp.h */,
+				DA0138281449F8D90014EBD1 /* parser.h */,
+				DA0138291449F8D90014EBD1 /* parserInternals.h */,
+				DA01382A1449F8D90014EBD1 /* pattern.h */,
+				DA01382B1449F8D90014EBD1 /* relaxng.h */,
+				DA01382C1449F8D90014EBD1 /* SAX.h */,
+				DA01382D1449F8D90014EBD1 /* SAX2.h */,
+				DA01382E1449F8D90014EBD1 /* schemasInternals.h */,
+				DA01382F1449F8D90014EBD1 /* schematron.h */,
+				DA0138301449F8D90014EBD1 /* threads.h */,
+				DA0138311449F8D90014EBD1 /* tree.h */,
+				DA0138321449F8D90014EBD1 /* uri.h */,
+				DA0138331449F8D90014EBD1 /* valid.h */,
+				DA0138341449F8D90014EBD1 /* xinclude.h */,
+				DA0138351449F8D90014EBD1 /* xlink.h */,
+				DA0138361449F8D90014EBD1 /* xmlautomata.h */,
+				DA0138371449F8D90014EBD1 /* xmlerror.h */,
+				DA0138381449F8D90014EBD1 /* xmlexports.h */,
+				DA0138391449F8D90014EBD1 /* xmlIO.h */,
+				DA01383A1449F8D90014EBD1 /* xmlmemory.h */,
+				DA01383B1449F8D90014EBD1 /* xmlmodule.h */,
+				DA01383C1449F8D90014EBD1 /* xmlreader.h */,
+				DA01383D1449F8D90014EBD1 /* xmlregexp.h */,
+				DA01383E1449F8D90014EBD1 /* xmlsave.h */,
+				DA01383F1449F8D90014EBD1 /* xmlschemas.h */,
+				DA0138401449F8D90014EBD1 /* xmlschemastypes.h */,
+				DA0138411449F8D90014EBD1 /* xmlstring.h */,
+				DA0138421449F8D90014EBD1 /* xmlunicode.h */,
+				DA0138431449F8D90014EBD1 /* xmlversion.h */,
+				DA0138441449F8D90014EBD1 /* xmlwriter.h */,
+				DA0138451449F8D90014EBD1 /* xpath.h */,
+				DA0138461449F8D90014EBD1 /* xpathInternals.h */,
+				DA0138471449F8D90014EBD1 /* xpointer.h */,
+			);
+			path = libxml;
+			sourceTree = "<group>";
+		};
+		DA013884144A01EC0014EBD1 /* test */ = {
+			isa = PBXGroup;
+			children = (
+				DA013885144A01EC0014EBD1 /* main.cpp */,
+				DA01388D144A028E0014EBD1 /* libxml2.2.dylib */,
+			);
+			path = test;
+			sourceTree = "<group>";
+		};
 		DA2C380A13382E200013BE0F = {
 			isa = PBXGroup;
 			children = (
 				DA2C381713382E200013BE0F /* eSerial */,
+				DA013884144A01EC0014EBD1 /* test */,
 				DA2C381613382E200013BE0F /* Products */,
 			);
 			sourceTree = "<group>";
@@ -50,6 +210,7 @@
 			isa = PBXGroup;
 			children = (
 				DA2C381513382E200013BE0F /* eSerial.dylib */,
+				DA013882144A01EB0014EBD1 /* test */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -63,6 +224,9 @@
 				DA2C382F13382F450013BE0F /* eParser.h */,
 				DA2C382E13382F450013BE0F /* eParser.cpp */,
 				DA2C383113382F450013BE0F /* eWriter.h */,
+				DA0138171449F8D90014EBD1 /* libxml2 */,
+				DA5EA85B144A66A4000DC973 /* b64.h */,
+				DA5EA857144A5D86000DC973 /* b64.c */,
 				DA2C383013382F450013BE0F /* eWriter.cpp */,
 			);
 			path = eSerial;
@@ -80,12 +244,30 @@
 				DA2C38371338330D0013BE0F /* eWritable.h in Headers */,
 				DA2C3852133838840013BE0F /* eData.h in Headers */,
 				DA2C385413383A350013BE0F /* macros.h in Headers */,
+				DA5EA85C144A66A4000DC973 /* b64.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		DA013881144A01EB0014EBD1 /* test */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DA01388B144A01EC0014EBD1 /* Build configuration list for PBXNativeTarget "test" */;
+			buildPhases = (
+				DA01387E144A01EB0014EBD1 /* Sources */,
+				DA01387F144A01EB0014EBD1 /* Frameworks */,
+				DA013880144A01EB0014EBD1 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = test;
+			productName = test;
+			productReference = DA013882144A01EB0014EBD1 /* test */;
+			productType = "com.apple.product-type.tool";
+		};
 		DA2C381413382E200013BE0F /* eSerial */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = DA2C382313382E200013BE0F /* Build configuration list for PBXNativeTarget "eSerial" */;
@@ -125,23 +307,70 @@
 			projectRoot = "";
 			targets = (
 				DA2C381413382E200013BE0F /* eSerial */,
+				DA013881144A01EB0014EBD1 /* test */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
+		DA01387E144A01EB0014EBD1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA5EA85A144A634C000DC973 /* b64.c in Sources */,
+				DA013886144A01EC0014EBD1 /* main.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DA2C381113382E200013BE0F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				DA2C383213382F450013BE0F /* eParser.cpp in Sources */,
 				DA2C383413382F450013BE0F /* eWriter.cpp in Sources */,
+				DA5EA858144A5D86000DC973 /* b64.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		DA013889144A01EC0014EBD1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				HEADER_SEARCH_PATHS = /usr/include/libxml2;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		DA01388A144A01EC0014EBD1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				HEADER_SEARCH_PATHS = /usr/include/libxml2;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		DA2C382113382E200013BE0F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -152,11 +381,11 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = macosx;
 			};
 			name = Debug;
@@ -168,10 +397,10 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				GCC_C_LANGUAGE_STANDARD = c99;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = macosx;
 			};
 			name = Release;
@@ -199,6 +428,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		DA01388B144A01EC0014EBD1 /* Build configuration list for PBXNativeTarget "test" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DA013889144A01EC0014EBD1 /* Debug */,
+				DA01388A144A01EC0014EBD1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		DA2C380F13382E200013BE0F /* Build configuration list for PBXProject "eSerial" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
