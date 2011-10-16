@@ -14,18 +14,21 @@
 #include <stdint.h>
 #include <libxml/tree.h>
 #include "eWritable.h"
-#include "eData.h"
+//#include "eData.h"
 #include "macros.h"
 
 #ifndef __E_WRITER_H__
 #define __E_WRITER_H__
+
+#ifndef __E_DATA_H__
+class EOSObject;
+#endif
 
 class eWriter {
 protected:
 	std::map<eWritable*, size_t> idList;
 	std::vector<EOSObject*> objs;
 	EOSObject * curObj;
-	EOSClass * curClass;
 public:
   eWriter();
 	virtual void writeFile(const char * pathname)=0;

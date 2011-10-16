@@ -9,22 +9,23 @@
 #include <iostream>
 #include <fstream>
 #include "eWriter.h"
+#include "eData.h"
 using namespace std;
 
 eWriter::eWriter() :
-  idList(), objs(), curObj(NULL), curClass(NULL)
+  idList(), objs(), curObj(NULL)
 {
 
 }
 
 void eWriter::addObject(eWritable * object)
 {
-	curObj = new EOSObject;
+	curObj = new EOSObject();
 	curObj->i = objs.size();
 	objs.push_back(curObj);
 	idList[object] = curObj->i;
-	curClass = NULL;
 	object->write(this);
+  curObj = NULL;
 }
 
 void eWriter::write(eWritable * object, const char * name)
@@ -35,31 +36,23 @@ void eWriter::write(eWritable * object, const char * name)
 		writeObj = true;
 	}
 	
-	curClass->data[string(name)] = new EOSData<eWritable*>(idList[object]);
+	curObj->data[string(name)] = new EOSData<eWritable*>(idList[object]);
 	
 	if(writeObj) {
 		EOSObject * oldObj = curObj;
-		EOSClass * oldClass = curClass;
 		addObject(object);
 		curObj = oldObj;
-		curClass = oldClass;
 	}
 }
 
 void eWriter::writeName(const char * name)
 {
-	EOSClass * newClass = new EOSClass();
-	newClass->name = string(name);
-	if(curClass) {
-		curClass->superclasses[string(name)] = newClass;
-  }
-	else {
-		curObj->data = newClass;
-    curClass = newClass;
+  if( curObj->name.size() == 0 ) {
+    curObj->name = string(name);
   }
 }
 
-#define WRITE_METHOD( x )	void eWriter::write( x val, const char * name ) { curClass->data.insert(pair<string, pEOSData>(string(name), new EOSData< x >(val))); }
+#define WRITE_METHOD( x )	void eWriter::write( x val, const char * name ) { curObj->data.insert(pair<string, pEOSData>(string(name), new EOSData< x >(val))); }
 WRITE_METHOD( uint8_t )
 WRITE_METHOD( uint16_t )
 WRITE_METHOD( uint32_t )
@@ -76,7 +69,7 @@ WRITE_METHOD( char* )
 
 #define WRITE_ARRAY_METHOD(x) void eWriter::writeArray( x * val, size_t count, const char * name) \
 {\
-  curClass->data.insert(pair<string, EOSArrayData<x>*>(string(name), new EOSArrayData<x>(count, val))); \
+  curObj->data.insert(pair<string, EOSArrayData<x>*>(string(name), new EOSArrayData<x>(count, val))); \
 }
 WRITE_ARRAY_METHOD( uint16_t )
 WRITE_ARRAY_METHOD( uint32_t )
@@ -138,9 +131,9 @@ void eXMLWriter::addToXML(EOSObject *obj)
 {
   node = xmlNewChild(tree, NULL, (const xmlChar *)"object", NULL);
   xmlNewProp(node, (const xmlChar*)"id", (const xmlChar*)toString(obj->i).c_str());
-  xmlNewProp(node, (const xmlChar*)"class", (const xmlChar*)obj->data->name.c_str());
+  xmlNewProp(node, (const xmlChar*)"class", (const xmlChar*)obj->name.c_str());
   
-  for( auto iter : obj->data->data ) {
+  for( auto iter : obj->data ) {
     xmlNodePtr field = NULL;
     if( EOSData<uint8_t>* data = dynamic_cast<EOSData<uint8_t>*>(iter.second) ) {
       field = xmlNewChild(node, NULL, (const xmlChar*)"uint8_t", (const xmlChar*)toString((int)data->data).c_str());

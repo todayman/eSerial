@@ -17,7 +17,7 @@ using namespace std;
 #include "eWritable.h"
 #include "eWriter.h"
 
-int array[] = {12,34,743,63,2};
+int theArray[] = {12,34,743,63,2};
 
 class Car : public eWritable {
   uint8_t _passengers;
@@ -31,7 +31,7 @@ public:
     writer->write(_passengers, "passengers");
     writer->write(_seats, "seats");
     writer->write(_mpg, "mpg");
-    writer->writeArray(array, sizeof(array)/sizeof(array[0]), "theArray!");
+    writer->writeArray(theArray, sizeof(theArray)/sizeof(theArray[0]), "theArray!");
     writer->write((char*)"A message in a bottle!", "msg");
   }
   

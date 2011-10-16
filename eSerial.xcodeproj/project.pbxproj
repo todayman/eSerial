@@ -18,7 +18,7 @@
 		DA2C385413383A350013BE0F /* macros.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2C385313383A350013BE0F /* macros.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA5EA858144A5D86000DC973 /* b64.c in Sources */ = {isa = PBXBuildFile; fileRef = DA5EA857144A5D86000DC973 /* b64.c */; };
 		DA5EA85A144A634C000DC973 /* b64.c in Sources */ = {isa = PBXBuildFile; fileRef = DA5EA857144A5D86000DC973 /* b64.c */; };
-		DA5EA85C144A66A4000DC973 /* b64.h in Headers */ = {isa = PBXBuildFile; fileRef = DA5EA85B144A66A4000DC973 /* b64.h */; };
+		DA5EA85C144A66A4000DC973 /* b64.h in Headers */ = {isa = PBXBuildFile; fileRef = DA5EA85B144A66A4000DC973 /* b64.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DADEF564144AA30600EE2C6B /* libxml2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DA01388D144A028E0014EBD1 /* libxml2.2.dylib */; };
 		DADEF568144AA77600EE2C6B /* eSerial.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2C381513382E200013BE0F /* eSerial.dylib */; };
 /* End PBXBuildFile section */
@@ -255,10 +255,10 @@
 			files = (
 				DA2C383313382F450013BE0F /* eParser.h in Headers */,
 				DA2C383513382F450013BE0F /* eWriter.h in Headers */,
+				DA5EA85C144A66A4000DC973 /* b64.h in Headers */,
 				DA2C38371338330D0013BE0F /* eWritable.h in Headers */,
 				DA2C3852133838840013BE0F /* eData.h in Headers */,
 				DA2C385413383A350013BE0F /* macros.h in Headers */,
-				DA5EA85C144A66A4000DC973 /* b64.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -396,7 +396,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
-				CLANG_CXX_LIBRARY = "libstdc++";
+				CLANG_CXX_LIBRARY = "libc++";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
@@ -414,7 +414,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
-				CLANG_CXX_LIBRARY = "libstdc++";
+				CLANG_CXX_LIBRARY = "libc++";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;

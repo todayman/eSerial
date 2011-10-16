@@ -28,32 +28,44 @@ void eParser::parseFile(const char * filename)
 // go through the the hierarchy of EOS objects, and convert them to real objects
 void eParser::secondPass()
 {
-	map<size_t, EOSObject*>::iterator end = data.end();
-	for(map<size_t, EOSObject*>::iterator iter = data.begin(); iter != end; iter ++ ) {
-		if(!objects.count(iter->first))
+	auto end = data.end();
+	for(auto iter = data.begin(); iter != end; iter ++ ) {
+		if( !objects.count(iter->first) ) {
 			parseObject(iter->second);
+    }
 	}
 }
 
-void eParser::parseObject(EOSObject * curObj)
+void eParser::parseObject(EOSObject * c)
 {
-	eWritable * obj = factory->newObject(curObj->data->name);
-  objects.insert(std::map<size_t, eWritable*>::value_type(curObj->i, obj));
-	classes.push(curObj->data);
+	if( curObj ) {
+    objStack.push(curObj);
+  }
+  curObj = c;
+  eWritable * obj = factory->newObject(curObj->name);
+  objects.insert(std::pair<size_t, eWritable*>(curObj->i, obj));
 	obj->read(this);
-	classes.pop();
+  
+  if( !objStack.empty() ) {
+    curObj = objStack.top();
+  }
+  else {
+    curObj = NULL;
+  }
+  objStack.pop();
 }
 
 void eParser::read(const char * name, eWritable ** val) {
-	EOSData<eWritable*>* newObj = dynamic_cast<EOSData<eWritable*>*> ( classes.top()->data[string(name)] );
-	if(!objects.count(newObj->i))
+	EOSData<eWritable*>* newObj = dynamic_cast<EOSData<eWritable*>*> ( curObj->data[string(name)] );
+	if(!objects.count(newObj->i)) {
 		parseObject(data[newObj->i]);
+  }
 	(*val) = objects[newObj->i];
 }
 
 void eParser::readArray(const char * name, eWritable *** elements, uint32_t * count)
 {
-	EOSArrayData<eWritable*>* newObj = dynamic_cast<EOSArrayData<eWritable*>*> ( classes.top()->data[string(name)] );
+	EOSArrayData<eWritable*>* newObj = dynamic_cast<EOSArrayData<eWritable*>*> ( curObj->data[string(name)] );
 	if(count)
 		(*count) = newObj->count;
 	(*elements) = new eWritable*[newObj->count];
@@ -65,7 +77,7 @@ void eParser::readArray(const char * name, eWritable *** elements, uint32_t * co
 }
 
 // convert a text based file to a tree of EOS objects
-void eTextParser::firstPass(const char * filename) {
+/*void eTextParser::firstPass(const char * filename) {
 	input.open(filename);
 	
 	for(input >> istring; istring == "<object" && input.good(); input >> istring)
@@ -77,7 +89,6 @@ void eTextParser::addObject()
 {
 	EOSObject * obj = new EOSObject;
 	input >> obj->i >> buff;
-	obj->data = new EOSClass;
 	parseClass(obj->data);
 	data.insert(pair<size_t, EOSObject*>(obj->i, obj));
 }
@@ -189,3 +200,4 @@ void eTextParser::parseClass(EOSClass * c)
 		}
 	}
 }
+*/

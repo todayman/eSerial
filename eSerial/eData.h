@@ -49,15 +49,10 @@ public:
 	size_t * data;
 };
 
-struct EOSClass {
-	std::string name;
-	std::map<std::string, pEOSData> data;
-	std::map<std::string, EOSClass*> superclasses;
-};
-
 struct EOSObject {
 	size_t i;
-	EOSClass * data;
+  std::string name;
+	std::map<std::string, pEOSData> data;
 };
 
 typedef eWritable * (^constructor_t)(/*EOSClass * data*/) ;
