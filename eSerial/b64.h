@@ -14,6 +14,7 @@ extern "C" {
 #endif
 
 size_t convert_to_base64(const char * data, size_t length, char ** encoded);
+size_t convert_from_base64(const char * data, size_t length, char ** decoded);
 
 #ifdef __cplusplus
 }
