@@ -19,8 +19,8 @@ class eParser;
 
 class eWritable {
 public:
-	virtual void write(eWriter * writer){}
-	virtual void read(eParser * reader){}
+	virtual void write(eWriter * writer) { }
+	virtual void read(eParser * reader) { }
 };
 
 #endif // __E_WRITEABLE__

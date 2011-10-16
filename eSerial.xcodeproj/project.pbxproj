@@ -19,7 +19,19 @@
 		DA5EA858144A5D86000DC973 /* b64.c in Sources */ = {isa = PBXBuildFile; fileRef = DA5EA857144A5D86000DC973 /* b64.c */; };
 		DA5EA85A144A634C000DC973 /* b64.c in Sources */ = {isa = PBXBuildFile; fileRef = DA5EA857144A5D86000DC973 /* b64.c */; };
 		DA5EA85C144A66A4000DC973 /* b64.h in Headers */ = {isa = PBXBuildFile; fileRef = DA5EA85B144A66A4000DC973 /* b64.h */; };
+		DADEF564144AA30600EE2C6B /* libxml2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DA01388D144A028E0014EBD1 /* libxml2.2.dylib */; };
+		DADEF568144AA77600EE2C6B /* eSerial.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2C381513382E200013BE0F /* eSerial.dylib */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		DADEF566144AA77200EE2C6B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA2C380C13382E200013BE0F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DA2C381413382E200013BE0F;
+			remoteInfo = eSerial;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		DA013880144A01EB0014EBD1 /* CopyFiles */ = {
@@ -106,6 +118,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DADEF568144AA77600EE2C6B /* eSerial.dylib in Frameworks */,
 				DA01388E144A028E0014EBD1 /* libxml2.2.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -114,6 +127,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DADEF564144AA30600EE2C6B /* libxml2.2.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -224,10 +238,10 @@
 				DA2C382F13382F450013BE0F /* eParser.h */,
 				DA2C382E13382F450013BE0F /* eParser.cpp */,
 				DA2C383113382F450013BE0F /* eWriter.h */,
+				DA2C383013382F450013BE0F /* eWriter.cpp */,
 				DA0138171449F8D90014EBD1 /* libxml2 */,
 				DA5EA85B144A66A4000DC973 /* b64.h */,
 				DA5EA857144A5D86000DC973 /* b64.c */,
-				DA2C383013382F450013BE0F /* eWriter.cpp */,
 			);
 			path = eSerial;
 			sourceTree = "<group>";
@@ -262,6 +276,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				DADEF567144AA77200EE2C6B /* PBXTargetDependency */,
 			);
 			name = test;
 			productName = test;
@@ -334,12 +349,19 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		DADEF567144AA77200EE2C6B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DA2C381413382E200013BE0F /* eSerial */;
+			targetProxy = DADEF566144AA77200EE2C6B /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
 		DA013889144A01EC0014EBD1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -359,7 +381,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -374,9 +395,8 @@
 		DA2C382113382E200013BE0F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
-				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_CXX_LIBRARY = "libstdc++";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
@@ -393,9 +413,8 @@
 		DA2C382213382E200013BE0F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
-				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_CXX_LIBRARY = "libstdc++";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -411,6 +430,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
+				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -421,6 +441,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

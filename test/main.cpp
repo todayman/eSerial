@@ -14,10 +14,29 @@
 #include <iostream>
 using namespace std;
 #include "b64.h"
+#include "eWritable.h"
+#include "eWriter.h"
+
+class Car : public eWritable {
+  uint8_t _passengers;
+  uint16_t _seats;
+  float _mpg;
+public:
+  Car(uint8_t p, uint8_t s, float m) : _passengers(p), _seats(s), _mpg(m) {}
+  virtual void write(eWriter * writer) {
+    writer->writeName("Car");
+    writer->write(_passengers, "passengers");
+    writer->write(_seats, "seats");
+    writer->write(_mpg, "mpg");
+  }
+  
+  virtual void read(eParser * parser) {
+  }
+};
 
 int main (int argc, const char * argv[])
 {
-  char input[2000];
+  /*char input[2000];
   cin.getline(input, 2000);
   int * dst1;
   size_t len = convert_from_base64(input, strlen(input), &dst1);
@@ -31,7 +50,7 @@ int main (int argc, const char * argv[])
   cout << "size = " << sizeof(intArray)/sizeof(intArray[0]) << endl;
   convert_to_base64(intArray, sizeof(intArray)/sizeof(intArray[0]), &dst2);
   cout << dst2 << endl;
-  delete []dst2;
+  delete []dst2;*/
   /*xmlDocPtr doc;
   doc = xmlNewDoc((const xmlChar*)"1.0");
   
@@ -41,7 +60,13 @@ int main (int argc, const char * argv[])
   xmlNodePtr tree = xmlNewChild(doc->xmlRootNode, NULL, (const xmlChar*)"data", (const xmlChar*)"<l&ook!");
   
   xmlSaveFormatFileEnc("test.xml", doc, "UTF-8", 1);
-  xmlFreeDoc(doc);
-  return 0;*/
+  xmlFreeDoc(doc);*/
+  
+  // insert code here...
+  Car c(1,2,3.0);
+  eXMLWriter writer;
+  writer.addObject(&c);
+  writer.writeFile("testFile.xml");
+  return 0;
 }
 

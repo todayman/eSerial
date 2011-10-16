@@ -36,14 +36,14 @@ public:
 
 template<typename T> class EOSArrayData : public _EOSData {
 public:
-	uint32_t count;
+	size_t count;
 	T * data;
 };
 
 template<> class EOSArrayData<eWritable*> : public _EOSData {
 public:
-	uint32_t count;
-	uint32_t * data;
+	size_t count;
+	size_t * data;
 };
 
 struct EOSClass {
@@ -53,7 +53,7 @@ struct EOSClass {
 };
 
 struct EOSObject {
-	uint64_t i;
+	size_t i;
 	EOSClass * data;
 };
 

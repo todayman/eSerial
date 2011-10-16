@@ -11,6 +11,12 @@
 #include "eWriter.h"
 using namespace std;
 
+eWriter::eWriter() :
+  idList(), objs(), curObj(NULL), curClass(NULL)
+{
+
+}
+
 void eWriter::addObject(eWritable * object)
 {
 	curObj = new EOSObject;
@@ -42,15 +48,17 @@ void eWriter::write(eWritable * object, const char * name)
 
 void eWriter::writeName(const char * name)
 {
-	EOSClass * newClass = new EOSClass;
+	EOSClass * newClass = new EOSClass();
 	newClass->name = string(name);
 	if(curClass)
 		curClass->superclasses[string(name)] = newClass;
-	else
+	else {
 		curObj->data = newClass;
+  }
+  curClass = newClass;
 }
 
-#define WRITE_METHOD( x )	void eWriter::write( x val, const char * name ) { curClass->data[string(name)] = new EOSData< x >(val); }
+#define WRITE_METHOD( x )	void eWriter::write( x val, const char * name ) { curClass->data.insert(pair<string, pEOSData>(string(name), new EOSData< x >(val))); }
 WRITE_METHOD( uint8_t )
 WRITE_METHOD( uint16_t )
 WRITE_METHOD( uint32_t )
@@ -187,4 +195,75 @@ void eTextWriter::writeArray ( eWritable ** elements, uint32_t count, const char
 	for(uint32_t i=0; i<count; i++)
 		writeID(elements[i]);
 	str << "</array>\n";
+}
+
+
+/* XML Writing */
+
+#include <sstream>
+
+template <typename T>
+static inline std::string toString (const T & t)
+{
+  stringstream ss;
+  ss << t;
+  return ss.str();
+}
+
+void eXMLWriter::writeFile(const char * filename)
+{
+  doc = xmlNewDoc((const xmlChar *)"1.0");
+  doc->encoding = xmlStrdup((const xmlChar *)"UTF-8");
+  doc->xmlRootNode = xmlNewDocNode(doc, NULL, (const xmlChar *)"eSerial", NULL);
+  
+  tree = doc->xmlRootNode;
+  
+  for( auto iter = objs.begin(); iter != objs.end(); iter++ ) {
+    addToXML(*iter);
+  }
+  
+  xmlSaveFormatFileEnc(filename, doc, "UTF-8", 1);
+  xmlFreeDoc(doc);
+}
+
+void eXMLWriter::write(const char * astring, const char * name)
+{
+}
+
+
+
+#define WRITE_XML(x)\
+else if( EOSData<x>* data = dynamic_cast<EOSData<x>*>(iter.second) ) { \
+  field = xmlNewTextChild(node, NULL, (const xmlChar*)#x, (const xmlChar*)toString(data->data).c_str()); \
+}
+void eXMLWriter::addToXML(EOSObject *obj)
+{
+  node = xmlNewChild(tree, NULL, (const xmlChar *)"object", NULL);
+  xmlNewProp(node, (const xmlChar*)"id", (const xmlChar*)toString(obj->i).c_str());
+  xmlNewProp(node, (const xmlChar*)"class", (const xmlChar*)obj->data->name.c_str());
+  
+  for( auto iter : obj->data->data ) {
+    xmlNodePtr field;
+    if( EOSData<uint8_t>* data = dynamic_cast<EOSData<uint8_t>*>(iter.second) ) {
+      field = xmlNewTextChild(node, NULL, (const xmlChar*)"uint8_t", (const xmlChar*)toString((int)data->data).c_str());
+    }
+    WRITE_XML(uint16_t)
+    WRITE_XML(uint32_t)
+    WRITE_XML(uint64_t)
+    WRITE_XML(int8_t)
+    WRITE_XML(int16_t)
+    WRITE_XML(int32_t)
+    WRITE_XML(int64_t)
+    WRITE_XML(float)
+    WRITE_XML(double)
+    WRITE_XML(long double)
+    else if( EOSData<bool>* data = dynamic_cast<EOSData<bool>*>(iter.second) ) {
+      field = xmlNewTextChild(node, NULL, (const xmlChar*)"bool", (const xmlChar*)toString((int)data->data).c_str());
+    }
+    else if( EOSData<eWritable*> * data = dynamic_cast<EOSData<eWritable*>*>(iter.second) ) {
+      field = xmlNewChild(node, NULL, (const xmlChar*)"eWritable", NULL);
+      xmlNewProp(field, (const xmlChar*)"id", (const xmlChar*)toString(data->i).c_str());
+    }
+    xmlNewProp(field, (const xmlChar*)"name", (const xmlChar*)iter.first.c_str());
+  }
 }

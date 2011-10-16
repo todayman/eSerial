@@ -12,6 +12,7 @@
 #include <string>
 #include <sstream>
 #include <stdint.h>
+#include <libxml/tree.h>
 #include "eWritable.h"
 #include "eData.h"
 #include "macros.h"
@@ -26,6 +27,7 @@ protected:
 	EOSObject * curObj;
 	EOSClass * curClass;
 public:
+  eWriter();
 	virtual void writeFile(const char * pathname)=0;
 	void addObject(eWritable * object);
 	void finishObject();
@@ -70,6 +72,17 @@ public:
 #undef WRITE_ARRAY
 	
 	void write(const char * astring, const char * name);
+};
+
+class eXMLWriter : public eWriter {
+  xmlDocPtr doc;
+  xmlNodePtr tree;
+  xmlNodePtr node;
+  
+  void addToXML(EOSObject * obj);
+public:
+  void writeFile(const char * filename);
+	virtual void write(const char * astring, const char * name);
 };
 
 #endif // __E_WRITER_H__

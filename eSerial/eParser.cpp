@@ -181,7 +181,7 @@ void eTextParser::parseClass(EOSClass * c)
 				input >> buff;
 				input >> ((EOSArrayData<eWritable>*)ptr)->count;
 				while(input.get() != '>') ;
-				((EOSArrayData<eWritable*>*)ptr)->data = new uint32_t [((EOSArrayData<eWritable*>*)ptr)->count];
+				((EOSArrayData<eWritable*>*)ptr)->data = new size_t [((EOSArrayData<eWritable*>*)ptr)->count];
 				input.read((char*)((EOSArrayData<eWritable*>*)ptr)->data, ((EOSArrayData<eWritable*>*)ptr)->count*sizeof(uint8_t));
 				input >> istring;
 				c->data.insert(pair<string, pEOSData>(string(buff), ptr));
