@@ -168,12 +168,12 @@ size_t _convert_to_base64(const char * data, size_t length, char ** encoded)
     buffer.bytes[i] = 0;
   }
   
-  if( remainder > 0 ) { // extra = 1,2
+  if( remainder > 0 ) { // remainder = 1,2
     result[dst_idx] = get_char(buffer, 0);
     result[dst_idx + 1] = get_char(buffer, 1);
     dst_idx += 2;
   }
-  if( remainder > 1) { // extra = 2
+  if( remainder > 1) { // remainder = 2
     result[dst_idx] = get_char(buffer, 2);
     dst_idx += 1;
   }
