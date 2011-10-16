@@ -133,7 +133,7 @@ static inline void set_char(const char in[4], char * out)
   memcpy(out, buff.bytes, 3);
 }
 
-size_t convert_to_base64(const char * data, size_t length, char ** encoded)
+size_t _convert_to_base64(const char * data, size_t length, char ** encoded)
 {
   if( NULL == data || NULL == encoded ) {
     return 0;
@@ -188,7 +188,7 @@ size_t convert_to_base64(const char * data, size_t length, char ** encoded)
   return product_length;
 }
 
-size_t convert_from_base64(const char * data, size_t length, char ** decoded)
+size_t _convert_from_base64(const char * data, size_t length, char ** decoded)
 {
   if( NULL == data || NULL == decoded ) {
     return 0;

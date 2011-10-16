@@ -19,9 +19,19 @@ int main (int argc, const char * argv[])
 {
   char input[2000];
   cin.getline(input, 2000);
-  char * dst;
-  convert_from_base64(input, strlen(input), &dst);
-  cout << dst << endl;
+  int * dst1;
+  size_t len = convert_from_base64(input, strlen(input), &dst1);
+  for( size_t i = 0; i < len; i++ ) 
+    cout << dst1[i] << ", ";
+  cout << endl;
+  delete []dst1;
+  
+  char * dst2;
+  const int intArray[] = {1,2,3,4,5,6,7,8,9,12,11,12,13,14,15,16,367532};
+  cout << "size = " << sizeof(intArray)/sizeof(intArray[0]) << endl;
+  convert_to_base64(intArray, sizeof(intArray)/sizeof(intArray[0]), &dst2);
+  cout << dst2 << endl;
+  delete []dst2;
   /*xmlDocPtr doc;
   doc = xmlNewDoc((const xmlChar*)"1.0");
   
