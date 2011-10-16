@@ -36,42 +36,13 @@ public:
 	/* write individual values */
 #define WRITE_METHOD( x ) void write( x val, const char * name );
   ALL_TYPES(WRITE_METHOD)
+  WRITE_METHOD(char*)
 #undef WRITE_METHOD
 	
 	/* write arrays of values */
-#define WRITE_ARRAY( x ) void writeArray(x * elements, uint32_t count, const char * name);
+#define WRITE_ARRAY( x ) void writeArray(x * elements, size_t count, const char * name);
   ALL_TYPES(WRITE_ARRAY)
 #undef WRITE_ARRAY
-	
-	virtual void write(const char * astring, const char * name)=0;
-};
-
-class eTextWriter : public eWriter {
-	std::map<eWritable*, std::string> contents;
-	std::stringstream str;
-	uint32_t indentLevel;
-	
-	void writeID(eWritable * element);
-	
-public:
-	eTextWriter() { str.clear(); }
-	
-	void writeFile(const char * pathname);
-	void addObject(eWritable * object);
-	void finishObject();
-	void writeName(const char * name);
-	
-	/* write individual values */
-#define WRITE_METHOD( x ) virtual void write( x val, const char * name );
-  ALL_TYPES(WRITE_METHOD)
-#undef WRITE_METHOD
-	
-	/* write arrays of values */
-#define WRITE_ARRAY( x ) virtual void writeArray(x * elements, uint32_t count, const char * name);
-  ALL_TYPES(WRITE_ARRAY)
-#undef WRITE_ARRAY
-	
-	void write(const char * astring, const char * name);
 };
 
 class eXMLWriter : public eWriter {
@@ -82,7 +53,6 @@ class eXMLWriter : public eWriter {
   void addToXML(EOSObject * obj);
 public:
   void writeFile(const char * filename);
-	virtual void write(const char * astring, const char * name);
 };
 
 #endif // __E_WRITER_H__

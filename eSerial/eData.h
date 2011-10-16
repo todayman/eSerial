@@ -38,6 +38,9 @@ template<typename T> class EOSArrayData : public _EOSData {
 public:
 	size_t count;
 	T * data;
+  
+  EOSArrayData() : count(0), data(NULL) { }
+  EOSArrayData(size_t c, T * d) : count(c), data(d) { }
 };
 
 template<> class EOSArrayData<eWritable*> : public _EOSData {

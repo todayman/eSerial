@@ -50,12 +50,13 @@ void eWriter::writeName(const char * name)
 {
 	EOSClass * newClass = new EOSClass();
 	newClass->name = string(name);
-	if(curClass)
+	if(curClass) {
 		curClass->superclasses[string(name)] = newClass;
+  }
 	else {
 		curObj->data = newClass;
+    curClass = newClass;
   }
-  curClass = newClass;
 }
 
 #define WRITE_METHOD( x )	void eWriter::write( x val, const char * name ) { curClass->data.insert(pair<string, pEOSData>(string(name), new EOSData< x >(val))); }
@@ -71,136 +72,28 @@ WRITE_METHOD( float )
 WRITE_METHOD( double )
 WRITE_METHOD( long double )
 WRITE_METHOD( bool )
+WRITE_METHOD( char* )
 
-/* Text writing */
-#define INDENT                          for(uint8_t i=0; i<indentLevel; i++) str << '\t';
-
-void eTextWriter::writeFile(const char * pathname)
-{
-	ofstream output(pathname);
-	for(map<eWritable*,string>::iterator iter=contents.begin();	iter != contents.end();	iter ++)
-		output << (*iter).second << endl;
-	output.close();
+#define WRITE_ARRAY_METHOD(x) void eWriter::writeArray( x * val, size_t count, const char * name) \
+{\
+  curClass->data.insert(pair<string, EOSArrayData<x>*>(string(name), new EOSArrayData<x>(count, val))); \
 }
-
-void eTextWriter::write(eWritable * object, const char * name)
-{
-	bool writeObj = false;
-	if(!idList[object]) {
-		idList[object] = idList.size();
-		writeObj = true;
-	}
-	INDENT;
-	str << "<objectID " << name << " " << idList[object] << " />\n";
-	if(writeObj) {
-		string astring = str.str();
-		str.str(string(""));
-		uint32_t oldLevel = indentLevel;
-		addObject(object);
-		str.str(astring);
-		str.seekp(0, ios::end);
-		indentLevel = oldLevel;
-	}
-}
-
-void eTextWriter::writeID(eWritable * object)
-{
-	bool writeObj = false;
-	if(!idList[object]) {
-		idList[object] = idList.size();
-		writeObj = true;
-	}
-	INDENT;
-	str.write((char*)&idList[object], sizeof(uint32_t));
-	if(writeObj) {
-		string astring = str.str();
-		str.str(string(""));
-		uint32_t oldLevel = indentLevel;
-		addObject(object);
-		str.str(astring);
-		str.seekp(0, ios::end);
-		indentLevel = oldLevel;
-	}
-}
-
-void eTextWriter::addObject(eWritable * object)
-{
-	if(!idList[object]) {
-		idList[object] = idList.size();
-	}
-
-	indentLevel=1;
-	str << "<object " << idList[object] << " >\n";
-	object->write(this);
-	str << "</object>\n";
-	contents[object] = str.str();
-}
-
-void eTextWriter::finishObject()
-{
-	indentLevel--;
-	INDENT;
-	str << "</class>\n";
-}
-
-void eTextWriter::writeName(const char * name)
-{
-	INDENT;
-	str << "<class " << name << " >\n";
-	indentLevel++;
-}
-
-#define WRITE_TEXT_METHOD( x )	void eTextWriter::write( x val, const char * name ) { INDENT; str << "<" << #x << " " << name << " " << val << " />\n"; }
-void eTextWriter::write( uint8_t val, const char * name ) { INDENT; str << "<uint8_t " << name << " " << (int)val << " />\n"; }
-WRITE_TEXT_METHOD(uint16_t)
-WRITE_TEXT_METHOD(uint32_t)
-WRITE_TEXT_METHOD(uint64_t)
-void eTextWriter::write( int8_t val, const char * name ) { INDENT; str << "<int8_t " << name << " " << (int)val << " />\n"; }
-WRITE_TEXT_METHOD(int16_t)
-WRITE_TEXT_METHOD(int32_t)
-WRITE_TEXT_METHOD(int64_t)
-WRITE_TEXT_METHOD(float)
-WRITE_TEXT_METHOD(double)
-WRITE_TEXT_METHOD(long double)
-WRITE_TEXT_METHOD(bool)
-
-void eTextWriter::write(const char * astring, const char * name)
-{
-	INDENT;
-	str << "<string " << name << " " << strlen(astring) << ">" << astring << "</string>\n";
-}
-
-#define WRITE_TEXT_ARRAY( x )	void eTextWriter::writeArray ( x * elements, uint32_t count, const char * name) {		\
-									INDENT;														\
-									str << "<array " << name << " " << #x << " " << count << " >";				\
-									str.write((char*)elements, count*sizeof(x));				\
-									str << "</array>\n";										\
-								}
-
-WRITE_TEXT_ARRAY(uint8_t)
-WRITE_TEXT_ARRAY(uint16_t)
-WRITE_TEXT_ARRAY(uint32_t)
-WRITE_TEXT_ARRAY(uint64_t)
-WRITE_TEXT_ARRAY(int8_t)
-WRITE_TEXT_ARRAY(int16_t)
-WRITE_TEXT_ARRAY(int32_t)
-WRITE_TEXT_ARRAY(int64_t)
-WRITE_TEXT_ARRAY(float)
-WRITE_TEXT_ARRAY(double)
-WRITE_TEXT_ARRAY(long double)
-WRITE_TEXT_ARRAY(bool)
-void eTextWriter::writeArray ( eWritable ** elements, uint32_t count, const char * name) {
-	INDENT;
-	str << "<array " << name << " eWritable* " << count << " >";
-	for(uint32_t i=0; i<count; i++)
-		writeID(elements[i]);
-	str << "</array>\n";
-}
-
+WRITE_ARRAY_METHOD( uint16_t )
+WRITE_ARRAY_METHOD( uint32_t )
+WRITE_ARRAY_METHOD( uint64_t )
+WRITE_ARRAY_METHOD( int8_t )
+WRITE_ARRAY_METHOD( int16_t )
+WRITE_ARRAY_METHOD( int32_t )
+WRITE_ARRAY_METHOD( int64_t )
+WRITE_ARRAY_METHOD( float )
+WRITE_ARRAY_METHOD( double )
+WRITE_ARRAY_METHOD( long double )
+WRITE_ARRAY_METHOD( bool )
 
 /* XML Writing */
 
 #include <sstream>
+#include "b64.h"
 
 template <typename T>
 static inline std::string toString (const T & t)
@@ -226,15 +119,20 @@ void eXMLWriter::writeFile(const char * filename)
   xmlFreeDoc(doc);
 }
 
-void eXMLWriter::write(const char * astring, const char * name)
-{
-}
-
-
 
 #define WRITE_XML(x)\
 else if( EOSData<x>* data = dynamic_cast<EOSData<x>*>(iter.second) ) { \
-  field = xmlNewTextChild(node, NULL, (const xmlChar*)#x, (const xmlChar*)toString(data->data).c_str()); \
+  field = xmlNewChild(node, NULL, (const xmlChar*)#x, (const xmlChar*)toString(data->data).c_str()); \
+}
+
+#define WRITE_XML_ARRAY(x)\
+else if( EOSArrayData<x>* data = dynamic_cast<EOSArrayData<x>*>(iter.second) ) { \
+  char* dst; \
+  convert_to_base64(data->data, data->count, &dst); \
+  field = xmlNewTextChild(node, NULL, (const xmlChar*)"array", (xmlChar*)dst); \
+  free(dst); \
+  xmlNewProp(field, (const xmlChar*)"type", (const xmlChar*)#x); \
+  xmlNewProp(field, (const xmlChar*)"count", (const xmlChar*)toString(data->count).c_str()); \
 }
 void eXMLWriter::addToXML(EOSObject *obj)
 {
@@ -243,9 +141,9 @@ void eXMLWriter::addToXML(EOSObject *obj)
   xmlNewProp(node, (const xmlChar*)"class", (const xmlChar*)obj->data->name.c_str());
   
   for( auto iter : obj->data->data ) {
-    xmlNodePtr field;
+    xmlNodePtr field = NULL;
     if( EOSData<uint8_t>* data = dynamic_cast<EOSData<uint8_t>*>(iter.second) ) {
-      field = xmlNewTextChild(node, NULL, (const xmlChar*)"uint8_t", (const xmlChar*)toString((int)data->data).c_str());
+      field = xmlNewChild(node, NULL, (const xmlChar*)"uint8_t", (const xmlChar*)toString((int)data->data).c_str());
     }
     WRITE_XML(uint16_t)
     WRITE_XML(uint32_t)
@@ -258,12 +156,26 @@ void eXMLWriter::addToXML(EOSObject *obj)
     WRITE_XML(double)
     WRITE_XML(long double)
     else if( EOSData<bool>* data = dynamic_cast<EOSData<bool>*>(iter.second) ) {
-      field = xmlNewTextChild(node, NULL, (const xmlChar*)"bool", (const xmlChar*)toString((int)data->data).c_str());
+      field = xmlNewChild(node, NULL, (const xmlChar*)"bool", (const xmlChar*)toString((int)data->data).c_str());
+    }
+    else if( EOSData<char*>* data = dynamic_cast<EOSData<char*>*>(iter.second) ) {
+      field = xmlNewTextChild(node, NULL, (const xmlChar*)"string", (const xmlChar*)data->data);
     }
     else if( EOSData<eWritable*> * data = dynamic_cast<EOSData<eWritable*>*>(iter.second) ) {
       field = xmlNewChild(node, NULL, (const xmlChar*)"eWritable", NULL);
       xmlNewProp(field, (const xmlChar*)"id", (const xmlChar*)toString(data->i).c_str());
     }
+    WRITE_XML_ARRAY(uint16_t)
+    WRITE_XML_ARRAY(uint32_t)
+    WRITE_XML_ARRAY(uint64_t)
+    WRITE_XML_ARRAY(int8_t)
+    WRITE_XML_ARRAY(int16_t)
+    WRITE_XML_ARRAY(int32_t)
+    WRITE_XML_ARRAY(int64_t)
+    WRITE_XML_ARRAY(float)
+    WRITE_XML_ARRAY(double)
+    WRITE_XML_ARRAY(long double)
+
     xmlNewProp(field, (const xmlChar*)"name", (const xmlChar*)iter.first.c_str());
   }
 }

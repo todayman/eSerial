@@ -17,10 +17,13 @@ using namespace std;
 #include "eWritable.h"
 #include "eWriter.h"
 
+int array[] = {12,34,743,63,2};
+
 class Car : public eWritable {
   uint8_t _passengers;
   uint16_t _seats;
   float _mpg;
+  
 public:
   Car(uint8_t p, uint8_t s, float m) : _passengers(p), _seats(s), _mpg(m) {}
   virtual void write(eWriter * writer) {
@@ -28,6 +31,8 @@ public:
     writer->write(_passengers, "passengers");
     writer->write(_seats, "seats");
     writer->write(_mpg, "mpg");
+    writer->writeArray(array, sizeof(array)/sizeof(array[0]), "theArray!");
+    writer->write((char*)"A message in a bottle!", "msg");
   }
   
   virtual void read(eParser * parser) {
