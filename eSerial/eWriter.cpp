@@ -28,6 +28,7 @@ void eWriter::addObject(eWritable * object)
   curObj = NULL;
 }
 
+template<>
 void eWriter::write(eWritable * object, const char * name)
 {
 	bool writeObj = false;
@@ -52,36 +53,43 @@ void eWriter::writeName(const char * name)
   }
 }
 
-#define WRITE_METHOD( x )	void eWriter::write( x val, const char * name ) { curObj->data.insert(pair<string, pEOSData>(string(name), new EOSData< x >(val))); }
-WRITE_METHOD( uint8_t )
-WRITE_METHOD( uint16_t )
-WRITE_METHOD( uint32_t )
-WRITE_METHOD( uint64_t )
-WRITE_METHOD( int8_t )
-WRITE_METHOD( int16_t )
-WRITE_METHOD( int32_t )
-WRITE_METHOD( int64_t )
-WRITE_METHOD( float )
-WRITE_METHOD( double )
-WRITE_METHOD( long double )
-WRITE_METHOD( bool )
-WRITE_METHOD( char* )
-
-#define WRITE_ARRAY_METHOD(x) void eWriter::writeArray( x * val, size_t count, const char * name) \
-{\
-  curObj->data.insert(pair<string, EOSArrayData<x>*>(string(name), new EOSArrayData<x>(count, val))); \
+template<typename T>
+void eWriter::write( T val, const char * name ) {
+  curObj->data.insert(pair<string, pEOSData>(string(name), new EOSData< T >(val)));
 }
-WRITE_ARRAY_METHOD( uint16_t )
-WRITE_ARRAY_METHOD( uint32_t )
-WRITE_ARRAY_METHOD( uint64_t )
-WRITE_ARRAY_METHOD( int8_t )
-WRITE_ARRAY_METHOD( int16_t )
-WRITE_ARRAY_METHOD( int32_t )
-WRITE_ARRAY_METHOD( int64_t )
-WRITE_ARRAY_METHOD( float )
-WRITE_ARRAY_METHOD( double )
-WRITE_ARRAY_METHOD( long double )
-WRITE_ARRAY_METHOD( bool )
+
+template void eWriter::write(uint8_t, const char *);
+template void eWriter::write(uint16_t, const char *);
+template void eWriter::write(uint32_t, const char *);
+template void eWriter::write(uint64_t, const char *);
+template void eWriter::write(int8_t, const char *);
+template void eWriter::write(int16_t, const char *);
+template void eWriter::write(int32_t, const char *);
+template void eWriter::write(int64_t, const char *);
+template void eWriter::write(float, const char *);
+template void eWriter::write(double, const char *);
+template void eWriter::write(long double, const char *);
+template void eWriter::write(const char*, const char *);
+template void eWriter::write(eWritable *, const char *);
+
+template<typename T>
+void eWriter::writeArray( T * val, size_t count, const char * name)
+{
+  curObj->data.insert(pair<string, EOSArrayData<T>*>(string(name), new EOSArrayData<T>(count, val)));
+}
+
+template void eWriter::writeArray(uint8_t *, size_t, const char *);
+template void eWriter::writeArray(uint16_t *, size_t, const char *);
+template void eWriter::writeArray(uint32_t *, size_t, const char *);
+template void eWriter::writeArray(uint64_t *, size_t, const char *);
+template void eWriter::writeArray(int8_t *, size_t, const char *);
+template void eWriter::writeArray(int16_t *, size_t, const char *);
+template void eWriter::writeArray(int32_t *, size_t, const char *);
+template void eWriter::writeArray(int64_t *, size_t, const char *);
+template void eWriter::writeArray(float *, size_t, const char *);
+template void eWriter::writeArray(double *, size_t, const char *);
+template void eWriter::writeArray(long double *, size_t, const char *);
+template void eWriter::writeArray(eWritable *, size_t, const char *);
 
 /* XML Writing */
 

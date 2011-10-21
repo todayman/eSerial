@@ -9,13 +9,8 @@
 
 #include <vector>
 #include <map>
-#include <string>
-#include <sstream>
-#include <stdint.h>
 #include <libxml/tree.h>
 #include "eWritable.h"
-//#include "eData.h"
-#include "macros.h"
 
 #ifndef __E_WRITER_H__
 #define __E_WRITER_H__
@@ -33,19 +28,15 @@ public:
   eWriter();
 	virtual void writeFile(const char * pathname)=0;
 	void addObject(eWritable * object);
-	void finishObject();
 	void writeName(const char * name);
   
 	/* write individual values */
-#define WRITE_METHOD( x ) void write( x val, const char * name );
-  ALL_TYPES(WRITE_METHOD)
-  WRITE_METHOD(char*)
-#undef WRITE_METHOD
-	
+  template<typename T>
+  void write(T val, const char * name);
+  
 	/* write arrays of values */
-#define WRITE_ARRAY( x ) void writeArray(x * elements, size_t count, const char * name);
-  ALL_TYPES(WRITE_ARRAY)
-#undef WRITE_ARRAY
+  template<typename T>
+  void writeArray(T * elements, size_t count, const char * name);
 };
 
 class eXMLWriter : public eWriter {
