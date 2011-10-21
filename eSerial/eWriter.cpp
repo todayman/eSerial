@@ -13,12 +13,6 @@ using namespace std;
 #include "eData.h"
 #include "macros.h"
 
-eWriter::eWriter() :
-  idList(), objs(), curObj(NULL)
-{
-
-}
-
 size_t eWriter::addObjectGetID(eWritable * object)
 {
   size_t id = objs.size();
@@ -30,6 +24,24 @@ size_t eWriter::addObjectGetID(eWritable * object)
   curObj = NULL;
   return id;
 }
+
+void eWriter::writeName(const char * name)
+{
+  if( curObj->name.size() == 0 ) {
+    curObj->name = string(name);
+  }
+}
+
+template<typename T>
+void eWriter::write( T val, const char * name ) {
+  curObj->data.insert(make_pair(string(name), new EOSData< T >(val)));
+}
+
+#define WRITE(x) \
+template void eWriter::write(x, const char *);
+
+PRIMITIVE_TYPES(WRITE)
+template void eWriter::write(const char*, const char *);
 
 template<>
 void eWriter::write(eWritable * object, const char * name)
@@ -48,24 +60,6 @@ void eWriter::write(eWritable * object, const char * name)
 		curObj = oldObj;
 	}
 }
-
-void eWriter::writeName(const char * name)
-{
-  if( curObj->name.size() == 0 ) {
-    curObj->name = string(name);
-  }
-}
-
-template<typename T>
-void eWriter::write( T val, const char * name ) {
-  curObj->data.insert(make_pair(string(name), new EOSData< T >(val)));
-}
-
-#define WRITE(x) \
-template void eWriter::write(x, const char *);
-
-ALL_TYPES(WRITE)
-template void eWriter::write(const char*, const char *);
 
 template<typename T>
 void eWriter::writeArray( T * val, size_t count, const char * name)
