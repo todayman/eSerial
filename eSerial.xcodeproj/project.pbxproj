@@ -16,6 +16,7 @@
 		DA2C38371338330D0013BE0F /* eWritable.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2C38361338330D0013BE0F /* eWritable.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA2C3852133838840013BE0F /* eData.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2C3851133838840013BE0F /* eData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA2C385413383A350013BE0F /* macros.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2C385313383A350013BE0F /* macros.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DA3FD1211452320800431974 /* eXMLWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA3FD1201452320800431974 /* eXMLWriter.cpp */; };
 		DA5EA858144A5D86000DC973 /* b64.c in Sources */ = {isa = PBXBuildFile; fileRef = DA5EA857144A5D86000DC973 /* b64.c */; };
 		DA5EA85A144A634C000DC973 /* b64.c in Sources */ = {isa = PBXBuildFile; fileRef = DA5EA857144A5D86000DC973 /* b64.c */; };
 		DA5EA85C144A66A4000DC973 /* b64.h in Headers */ = {isa = PBXBuildFile; fileRef = DA5EA85B144A66A4000DC973 /* b64.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -109,6 +110,7 @@
 		DA2C38361338330D0013BE0F /* eWritable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = eWritable.h; sourceTree = "<group>"; };
 		DA2C3851133838840013BE0F /* eData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = eData.h; sourceTree = "<group>"; };
 		DA2C385313383A350013BE0F /* macros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = macros.h; sourceTree = "<group>"; };
+		DA3FD1201452320800431974 /* eXMLWriter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = eXMLWriter.cpp; sourceTree = "<group>"; };
 		DA5EA857144A5D86000DC973 /* b64.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = b64.c; sourceTree = "<group>"; };
 		DA5EA85B144A66A4000DC973 /* b64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = b64.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -239,6 +241,7 @@
 				DA2C382E13382F450013BE0F /* eParser.cpp */,
 				DA2C383113382F450013BE0F /* eWriter.h */,
 				DA2C383013382F450013BE0F /* eWriter.cpp */,
+				DA3FD1201452320800431974 /* eXMLWriter.cpp */,
 				DA0138171449F8D90014EBD1 /* libxml2 */,
 				DA5EA85B144A66A4000DC973 /* b64.h */,
 				DA5EA857144A5D86000DC973 /* b64.c */,
@@ -344,6 +347,7 @@
 				DA2C383213382F450013BE0F /* eParser.cpp in Sources */,
 				DA2C383413382F450013BE0F /* eWriter.cpp in Sources */,
 				DA5EA858144A5D86000DC973 /* b64.c in Sources */,
+				DA3FD1211452320800431974 /* eXMLWriter.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
