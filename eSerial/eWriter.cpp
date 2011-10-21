@@ -94,7 +94,22 @@ template void eWriter::writeArray(eWritable *, size_t, const char *);
 /* XML Writing */
 
 #include <sstream>
+#include <libxml/tree.h>
 #include "b64.h"
+
+class eXMLWriter : public eWriter {
+  xmlDocPtr doc;
+  xmlNodePtr tree;
+  xmlNodePtr node;
+  
+  void addToXML(EOSObject * obj);
+public:
+  void writeFile(const char * filename);
+};
+
+eWriter * eWriter::newXMLWriter() {
+  return new eXMLWriter();
+}
 
 template <typename T>
 static inline std::string toString (const T & t)

@@ -69,9 +69,10 @@ int main (int argc, const char * argv[])
   
   // insert code here...
   Car c(1,2,3.0);
-  eXMLWriter writer;
-  writer.addObject(&c);
-  writer.writeFile("testFile.xml");
+  eWriter * writer = eWriter::newXMLWriter();
+  writer->addObject(&c);
+  writer->writeFile("testFile.xml");
+  delete writer;
   return 0;
 }
 

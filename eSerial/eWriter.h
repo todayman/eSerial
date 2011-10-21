@@ -9,7 +9,6 @@
 
 #include <vector>
 #include <map>
-#include <libxml/tree.h>
 #include "eWritable.h"
 
 #ifndef __E_WRITER_H__
@@ -37,16 +36,9 @@ public:
 	/* write arrays of values */
   template<typename T>
   void writeArray(T * elements, size_t count, const char * name);
-};
-
-class eXMLWriter : public eWriter {
-  xmlDocPtr doc;
-  xmlNodePtr tree;
-  xmlNodePtr node;
   
-  void addToXML(EOSObject * obj);
-public:
-  void writeFile(const char * filename);
+  // Get a writer
+  static eWriter * newXMLWriter();
 };
 
 #endif // __E_WRITER_H__
