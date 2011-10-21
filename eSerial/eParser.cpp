@@ -6,10 +6,12 @@
  *  Copyright 2011 Paul O'Neil. All rights reserved.
  *
  */
-
 #include "eWriter.h"
 #include "eParser.h"
+#include <cstring>
 using namespace std;
+#include <libxml/parser.h>
+#include "b64.h"
 
 void eFactory::registerClass(const string &className, constructor_t ctor) {
   ctors.insert( pair<string, constructor_t>(className, ctor) );
@@ -48,11 +50,11 @@ void eParser::parseObject(EOSObject * c)
   
   if( !objStack.empty() ) {
     curObj = objStack.top();
+    objStack.pop();
   }
   else {
     curObj = NULL;
   }
-  objStack.pop();
 }
 
 void eParser::read(const char * name, eWritable ** val) {
@@ -76,128 +78,146 @@ void eParser::readArray(const char * name, eWritable *** elements, uint32_t * co
 	}
 }
 
-// convert a text based file to a tree of EOS objects
-/*void eTextParser::firstPass(const char * filename) {
-	input.open(filename);
-	
-	for(input >> istring; istring == "<object" && input.good(); input >> istring)
-		addObject();
-	input.close();
+/* XML Reading */
+#include <sstream>
+template<typename T>
+T parse(const xmlChar * text) {
+  string contents((const char*)text);
+  stringstream stream(contents);
+  T var;
+  stream >> var;
+  return var;
 }
 
-void eTextParser::addObject()
+eXMLParser::eXMLParser()
+: doc(NULL), root(NULL), node(NULL)
 {
-	EOSObject * obj = new EOSObject;
-	input >> obj->i >> buff;
-	parseClass(obj->data);
-	data.insert(pair<size_t, EOSObject*>(obj->i, obj));
 }
 
-#define ELIF_TYPE( x )	else if(istring == typePrefix + #x) {							\
-							ptr = new EOSData<x>;										\
-							input >> buff >> ((EOSData<x>*)ptr)->data >> istring;		\
-							c->data.insert(pair<string, pEOSData>(string(buff), ptr));	\
-						}
-#define ELIF_ARRAY( x )	else if(istring == #x) {																		\
-							ptr = new EOSArrayData<x>;																	\
-							input >> buff;																				\
-							input >> ((EOSArrayData<x>*)ptr)->count;													\
-							while(input.get() != '>') ;																	\
-							((EOSArrayData<x>*)ptr)->data = new x [((EOSArrayData<x>*)ptr)->count];						\
-							input.read((char*)((EOSArrayData<x>*)ptr)->data, ((EOSArrayData<x>*)ptr)->count*sizeof(x));	\
-							input >> istring;																			\
-							c->data.insert(pair<string, pEOSData>(string(buff), ptr));									\
-						}
-
-void eTextParser::parseClass(EOSClass * c)
+void eXMLParser::firstPass(const char *filename)
 {
-	if(istring != "<class") {
-		input >> istring;
-		if(istring != "<class")
-			throw 1;
-	}
-	
-	input >> c->name >> buff;
-	
-	string typePrefix="<";
-	
-	for(input >> istring; istring != "</class>" && input.good(); input >> istring) {
-		pEOSData ptr;
-		uint32_t len;
-		if(istring == "<uint8_t") {
-			ptr = new EOSData<uint8_t>;
-			input >> buff >> ((EOSData<int>*)ptr)->data >> istring;
-			c->data.insert(pair<string, pEOSData>(string(buff), ptr));
-		}
-		ELIF_TYPE( uint16_t )
-		ELIF_TYPE( uint32_t )
-		ELIF_TYPE( uint64_t )
-		else if(istring == "<int8_t") {
-			ptr = new EOSData<int8_t>;
-			input >> buff >> ((EOSData<int>*)ptr)->data >> istring;
-			c->data.insert(pair<string, pEOSData>(string(buff), ptr));
-		}
-		ELIF_TYPE( int16_t )
-		ELIF_TYPE( int32_t )
-		ELIF_TYPE( int64_t )
-		ELIF_TYPE( float )
-		ELIF_TYPE( double )
-		ELIF_TYPE( long double )
-		ELIF_TYPE( bool )
-		else if(istring == "<objectID") {
-			ptr = new EOSData<eWritable*>;
-			input >> buff >> ((EOSData<eWritable*>*)ptr)->i >> istring;
-			c->data.insert(pair<string, pEOSData>(string(buff), ptr));
-		}
-		else if(istring == "<class") {
-			EOSClass * nc = new EOSClass;
-			parseClass(nc);
-			c->superclasses.insert(pair<string, EOSClass*>(string(nc->name), nc));
-		}
-		else if(istring == "<string") {
-			ptr = new EOSData<char*>;
-			input >> buff >> len;
-			((EOSData<char*>*)ptr)->data = new char[len+1];
-			while(input.get() != '>');
-			input.read(((EOSData<char*>*)ptr)->data, len);
-			((EOSData<char*>*)ptr)->data[len] = 0;
-			input >> istring;
-			c->data.insert(pair<string, pEOSData>(string(buff), ptr));
-		}
-		else if(istring == "<array") {
-			input >> istring;
-			if(istring == "uint8_t") {
-				ptr = new EOSArrayData<uint8_t>;
-				input >> buff;
-				input >> ((EOSArrayData<uint8_t>*)ptr)->count;
-				while(input.get() != '>') ;
-				((EOSArrayData<uint8_t>*)ptr)->data = new uint8_t [((EOSArrayData<uint8_t>*)ptr)->count];
-				input.read((char*)((EOSArrayData<uint8_t>*)ptr)->data, ((EOSArrayData<uint8_t>*)ptr)->count*sizeof(uint8_t));
-				input >> istring;
-				c->data.insert(pair<string, pEOSData>(string(buff), ptr));
-			}
-			ELIF_ARRAY( uint16_t )
-			ELIF_ARRAY( uint32_t )
-			ELIF_ARRAY( uint64_t )
-			ELIF_ARRAY( int8_t )
-			ELIF_ARRAY( int16_t )
-			ELIF_ARRAY( int32_t )
-			ELIF_ARRAY( int64_t )
-			ELIF_ARRAY( float )
-			ELIF_ARRAY( double )
-			ELIF_ARRAY( long double )
-			ELIF_ARRAY( bool )
-			else if(istring == "eWritable*") {
-				ptr = new EOSArrayData<eWritable>;
-				input >> buff;
-				input >> ((EOSArrayData<eWritable>*)ptr)->count;
-				while(input.get() != '>') ;
-				((EOSArrayData<eWritable*>*)ptr)->data = new size_t [((EOSArrayData<eWritable*>*)ptr)->count];
-				input.read((char*)((EOSArrayData<eWritable*>*)ptr)->data, ((EOSArrayData<eWritable*>*)ptr)->count*sizeof(uint8_t));
-				input >> istring;
-				c->data.insert(pair<string, pEOSData>(string(buff), ptr));
-			}
-		}
-	}
+  doc = xmlParseFile(filename);
+  root = xmlDocGetRootElement(doc);
+  for ( node = xmlFirstElementChild(root);
+        node != NULL;
+        node = xmlNextElementSibling(node)
+      )
+  {
+    parseXMLObject(node);
+  }
 }
-*/
+
+void eXMLParser::parseXMLObject(xmlNodePtr node)
+{
+  EOSObject * obj = new EOSObject();
+  
+  xmlChar * xmlPropText = xmlGetProp(node, (const xmlChar*)"id");
+  obj->i = parse<size_t>(xmlPropText);
+  xmlFree(xmlPropText);
+  
+  xmlPropText = xmlGetProp(node, (const xmlChar *)"class");
+  obj->name = string((const char*)xmlPropText);
+  xmlFree(xmlPropText);
+  
+  for ( xmlNodePtr field = xmlFirstElementChild(node);
+       field != NULL;
+       field = xmlNextElementSibling(field)
+       )
+  {
+    parseXMLField(field, obj);
+  }
+}
+
+#define PARSE_TYPE( x ) \
+else if( type == #x ) {\
+  result = new EOSData<x>(parse<x>(content)); \
+}
+
+#define PARSE_ARRAY_TYPE( x ) \
+else if( type == #x ) { \
+  EOSArrayData<x> * arrData = new EOSArrayData<x>(); \
+  convert_from_base64(reinterpret_cast<const char*>(content), strlen(reinterpret_cast<const char*>(content)), &arrData->data); \
+  arrData->count = count; \
+  result = arrData; \
+}
+
+void eXMLParser::parseXMLField(xmlNodePtr field, EOSObject * obj)
+{
+  string type(reinterpret_cast<const char*>(field->name));
+  pEOSData result = NULL;
+  xmlChar* content = xmlNodeGetContent(field);
+  if( NULL == content ) {
+    // TODO error
+    return;
+  }
+  
+  if( type == "uint8_t" ) {
+    result = new EOSData<uint8_t>((uint8_t)parse<int>(content));
+  }
+  PARSE_TYPE(uint16_t)
+  PARSE_TYPE(uint32_t)
+  PARSE_TYPE(uint64_t)
+  else if( type == "int8_t" ) {
+    result = new EOSData<int8_t>((int8_t)parse<int>(content));
+  }
+  PARSE_TYPE(int16_t)
+  PARSE_TYPE(int32_t)
+  PARSE_TYPE(int64_t)
+  PARSE_TYPE(float)
+  PARSE_TYPE(double)
+  PARSE_TYPE(long double)
+  else if( type == "bool" ) {
+    result = new EOSData<bool>((bool)parse<int>(content));
+  }
+  else if( type == "eWritable" ) {
+    result = new EOSData<eWritable*>(parse<size_t>(content));
+  }
+  else if( type == "array" ) {
+    // read the types of the elemtns in the array
+    xmlChar * propText = xmlGetProp(field, (const xmlChar *)"type");
+    type = string((const char *)propText);
+    xmlFree(propText);
+    
+    // read the number of elements in the array
+    propText = xmlGetProp(field, (const xmlChar *)"count");
+    size_t count = parse<size_t>(propText);
+    xmlFree(propText);
+    
+    if( type == "uint8_t" ) {
+      EOSArrayData<uint8_t> * arrData = new EOSArrayData<uint8_t>();
+      convert_from_base64(reinterpret_cast<const char *>(content), strlen((const char*)content), &arrData->data);
+      arrData->count = count;
+      result = arrData;
+    }
+    PARSE_ARRAY_TYPE(uint16_t)
+    PARSE_ARRAY_TYPE(uint32_t)
+    PARSE_ARRAY_TYPE(uint64_t)
+    PARSE_ARRAY_TYPE(int8_t)
+    PARSE_ARRAY_TYPE(int16_t)
+    PARSE_ARRAY_TYPE(int32_t)
+    PARSE_ARRAY_TYPE(int64_t)
+    PARSE_ARRAY_TYPE(float)
+    PARSE_ARRAY_TYPE(double)
+    PARSE_ARRAY_TYPE(long double)
+    else if( type == "eWritable*" ) {
+      EOSArrayData<eWritable*> * arrData = new EOSArrayData<eWritable*>();
+      convert_from_base64(reinterpret_cast<const char *>(content), strlen((const char*)content), &arrData->data);
+      arrData->count = count;
+      result = arrData;
+    }
+  }
+  xmlFree(content);
+  content = NULL;
+  
+  if( result ) {
+    content = xmlGetProp(field, (const xmlChar*)"name");
+    if( NULL == content ) {
+      // TODO error;
+      delete result;
+      return;
+    }
+    obj->data.insert(pair<string, pEOSData>(string((const char*)content), result));
+    xmlFree(content);
+    content = NULL;
+  }
+}

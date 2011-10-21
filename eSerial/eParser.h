@@ -11,6 +11,7 @@
 #include <map>
 #include <string>
 #include <stack>
+#include <libxml/tree.h>
 #include "eData.h"
 #include "macros.h"
 
@@ -38,7 +39,6 @@ class eParser {
                     // instead of a different string in every method
                     // I got sick of declaring it every time
 	void addObject();
-	//void parseObject(EOSObject * c);
 	
 protected:
   std::map<size_t, EOSObject*> data;
@@ -71,28 +71,21 @@ public:
 #undef PARSE_ARRAY
 	void readArray(const char * name, eWritable *** elements, uint32_t * count = NULL);
 	
-	/*void pushClass(const char * superclass) {
-		classes.push(classes.top()->superclasses[superclass]);
-	}
-	void popClass() {
-		classes.pop();
-   }*/
 };
 
-#define READ_SUPERCLASS( reader, x )	reader->pushClass(#x);	\
-x::read(reader);		\
-reader->popClass()
-
-/*class eTextParser : public eParser {
-  std::ifstream input;
-  std::string istring;
-  std::string buff;
-	
-	void addObject();
-	void parseClass(EOSClass * c);
-	
+class eXMLParser : public eParser
+{
+private:
+  xmlDocPtr doc;
+  xmlNodePtr root;
+  xmlNodePtr node;
+  
+  void parseXMLObject(xmlNodePtr node);
+  void parseXMLField(xmlNodePtr field, EOSObject * obj);
 protected:
-	virtual void firstPass(const char * filename);
-};*/
-
+  virtual void firstPass(const char * filename);
+  
+public:
+  eXMLParser();
+};
 #endif
