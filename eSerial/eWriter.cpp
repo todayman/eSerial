@@ -25,7 +25,7 @@ size_t eWriter::addObjectGetID(eWritable * object)
 	curObj = new EOSObject();
 	curObj->i = id;
 	objs.push_back(curObj);
-	idList.insert(pair<eWritable*, size_t>(object, id));
+	idList.insert(make_pair(object, id));
 	object->write(this);
   curObj = NULL;
   return id;
@@ -36,11 +36,11 @@ void eWriter::write(eWritable * object, const char * name)
 {
 	bool writeObj = false;
 	if( !idList.count(object)  ) {
-		idList.insert(pair<eWritable*, size_t>(object, idList.size()));
+		idList.insert(make_pair(object, idList.size()));
 		writeObj = true;
 	}
 	
-	curObj->data[string(name)] = new EOSData<eWritable*>(idList[object]);
+	curObj->data.insert(make_pair(string(name), new EOSData<eWritable*>(idList[object])));
 	
 	if(writeObj) {
 		EOSObject * oldObj = curObj;
@@ -58,7 +58,7 @@ void eWriter::writeName(const char * name)
 
 template<typename T>
 void eWriter::write( T val, const char * name ) {
-  curObj->data.insert(pair<string, pEOSData>(string(name), new EOSData< T >(val)));
+  curObj->data.insert(make_pair(string(name), new EOSData< T >(val)));
 }
 
 #define WRITE(x) \
@@ -70,7 +70,7 @@ template void eWriter::write(const char*, const char *);
 template<typename T>
 void eWriter::writeArray( T * val, size_t count, const char * name)
 {
-  curObj->data.insert(pair<string, EOSArrayData<T>*>(string(name), new EOSArrayData<T>(count, val)));
+  curObj->data.insert(make_pair(string(name), new EOSArrayData<T>(count, val)));
 }
 
 #define WRITE_ARRAY(x) \
