@@ -47,6 +47,12 @@ template<> class EOSArrayData<eWritable*> : public _EOSData {
 public:
 	size_t count;
 	size_t * data;
+  
+  EOSArrayData() : count(0), data(NULL) { }
+  EOSArrayData(size_t c, size_t * d) : count(c), data(d) { }
+  ~EOSArrayData() {
+    delete [] data;
+  }
 };
 
 struct EOSObject {

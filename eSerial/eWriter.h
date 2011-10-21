@@ -23,11 +23,15 @@ protected:
 	std::map<eWritable*, size_t> idList;
 	std::vector<EOSObject*> objs;
 	EOSObject * curObj;
+  size_t addObjectGetID(eWritable * object);
+
 public:
   eWriter();
 	virtual void writeFile(const char * pathname)=0;
-	void addObject(eWritable * object);
-	void writeName(const char * name);
+	void addObject(eWritable * object) {
+    addObjectGetID(object);
+  }
+  void writeName(const char * name);
   
 	/* write individual values */
   template<typename T>
