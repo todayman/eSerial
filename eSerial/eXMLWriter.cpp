@@ -92,7 +92,7 @@ void eXMLWriter::addToXML(EOSObject *obj)
       field = xmlNewChild(node, NULL, (const xmlChar*)"bool", (const xmlChar*)toString((int)data->data).c_str());
     }
     else if( EOSData<const char*>* data = dynamic_cast<EOSData<const char*>*>(iter.second) ) {
-      field = xmlNewTextChild(node, NULL, (const xmlChar*)"string", (const xmlChar*)data->data);
+      field = xmlNewTextChild(node, NULL, (const xmlChar*)"char*", (const xmlChar*)data->data);
     }
     else if( EOSData<eWritable*> * data = dynamic_cast<EOSData<eWritable*>*>(iter.second) ) {
       field = xmlNewChild(node, NULL, (const xmlChar*)"eWritable", NULL);

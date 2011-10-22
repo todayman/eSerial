@@ -7,6 +7,7 @@
 //
 
 #include <string>
+#include <cstring>
 #include <sstream>
 using namespace std;
 #include <libxml/tree.h>
@@ -37,6 +38,15 @@ static inline T parse(const xmlChar * text) {
   T var;
   stream >> var;
   return var;
+}
+
+template<>
+inline char * parse(const xmlChar * text) {
+  size_t len = xmlStrlen(text);
+  char * result = new char[len + 1];
+  strncpy(result, (const char*)text, len);
+  result[len] = 0;
+  return result;
 }
 
 eParser * eParser::newXMLParser()
@@ -120,6 +130,9 @@ void eXMLParser::parseXMLField(xmlNodePtr field, EOSObject * obj)
     result = new EOSData<bool>((bool)parse<int>(content));
   }
   else if( type == "eWritable" ) {
+  else if( type == "char*" ) {
+    result = new EOSData<char*>(parse<char*>(content));
+  }
     result = new EOSData<eWritable*>(parse<size_t>(content));
   }
   else if( type == "array" ) {
