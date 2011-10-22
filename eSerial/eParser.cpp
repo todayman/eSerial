@@ -14,7 +14,7 @@ using namespace std;
 #include "b64.h"
 
 void eFactory::registerClass(const string &className, constructor_t ctor) {
-  ctors.insert( pair<string, constructor_t>(className, ctor) );
+  ctors.insert( make_pair(className, ctor) );
 }
 
 eWritable * eFactory::newObject(std::string className) {
@@ -45,7 +45,7 @@ void eParser::parseObject(EOSObject * c)
   }
   curObj = c;
   eWritable * obj = factory->newObject(curObj->name);
-  objects.insert(std::pair<size_t, eWritable*>(curObj->i, obj));
+  objects.insert(make_pair(curObj->i, obj));
 	obj->read(this);
   
   if( !objStack.empty() ) {
@@ -57,6 +57,18 @@ void eParser::parseObject(EOSObject * c)
   }
 }
 
+template<typename T>
+void eParser::read(const char * name, T * val)
+{
+  (*val) = (dynamic_cast<EOSData<T>*>(curObj->data[std::string(name)]))->data;
+}
+
+#define READ(x)\
+template void eParser::read(const char *, x*);
+
+PRIMITIVE_TYPES(READ)
+
+template<>
 void eParser::read(const char * name, eWritable ** val) {
 	EOSData<eWritable*>* newObj = dynamic_cast<EOSData<eWritable*>*> ( curObj->data[string(name)] );
 	if(!objects.count(newObj->i)) {
@@ -65,7 +77,18 @@ void eParser::read(const char * name, eWritable ** val) {
 	(*val) = objects[newObj->i];
 }
 
-void eParser::readArray(const char * name, eWritable *** elements, uint32_t * count)
+template<typename T>
+void eParser::readArray(const char * name, T ** elements, size_t * count) {
+  (*elements) = (dynamic_cast<EOSArrayData<T>*>(curObj->data[std::string(name)]))->data;
+  if(count) (*count) = (dynamic_cast<EOSArrayData<T>*>(curObj->data[std::string(name)]))->count;
+}
+
+#define READ_ARRAY(x)\
+template void eParser::readArray(const char * name, x ** elements, size_t * count);
+PRIMITIVE_TYPES(READ_ARRAY)
+
+template<>
+void eParser::readArray(const char * name, eWritable *** elements, size_t * count)
 {
 	EOSArrayData<eWritable*>* newObj = dynamic_cast<EOSArrayData<eWritable*>*> ( curObj->data[string(name)] );
 	if(count)
@@ -216,7 +239,7 @@ void eXMLParser::parseXMLField(xmlNodePtr field, EOSObject * obj)
       delete result;
       return;
     }
-    obj->data.insert(pair<string, pEOSData>(string((const char*)content), result));
+    obj->data.insert(make_pair(string((const char*)content), result));
     xmlFree(content);
     content = NULL;
   }

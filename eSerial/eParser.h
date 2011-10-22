@@ -56,21 +56,11 @@ public:
 	void parseFile(const char * filename);
 	void setFactory(eFactory * newFactory);
   
-#define PARSE_TYPE( x )	void read(const char * name, x * val) {												\
-       (*val) = (dynamic_cast<EOSData<x>*>(curObj->data[std::string(name)]))->data;	\
-     }
-  PRIMITIVE_TYPES(PARSE_TYPE)
-#undef PARSE_TYPE
-	void read(const char * name, eWritable ** val);
+  template<typename T>
+  void read(const char * name, T * val);
 	
-#define PARSE_ARRAY( x )	void readArray(const char * name, x ** elements, uint32_t * count = NULL) {									\
-      (*elements) = (dynamic_cast<EOSArrayData<x>*>(curObj->data[std::string(name)]))->data;			\
-      if(count) (*count) = (dynamic_cast<EOSArrayData<x>*>(curObj->data[std::string(name)]))->count;	\
-    }
-  PRIMITIVE_TYPES(PARSE_ARRAY)
-#undef PARSE_ARRAY
-	void readArray(const char * name, eWritable *** elements, uint32_t * count = NULL);
-	
+  template<typename T>
+  void readArray(const char * name, T ** elements, size_t * count);
 };
 
 class eXMLParser : public eParser
