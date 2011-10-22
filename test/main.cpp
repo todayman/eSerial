@@ -31,7 +31,7 @@ public:
     writer->write(_passengers, "passengers");
     writer->write(_seats, "seats");
     writer->write(_mpg, "mpg");
-    writer->writeArray(theArray, sizeof(theArray)/sizeof(theArray[0]), "theArray!");
+    writer->writeArray(theArray, sizeof(theArray)/sizeof(theArray[0]), "theArray!", READABLE_HINT);
     writer->write("A message in a bottle!", "msg");
   }
   

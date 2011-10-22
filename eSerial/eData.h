@@ -33,22 +33,30 @@ public:
 	size_t i;
 };
 
+typedef uint32_t hint_t;
+
+constexpr hint_t NO_HINT        = 0;
+constexpr hint_t READABLE_HINT  = 1 << 0;
+constexpr hint_t BINARY_HINT    = READABLE_HINT << 1;
+
 template<typename T> class EOSArrayData : public _EOSData {
 public:
 	size_t count;
 	T * data;
+  hint_t hints;
   
-  EOSArrayData() : count(0), data(NULL) { }
-  EOSArrayData(size_t c, T * d) : count(c), data(d) { }
+  EOSArrayData() : count(0), data(NULL), hints(NO_HINT) { }
+  EOSArrayData(size_t c, T * d, hint_t h) : count(c), data(d), hints(h) { }
 };
 
 template<> class EOSArrayData<eWritable*> : public _EOSData {
 public:
 	size_t count;
 	size_t * data;
+  hint_t hints;
   
-  EOSArrayData() : count(0), data(NULL) { }
-  EOSArrayData(size_t c, size_t * d) : count(c), data(d) { }
+  EOSArrayData() : count(0), data(NULL), hints(NO_HINT) { }
+  EOSArrayData(size_t c, size_t * d, hint_t h) : count(c), data(d), hints(h) { }
   ~EOSArrayData() {
     delete [] data;
   }
@@ -59,5 +67,6 @@ struct EOSObject {
   std::string name;
 	std::map<std::string, pEOSData> data;
 };
+
 
 #endif // __E_DATA_H__

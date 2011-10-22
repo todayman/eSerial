@@ -10,13 +10,10 @@
 #include <vector>
 #include <map>
 #include "eWritable.h"
+#include "eData.h"
 
 #ifndef __E_WRITER_H__
 #define __E_WRITER_H__
-
-#ifndef __E_DATA_H__
-class EOSObject;
-#endif
 
 class eWriter {
 protected:
@@ -39,7 +36,7 @@ public:
   
 	/* write arrays of values */
   template<typename T>
-  void writeArray(T * elements, size_t count, const char * name);
+  void writeArray(T * elements, size_t count, const char * name, hint_t hint = NO_HINT);
   
   // Get a writer
   static eWriter * newXMLWriter();

@@ -19,6 +19,10 @@ class eXMLWriter : public eWriter {
   xmlNodePtr node;
   
   void addToXML(EOSObject * obj);
+  
+  template<typename T>
+  void writeArrayToXML(xmlNodePtr field, EOSArrayData<T> * data, const char * type);
+  
 public:
   void writeFile(const char * filename);
 };
@@ -57,14 +61,80 @@ else if( EOSData<x>* data = dynamic_cast<EOSData<x>*>(iter.second) ) { \
   field = xmlNewChild(node, NULL, (const xmlChar*)#x, (const xmlChar*)toString(data->data).c_str()); \
 }
 
+template<typename T>
+static inline char * toString(const T * data, size_t count)
+{
+  stringstream ss;
+  char * dst;
+  if( count ) {
+    ss << data[0];
+  }
+  for( size_t i = 1; i < count; i++ ) {
+    ss << " " << data[i];
+  }
+  dst = new char[ss.str().size() + 1];
+  strncpy(dst, ss.str().c_str(), ss.str().size());
+  dst[ss.str().size()] = 0;
+  return dst;
+}
+
+template<>
+inline char * toString(const uint8_t * data, size_t count)
+{
+  stringstream ss;
+  char * dst;
+  if( count ) {
+    ss << (int)data[0];
+  }
+  for( size_t i = 1; i < count; i++ ) {
+    ss << " " << (int)data[i];
+  }
+  dst = new char[ss.str().size() + 1];
+  strncpy(dst, ss.str().c_str(), ss.str().size());
+  dst[ss.str().size()] = 0;
+  return dst;
+}
+
+template<>
+inline char * toString(const int8_t * data, size_t count)
+{
+  stringstream ss;
+  char * dst;
+  if( count ) {
+    ss << (int)data[0];
+  }
+  for( size_t i = 1; i < count; i++ ) {
+    ss << " " << (int)data[i];
+  }
+  dst = new char[ss.str().size() + 1];
+  strncpy(dst, ss.str().c_str(), ss.str().size());
+  dst[ss.str().size()] = 0;
+  return dst;
+}
+
+template<typename T>
+void eXMLWriter::writeArrayToXML(xmlNodePtr field, EOSArrayData<T> * data, const char * type)
+{
+  char* dst = NULL;
+  if( data->hints & READABLE_HINT ) {
+    dst = toString(data->data, data->count);
+  }
+  else {
+    convert_to_base64(data->data, data->count, &dst);
+  }
+  field = xmlNewTextChild(node, NULL, (const xmlChar*)"array", (xmlChar*)dst);
+  free(dst);
+  
+  if( data->hints & READABLE_HINT ) {
+    xmlNewProp(field, (const xmlChar*)"hints", (const xmlChar*)toString(READABLE_HINT).c_str());
+  }
+  xmlNewProp(field, (const xmlChar*)"type", (const xmlChar*)type);
+  xmlNewProp(field, (const xmlChar*)"count", (const xmlChar*)toString(data->count).c_str());
+}
+
 #define WRITE_XML_ARRAY(x)\
 else if( EOSArrayData<x>* data = dynamic_cast<EOSArrayData<x>*>(iter.second) ) { \
-  char* dst; \
-  convert_to_base64(data->data, data->count, &dst); \
-  field = xmlNewTextChild(node, NULL, (const xmlChar*)"array", (xmlChar*)dst); \
-  free(dst); \
-  xmlNewProp(field, (const xmlChar*)"type", (const xmlChar*)#x); \
-  xmlNewProp(field, (const xmlChar*)"count", (const xmlChar*)toString(data->count).c_str()); \
+  writeArrayToXML(field, data, #x);\
 }
 
 void eXMLWriter::addToXML(EOSObject *obj)
@@ -98,6 +168,7 @@ void eXMLWriter::addToXML(EOSObject *obj)
       field = xmlNewChild(node, NULL, (const xmlChar*)"eWritable", NULL);
       xmlNewProp(field, (const xmlChar*)"id", (const xmlChar*)toString(data->i).c_str());
     }
+    WRITE_XML_ARRAY(uint8_t)
     WRITE_XML_ARRAY(uint16_t)
     WRITE_XML_ARRAY(uint32_t)
     WRITE_XML_ARRAY(uint64_t)

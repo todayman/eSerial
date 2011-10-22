@@ -62,17 +62,17 @@ void eWriter::write(eWritable * object, const char * name)
 }
 
 template<typename T>
-void eWriter::writeArray( T * val, size_t count, const char * name)
+void eWriter::writeArray( T * val, size_t count, const char * name, hint_t hint)
 {
-  curObj->data.insert(make_pair(string(name), new EOSArrayData<T>(count, val)));
+  curObj->data.insert(make_pair(string(name), new EOSArrayData<T>(count, val, hint)));
 }
 
 #define WRITE_ARRAY(x) \
-template void eWriter::writeArray(x *, size_t, const char *);
+template void eWriter::writeArray(x *, size_t, const char *, hint_t);
 
 PRIMITIVE_TYPES(WRITE_ARRAY)
-template<> void eWriter::writeArray(eWritable ** val, size_t count, const char * name) {
-  EOSArrayData<eWritable*> * data = new EOSArrayData<eWritable*>(count, NULL);
+template<> void eWriter::writeArray(eWritable ** val, size_t count, const char * name, hint_t hint) {
+  EOSArrayData<eWritable*> * data = new EOSArrayData<eWritable*>(count, NULL, hint);
   
   for( size_t i = 0; i < count; i++ ) {
     data->data[i] = addObjectGetID(val[i]);
