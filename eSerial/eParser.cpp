@@ -13,12 +13,21 @@
 #include "macros.h"
 using namespace std;
 
-void eFactory::registerClass(const string &className, constructor_t ctor) {
-  ctors.insert( make_pair(className, ctor) );
+class ctor_func_block {
+  ctor_func_t func;
+public:
+  ctor_func_block(ctor_func_t f) : func(f) { }
+  virtual eWritable * newObject() const {
+    return func();
+  }
+};
+
+void eFactory::registerClass(const string &className, ctor_func_t ctor) {
+  ctors.insert( make_pair(className, (ctor_block_t*)new ctor_func_block(ctor)) );
 }
 
 eWritable * eFactory::newObject(std::string className) {
-  return /*dynamic_cast<eWritable*>(*/ctors[className]()/*)*/;
+  return /*dynamic_cast<eWritable*>(*/ctors[className]->newObject()/*)*/;
 }
 
 void eParser::parseFile(const char * filename)

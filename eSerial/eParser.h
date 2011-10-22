@@ -23,12 +23,18 @@ class EOSObject;
 #ifndef __E_PARSER__
 #define __E_PARSER__
 
-typedef eWritable * (^constructor_t)(/*EOSClass * data*/) ;
+typedef eWritable * (*ctor_func_t)(/*EOSClass * data*/) ;
+
+class ctor_block_t {
+public:
+  virtual eWritable * newObject() const = 0;
+};
 
 class eFactory {
-  std::map<std::string, constructor_t> ctors;
+  std::map<std::string, ctor_block_t*> ctors;
 public:
-  void registerClass(const std::string& className, constructor_t ctor);
+  void registerClass(const std::string& className, ctor_func_t ctor);
+  void registerClass(const std::string& className, ctor_block_t* ctor);
 	eWritable * newObject(std::string className);
 };
 
