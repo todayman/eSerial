@@ -11,18 +11,19 @@
 #include <map>
 #include <string>
 #include <stack>
-#include <libxml/tree.h>
-#include "eData.h"
-#include "macros.h"
 
 #ifndef __E_WRITER__
 class eWriter;
 #endif
 
 class eParser;
+class eWritable;
+class EOSObject;
 
 #ifndef __E_PARSER__
 #define __E_PARSER__
+
+typedef eWritable * (^constructor_t)(/*EOSClass * data*/) ;
 
 class eFactory {
   std::map<std::string, constructor_t> ctors;
@@ -61,21 +62,8 @@ public:
 	
   template<typename T>
   void readArray(const char * name, T ** elements, size_t * count);
+  
+  static eParser * newXMLParser();
 };
 
-class eXMLParser : public eParser
-{
-private:
-  xmlDocPtr doc;
-  xmlNodePtr root;
-  xmlNodePtr node;
-  
-  void parseXMLObject(xmlNodePtr node);
-  void parseXMLField(xmlNodePtr field, EOSObject * obj);
-protected:
-  virtual void firstPass(const char * filename);
-  
-public:
-  eXMLParser();
-};
 #endif

@@ -61,6 +61,4 @@ struct EOSObject {
 	std::map<std::string, pEOSData> data;
 };
 
-typedef eWritable * (^constructor_t)(/*EOSClass * data*/) ;
-
 #endif // __E_DATA_H__

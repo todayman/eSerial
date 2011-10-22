@@ -6,12 +6,12 @@
  *  Copyright 2011 Paul O'Neil. All rights reserved.
  *
  */
-#include "eWriter.h"
+
+#include "eWritable.h"
 #include "eParser.h"
-#include <cstring>
+#include "eData.h"
+#include "macros.h"
 using namespace std;
-#include <libxml/parser.h>
-#include "b64.h"
 
 void eFactory::registerClass(const string &className, constructor_t ctor) {
   ctors.insert( make_pair(className, ctor) );
@@ -60,11 +60,11 @@ void eParser::parseObject(EOSObject * c)
 template<typename T>
 void eParser::read(const char * name, T * val)
 {
-  (*val) = (dynamic_cast<EOSData<T>*>(curObj->data[std::string(name)]))->data;
+  (*val) = (dynamic_cast<EOSData<T>*>(curObj->data[string(name)]))->data;
 }
 
-#define READ(x)\
-template void eParser::read(const char *, x*);
+#define READ(x) \
+template void eParser::read(const char *, x *);
 
 PRIMITIVE_TYPES(READ)
 
@@ -99,148 +99,4 @@ void eParser::readArray(const char * name, eWritable *** elements, size_t * coun
 			parseObject(data[newObj->data[i]]);
 		(*elements)[i] = objects[newObj->data[i]];
 	}
-}
-
-/* XML Reading */
-#include <sstream>
-template<typename T>
-T parse(const xmlChar * text) {
-  string contents((const char*)text);
-  stringstream stream(contents);
-  T var;
-  stream >> var;
-  return var;
-}
-
-eXMLParser::eXMLParser()
-: doc(NULL), root(NULL), node(NULL)
-{
-}
-
-void eXMLParser::firstPass(const char *filename)
-{
-  doc = xmlParseFile(filename);
-  root = xmlDocGetRootElement(doc);
-  for ( node = xmlFirstElementChild(root);
-        node != NULL;
-        node = xmlNextElementSibling(node)
-      )
-  {
-    parseXMLObject(node);
-  }
-}
-
-void eXMLParser::parseXMLObject(xmlNodePtr node)
-{
-  EOSObject * obj = new EOSObject();
-  
-  xmlChar * xmlPropText = xmlGetProp(node, (const xmlChar*)"id");
-  obj->i = parse<size_t>(xmlPropText);
-  xmlFree(xmlPropText);
-  
-  xmlPropText = xmlGetProp(node, (const xmlChar *)"class");
-  obj->name = string((const char*)xmlPropText);
-  xmlFree(xmlPropText);
-  
-  for ( xmlNodePtr field = xmlFirstElementChild(node);
-       field != NULL;
-       field = xmlNextElementSibling(field)
-       )
-  {
-    parseXMLField(field, obj);
-  }
-}
-
-#define PARSE_TYPE( x ) \
-else if( type == #x ) {\
-  result = new EOSData<x>(parse<x>(content)); \
-}
-
-#define PARSE_ARRAY_TYPE( x ) \
-else if( type == #x ) { \
-  EOSArrayData<x> * arrData = new EOSArrayData<x>(); \
-  convert_from_base64(reinterpret_cast<const char*>(content), strlen(reinterpret_cast<const char*>(content)), &arrData->data); \
-  arrData->count = count; \
-  result = arrData; \
-}
-
-void eXMLParser::parseXMLField(xmlNodePtr field, EOSObject * obj)
-{
-  string type(reinterpret_cast<const char*>(field->name));
-  pEOSData result = NULL;
-  xmlChar* content = xmlNodeGetContent(field);
-  if( NULL == content ) {
-    // TODO error
-    return;
-  }
-  
-  if( type == "uint8_t" ) {
-    result = new EOSData<uint8_t>((uint8_t)parse<int>(content));
-  }
-  PARSE_TYPE(uint16_t)
-  PARSE_TYPE(uint32_t)
-  PARSE_TYPE(uint64_t)
-  else if( type == "int8_t" ) {
-    result = new EOSData<int8_t>((int8_t)parse<int>(content));
-  }
-  PARSE_TYPE(int16_t)
-  PARSE_TYPE(int32_t)
-  PARSE_TYPE(int64_t)
-  PARSE_TYPE(float)
-  PARSE_TYPE(double)
-  PARSE_TYPE(long double)
-  else if( type == "bool" ) {
-    result = new EOSData<bool>((bool)parse<int>(content));
-  }
-  else if( type == "eWritable" ) {
-    result = new EOSData<eWritable*>(parse<size_t>(content));
-  }
-  else if( type == "array" ) {
-    // read the types of the elemtns in the array
-    xmlChar * propText = xmlGetProp(field, (const xmlChar *)"type");
-    type = string((const char *)propText);
-    xmlFree(propText);
-    
-    // read the number of elements in the array
-    propText = xmlGetProp(field, (const xmlChar *)"count");
-    size_t count = parse<size_t>(propText);
-    xmlFree(propText);
-    
-    if( type == "uint8_t" ) {
-      EOSArrayData<uint8_t> * arrData = new EOSArrayData<uint8_t>();
-      convert_from_base64(reinterpret_cast<const char *>(content), strlen((const char*)content), &arrData->data);
-      arrData->count = count;
-      result = arrData;
-    }
-    PARSE_ARRAY_TYPE(uint16_t)
-    PARSE_ARRAY_TYPE(uint32_t)
-    PARSE_ARRAY_TYPE(uint64_t)
-    PARSE_ARRAY_TYPE(int8_t)
-    PARSE_ARRAY_TYPE(int16_t)
-    PARSE_ARRAY_TYPE(int32_t)
-    PARSE_ARRAY_TYPE(int64_t)
-    PARSE_ARRAY_TYPE(float)
-    PARSE_ARRAY_TYPE(double)
-    PARSE_ARRAY_TYPE(long double)
-    else if( type == "eWritable*" ) {
-      EOSArrayData<eWritable*> * arrData = new EOSArrayData<eWritable*>();
-      convert_from_base64(reinterpret_cast<const char *>(content), strlen((const char*)content), &arrData->data);
-      arrData->count = count;
-      result = arrData;
-    }
-  }
-  xmlFree(content);
-  content = NULL;
-  
-  if( result ) {
-    content = xmlGetProp(field, (const xmlChar*)"name");
-    if( NULL == content ) {
-      // TODO error;
-      delete result;
-      return;
-    }
-    obj->data.insert(make_pair(string((const char*)content), result));
-    xmlFree(content);
-    content = NULL;
-  }
 }
