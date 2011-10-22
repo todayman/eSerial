@@ -108,6 +108,8 @@ void eXMLWriter::addToXML(EOSObject *obj)
     WRITE_XML_ARRAY(float)
     WRITE_XML_ARRAY(double)
     WRITE_XML_ARRAY(long double)
+    WRITE_XML_ARRAY(bool)
+    WRITE_XML_ARRAY(eWritable*)
     
     xmlNewProp(field, (const xmlChar*)"name", (const xmlChar*)iter.first.c_str());
   }

@@ -96,7 +96,7 @@ else if( type == #x ) {\
 #define PARSE_ARRAY_TYPE( x ) \
 else if( type == #x ) { \
   EOSArrayData<x> * arrData = new EOSArrayData<x>(); \
-  convert_from_base64(reinterpret_cast<const char*>(content), strlen(reinterpret_cast<const char*>(content)), &arrData->data); \
+  convert_from_base64(reinterpret_cast<const char*>(content), xmlStrlen(content), &arrData->data); \
   arrData->count = count; \
   result = arrData; \
 }
@@ -129,10 +129,10 @@ void eXMLParser::parseXMLField(xmlNodePtr field, EOSObject * obj)
   else if( type == "bool" ) {
     result = new EOSData<bool>((bool)parse<int>(content));
   }
-  else if( type == "eWritable" ) {
   else if( type == "char*" ) {
     result = new EOSData<char*>(parse<char*>(content));
   }
+  else if( type == "eWritable*" ) {
     result = new EOSData<eWritable*>(parse<size_t>(content));
   }
   else if( type == "array" ) {
@@ -148,7 +148,7 @@ void eXMLParser::parseXMLField(xmlNodePtr field, EOSObject * obj)
     
     if( type == "uint8_t" ) {
       EOSArrayData<uint8_t> * arrData = new EOSArrayData<uint8_t>();
-      convert_from_base64(reinterpret_cast<const char *>(content), strlen((const char*)content), &arrData->data);
+      convert_from_base64(reinterpret_cast<const char *>(content), xmlStrlen(content), &arrData->data);
       arrData->count = count;
       result = arrData;
     }
@@ -162,12 +162,8 @@ void eXMLParser::parseXMLField(xmlNodePtr field, EOSObject * obj)
     PARSE_ARRAY_TYPE(float)
     PARSE_ARRAY_TYPE(double)
     PARSE_ARRAY_TYPE(long double)
-    else if( type == "eWritable*" ) {
-      EOSArrayData<eWritable*> * arrData = new EOSArrayData<eWritable*>();
-      convert_from_base64(reinterpret_cast<const char *>(content), strlen((const char*)content), &arrData->data);
-      arrData->count = count;
-      result = arrData;
-    }
+    PARSE_ARRAY_TYPE(bool)
+    PARSE_ARRAY_TYPE(eWritable*)
   }
   xmlFree(content);
   content = NULL;
