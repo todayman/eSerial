@@ -15,7 +15,7 @@
 		DA2C383513382F450013BE0F /* eWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2C383113382F450013BE0F /* eWriter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA2C38371338330D0013BE0F /* eWritable.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2C38361338330D0013BE0F /* eWritable.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA2C3852133838840013BE0F /* eData.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2C3851133838840013BE0F /* eData.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		DA2C385413383A350013BE0F /* macros.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2C385313383A350013BE0F /* macros.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DA2C385413383A350013BE0F /* macros.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2C385313383A350013BE0F /* macros.h */; settings = {ATTRIBUTES = (); }; };
 		DA3FD1211452320800431974 /* eXMLWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA3FD1201452320800431974 /* eXMLWriter.cpp */; };
 		DA3FD127145240A700431974 /* eXMLParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA3FD126145240A700431974 /* eXMLParser.cpp */; };
 		DA5EA858144A5D86000DC973 /* b64.c in Sources */ = {isa = PBXBuildFile; fileRef = DA5EA857144A5D86000DC973 /* b64.c */; };
