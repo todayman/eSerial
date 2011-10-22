@@ -7,13 +7,12 @@
 //
 
 #include <map>
-
-#ifndef __E_WRITEABLE_H__
-class eWritable;
-#endif
+#include <string>
 
 #ifndef __E_DATA_H__
 #define __E_DATA_H__
+
+class eWritable;
 
 class _EOSData {
 public:

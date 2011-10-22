@@ -7,15 +7,10 @@
  *
  */
 
-#include <fstream>
 #include <map>
-#include <string>
 #include <stack>
 
-#ifndef __E_WRITER__
 class eWriter;
-#endif
-
 class eParser;
 class eWritable;
 class EOSObject;
@@ -39,17 +34,9 @@ public:
 };
 
 class eParser {
-  std::ifstream input;
-	
-  std::string istring;
-  std::string buff; // strings to read in random stuff
-                    // instead of a different string in every method
-                    // I got sick of declaring it every time
-	void addObject();
-	
 protected:
   std::map<size_t, EOSObject*> data;
-	virtual void firstPass(const char * filename)=0;
+	virtual void firstPass(const char * filename) = 0;
 	
 private:
   std::map<size_t, eWritable*> objects;
