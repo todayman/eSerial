@@ -100,12 +100,15 @@ template<>
 void eParser::readArray(const char * name, eWritable *** elements, size_t * count)
 {
 	EOSArrayData<eWritable*>* newObj = dynamic_cast<EOSArrayData<eWritable*>*> ( curObj->data[string(name)] );
-	if(count)
+	
+  if(count)
 		(*count) = newObj->count;
+  
 	(*elements) = new eWritable*[newObj->count];
-	for(uint32_t i=0; i<newObj->count; i++) {
-		if(!objects[newObj->data[i]])
+	for(size_t i = 0; i < newObj->count; i++) {
+		if(!objects[newObj->data[i]]) {
 			parseObject(data[newObj->data[i]]);
+    }
 		(*elements)[i] = objects[newObj->data[i]];
 	}
 }
