@@ -12,23 +12,26 @@
 #ifndef __E_DATA_H__
 #define __E_DATA_H__
 
-class eWritable;
+namespace eos {
+namespace serialization {
 
-class _EOSData {
+class Writable;
+
+class _Data {
 public:
-  virtual ~_EOSData() { }
+  virtual ~_Data() { }
 };
-typedef _EOSData * pEOSData;
+typedef _Data * pData;
 
-template<typename T> class EOSData : public _EOSData {
+template<typename T> class Data : public _Data {
 public:
-	EOSData(T d=NULL) { data = d; }
+	Data(T d = NULL) { data = d; }
 	T data;
 };
 
-template<> class EOSData<eWritable*> : public _EOSData {
+template<> class Data<Writable*> : public _Data {
 public:
-	EOSData(size_t ident=0) {i = ident; }
+	Data(size_t ident = 0) { i = ident; }
 	
 	size_t i;
 };
@@ -39,34 +42,36 @@ constexpr hint_t NO_HINT        = 0;
 constexpr hint_t READABLE_HINT  = 1 << 0;
 constexpr hint_t BINARY_HINT    = READABLE_HINT << 1;
 
-template<typename T> class EOSArrayData : public _EOSData {
+template<typename T> class ArrayData : public _Data {
 public:
 	size_t count;
 	T * data;
   hint_t hints;
   
-  EOSArrayData() : count(0), data(NULL), hints(NO_HINT) { }
-  EOSArrayData(size_t c, T * d, hint_t h) : count(c), data(d), hints(h) { }
+  ArrayData() : count(0), data(NULL), hints(NO_HINT) { }
+  ArrayData(size_t c, T * d, hint_t h) : count(c), data(d), hints(h) { }
 };
 
-template<> class EOSArrayData<eWritable*> : public _EOSData {
+template<> class ArrayData<Writable*> : public _Data {
 public:
 	size_t count;
 	size_t * data;
   hint_t hints;
   
-  EOSArrayData() : count(0), data(NULL), hints(NO_HINT) { }
-  EOSArrayData(size_t c, size_t * d, hint_t h) : count(c), data(d), hints(h) { }
-  ~EOSArrayData() {
+  ArrayData() : count(0), data(NULL), hints(NO_HINT) { }
+  ArrayData(size_t c, size_t * d, hint_t h) : count(c), data(d), hints(h) { }
+  ~ArrayData() {
     delete [] data;
   }
 };
 
-struct EOSObject {
+struct Object {
 	size_t i;
   std::string name;
-	std::map<std::string, pEOSData> data;
+	std::map<std::string, pData> data;
 };
 
+} // namespace serialization
+} // namespace eos
 
 #endif // __E_DATA_H__

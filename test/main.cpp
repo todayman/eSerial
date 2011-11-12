@@ -16,17 +16,18 @@ using namespace std;
 #include "b64.h"
 #include "eWritable.h"
 #include "eWriter.h"
+using namespace eos::serialization;
 
 int theArray[] = {12,34,743,63,2};
 
-class Car : public eWritable {
+class Car : public Writable {
   uint8_t _passengers;
   uint16_t _seats;
   float _mpg;
   
 public:
   Car(uint8_t p, uint8_t s, float m) : _passengers(p), _seats(s), _mpg(m) {}
-  virtual void write(eWriter * writer) {
+  virtual void write(Writer * writer) {
     writer->writeName("Car");
     writer->write(_passengers, "passengers");
     writer->write(_seats, "seats");
@@ -35,7 +36,7 @@ public:
     writer->write("A message in a bottle!", "msg");
   }
   
-  virtual void read(eParser * parser) {
+  virtual void read(Parser * parser) {
   }
 };
 
@@ -69,7 +70,7 @@ int main (int argc, const char * argv[])
   
   // insert code here...
   Car c(1,2,3.0);
-  eWriter * writer = eWriter::newXMLWriter();
+  Writer * writer = Writer::newXMLWriter();
   writer->addObject(&c);
   writer->writeFile("testFile.xml");
   delete writer;

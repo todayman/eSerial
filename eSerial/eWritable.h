@@ -9,18 +9,24 @@
 #ifndef __E_WRITEABLE_H__
 #define __E_WRITEABLE_H__
 
+namespace eos {
+namespace serialization {
+
 #ifndef __E_WRITER_H__
-class eWriter;
+class Writer;
 #endif
 
 #ifndef __E_PARSER_H__
-class eParser;
+class Parser;
 #endif
 
-class eWritable {
+class Writable {
 public:
-	virtual void write(eWriter * writer) { }
-	virtual void read(eParser * reader) { }
+	virtual void write(Writer * writer) { }
+	virtual void read(Parser * reader) { }
 };
+
+} // namespace serialization
+} // namespace eos
 
 #endif // __E_WRITEABLE__

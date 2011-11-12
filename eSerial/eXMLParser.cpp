@@ -14,8 +14,9 @@ using namespace std;
 #include "eParser.h"
 #include "eData.h"
 #include "b64.h"
+using namespace eos::serialization;
 
-class eXMLParser : public eParser
+class XMLParser : public Parser
 {
 private:
   xmlDocPtr doc;
@@ -23,12 +24,12 @@ private:
   xmlNodePtr node;
   
   void parseXMLObject(xmlNodePtr node);
-  void parseXMLField(xmlNodePtr field, EOSObject * obj);
+  void parseXMLField(xmlNodePtr field, Object * obj);
 protected:
   virtual void firstPass(const char * filename);
   
 public:
-  eXMLParser() : doc(NULL), root(NULL), node(NULL) { }
+  XMLParser() : doc(NULL), root(NULL), node(NULL) { }
 };
 
 template<typename T>
@@ -49,12 +50,12 @@ inline char * parse(const xmlChar * text) {
   return result;
 }
 
-eParser * eParser::newXMLParser()
+Parser * Parser::newXMLParser()
 {
-  return new eXMLParser();
+  return new XMLParser();
 }
 
-void eXMLParser::firstPass(const char *filename)
+void XMLParser::firstPass(const char *filename)
 {
   doc = xmlParseFile(filename);
   root = xmlDocGetRootElement(doc);
@@ -67,9 +68,9 @@ void eXMLParser::firstPass(const char *filename)
   }
 }
 
-void eXMLParser::parseXMLObject(xmlNodePtr node)
+void XMLParser::parseXMLObject(xmlNodePtr node)
 {
-  EOSObject * obj = new EOSObject();
+  Object * obj = new Object();
   
   xmlChar * xmlPropText = xmlGetProp(node, (const xmlChar*)"id");
   obj->i = parse<size_t>(xmlPropText);
@@ -132,13 +133,13 @@ inline void parseString(int8_t * data, const char * str, size_t count)
 
 #define PARSE_TYPE( x ) \
 else if( type == #x ) {\
-result = new EOSData<x>(parse<x>(content)); \
+result = new Data<x>(parse<x>(content)); \
 }
 
 
 #define PARSE_ARRAY_TYPE( x ) \
 else if( type == #x ) { \
-EOSArrayData<x> * arrData = new EOSArrayData<x>(); \
+ArrayData<x> * arrData = new ArrayData<x>(); \
 if( readable_hint ) { \
 parseString(arrData->data, reinterpret_cast<const char*>(content), count); \
 } \
@@ -149,10 +150,10 @@ arrData->count = count; \
 result = arrData; \
 }
 
-void eXMLParser::parseXMLField(xmlNodePtr field, EOSObject * obj)
+void XMLParser::parseXMLField(xmlNodePtr field, Object * obj)
 {
   string type(reinterpret_cast<const char*>(field->name));
-  pEOSData result = NULL;
+  pData result = NULL;
   xmlChar* content = xmlNodeGetContent(field);
   if( NULL == content ) {
     // TODO error
@@ -160,13 +161,13 @@ void eXMLParser::parseXMLField(xmlNodePtr field, EOSObject * obj)
   }
   
   if( type == "uint8_t" ) {
-    result = new EOSData<uint8_t>((uint8_t)parse<int>(content));
+    result = new Data<uint8_t>((uint8_t)parse<int>(content));
   }
   PARSE_TYPE(uint16_t)
   PARSE_TYPE(uint32_t)
   PARSE_TYPE(uint64_t)
   else if( type == "int8_t" ) {
-    result = new EOSData<int8_t>((int8_t)parse<int>(content));
+    result = new Data<int8_t>((int8_t)parse<int>(content));
   }
   PARSE_TYPE(int16_t)
   PARSE_TYPE(int32_t)
@@ -175,13 +176,13 @@ void eXMLParser::parseXMLField(xmlNodePtr field, EOSObject * obj)
   PARSE_TYPE(double)
   PARSE_TYPE(long double)
   else if( type == "bool" ) {
-    result = new EOSData<bool>((bool)parse<int>(content));
+    result = new Data<bool>((bool)parse<int>(content));
   }
   else if( type == "char*" ) {
-    result = new EOSData<char*>(parse<char*>(content));
+    result = new Data<char*>(parse<char*>(content));
   }
-  else if( type == "eWritable*" ) {
-    result = new EOSData<eWritable*>(parse<size_t>(content));
+  else if( type == "eos.serialization.Writable*" ) {
+    result = new Data<Writable*>(parse<size_t>(content));
   }
   else if( type == "array" ) {
     // read the types of the elemtns in the array
@@ -206,7 +207,7 @@ void eXMLParser::parseXMLField(xmlNodePtr field, EOSObject * obj)
     }
     
     if( type == "uint8_t" ) {
-      EOSArrayData<uint8_t> * arrData = new EOSArrayData<uint8_t>();
+      ArrayData<uint8_t> * arrData = new ArrayData<uint8_t>();
       if( readable_hint ) {
         parseString(arrData->data, reinterpret_cast<const char*>(content), count);
       }
@@ -227,7 +228,7 @@ void eXMLParser::parseXMLField(xmlNodePtr field, EOSObject * obj)
     PARSE_ARRAY_TYPE(double)
     PARSE_ARRAY_TYPE(long double)
     PARSE_ARRAY_TYPE(bool)
-    PARSE_ARRAY_TYPE(eWritable*)
+    PARSE_ARRAY_TYPE(Writable*)
   }
   xmlFree(content);
   content = NULL;

@@ -12,11 +12,13 @@ using namespace std;
 #include "eWriter.h"
 #include "eData.h"
 #include "macros.h"
+using namespace eos;
+using namespace serialization;
 
-size_t eWriter::addObjectGetID(eWritable * object)
+size_t Writer::addObjectGetID(Writable * object)
 {
   size_t id = objs.size();
-	curObj = new EOSObject();
+	curObj = new Object();
 	curObj->i = id;
 	objs.push_back(curObj);
 	idList.insert(make_pair(object, id));
@@ -25,7 +27,7 @@ size_t eWriter::addObjectGetID(eWritable * object)
   return id;
 }
 
-void eWriter::writeName(const char * name)
+void Writer::writeName(const char * name)
 {
   if( curObj->name.size() == 0 ) {
     curObj->name = string(name);
@@ -33,18 +35,18 @@ void eWriter::writeName(const char * name)
 }
 
 template<typename T>
-void eWriter::write( T val, const char * name ) {
-  curObj->data.insert(make_pair(string(name), new EOSData< T >(val)));
+void Writer::write( T val, const char * name ) {
+  curObj->data.insert(make_pair(string(name), new Data< T >(val)));
 }
 
 #define WRITE(x) \
-template void eWriter::write(x, const char *);
+template void Writer::write(x, const char *);
 
 PRIMITIVE_TYPES(WRITE)
-template void eWriter::write(const char*, const char *);
+template void Writer::write(const char*, const char *);
 
 template<>
-void eWriter::write(eWritable * object, const char * name)
+void Writer::write(Writable * object, const char * name)
 {
 	bool writeObj = false;
 	if( !idList.count(object)  ) {
@@ -52,27 +54,27 @@ void eWriter::write(eWritable * object, const char * name)
 		writeObj = true;
 	}
 	
-	curObj->data.insert(make_pair(string(name), new EOSData<eWritable*>(idList[object])));
+	curObj->data.insert(make_pair(string(name), new Data<Writable*>(idList[object])));
 	
 	if(writeObj) {
-		EOSObject * oldObj = curObj;
+		Object * oldObj = curObj;
 		addObject(object);
 		curObj = oldObj;
 	}
 }
 
 template<typename T>
-void eWriter::writeArray( T * val, size_t count, const char * name, hint_t hint)
+void Writer::writeArray( T * val, size_t count, const char * name, hint_t hint)
 {
-  curObj->data.insert(make_pair(string(name), new EOSArrayData<T>(count, val, hint)));
+  curObj->data.insert(make_pair(string(name), new ArrayData<T>(count, val, hint)));
 }
 
 #define WRITE_ARRAY(x) \
-template void eWriter::writeArray(x *, size_t, const char *, hint_t);
+template void Writer::writeArray(x *, size_t, const char *, hint_t);
 
 PRIMITIVE_TYPES(WRITE_ARRAY)
-template<> void eWriter::writeArray(eWritable ** val, size_t count, const char * name, hint_t hint) {
-  EOSArrayData<eWritable*> * data = new EOSArrayData<eWritable*>(count, NULL, hint);
+template<> void Writer::writeArray(Writable ** val, size_t count, const char * name, hint_t hint) {
+  ArrayData<Writable*> * data = new ArrayData<Writable*>(count, NULL, hint);
   
   for( size_t i = 0; i < count; i++ ) {
     data->data[i] = addObjectGetID(val[i]);

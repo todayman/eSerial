@@ -15,17 +15,20 @@
 #ifndef __E_WRITER_H__
 #define __E_WRITER_H__
 
-class eWriter {
+namespace eos {
+namespace serialization {
+
+class Writer {
 protected:
-	std::map<eWritable*, size_t> idList;
-	std::vector<EOSObject*> objs;
-	EOSObject * curObj;
-  size_t addObjectGetID(eWritable * object);
+	std::map<Writable*, size_t> idList;
+	std::vector<Object*> objs;
+	Object * curObj;
+  size_t addObjectGetID(Writable * object);
 
 public:
-  eWriter() : idList(), objs(), curObj(NULL) { }
+  Writer() : idList(), objs(), curObj(NULL) { }
 	virtual void writeFile(const char * pathname)=0;
-	void addObject(eWritable * object) {
+	void addObject(Writable * object) {
     addObjectGetID(object);
   }
   void writeName(const char * name);
@@ -39,7 +42,9 @@ public:
   void writeArray(T * elements, size_t count, const char * name, hint_t hint = NO_HINT);
   
   // Get a writer
-  static eWriter * newXMLWriter();
+  static Writer * newXMLWriter();
 };
 
+} // namespace serialization
+} // namespace eos
 #endif // __E_WRITER_H__

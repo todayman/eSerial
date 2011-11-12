@@ -12,23 +12,24 @@ using namespace std;
 #include "b64.h"
 #include "eData.h"
 #include "eWriter.h"
+using namespace eos::serialization;
 
-class eXMLWriter : public eWriter {
+class XMLWriter : public Writer {
   xmlDocPtr doc;
   xmlNodePtr tree;
   xmlNodePtr node;
   
-  void addToXML(EOSObject * obj);
+  void addToXML(Object * obj);
   
   template<typename T>
-  void writeArrayToXML(xmlNodePtr field, EOSArrayData<T> * data, const char * type);
+  void writeArrayToXML(xmlNodePtr field, ArrayData<T> * data, const char * type);
   
 public:
   void writeFile(const char * filename);
 };
 
-eWriter * eWriter::newXMLWriter() {
-  return new eXMLWriter();
+Writer * Writer::newXMLWriter() {
+  return new XMLWriter();
 }
 
 template <typename T>
@@ -39,7 +40,7 @@ static inline std::string toString (const T & t)
   return ss.str();
 }
 
-void eXMLWriter::writeFile(const char * filename)
+void XMLWriter::writeFile(const char * filename)
 {
   doc = xmlNewDoc((const xmlChar *)"1.0");
   doc->encoding = xmlStrdup((const xmlChar *)"UTF-8");
@@ -57,7 +58,7 @@ void eXMLWriter::writeFile(const char * filename)
 
 
 #define WRITE_XML(x)\
-else if( EOSData<x>* data = dynamic_cast<EOSData<x>*>(iter.second) ) { \
+else if( Data<x>* data = dynamic_cast<Data<x>*>(iter.second) ) { \
   field = xmlNewChild(node, NULL, (const xmlChar*)#x, (const xmlChar*)toString(data->data).c_str()); \
 }
 
@@ -113,7 +114,7 @@ inline char * toString(const int8_t * data, size_t count)
 }
 
 template<typename T>
-void eXMLWriter::writeArrayToXML(xmlNodePtr field, EOSArrayData<T> * data, const char * type)
+void XMLWriter::writeArrayToXML(xmlNodePtr field, ArrayData<T> * data, const char * type)
 {
   char* dst = NULL;
   if( data->hints & READABLE_HINT ) {
@@ -133,11 +134,11 @@ void eXMLWriter::writeArrayToXML(xmlNodePtr field, EOSArrayData<T> * data, const
 }
 
 #define WRITE_XML_ARRAY(x)\
-else if( EOSArrayData<x>* data = dynamic_cast<EOSArrayData<x>*>(iter.second) ) { \
+else if( ArrayData<x>* data = dynamic_cast<ArrayData<x>*>(iter.second) ) { \
   writeArrayToXML(field, data, #x);\
 }
 
-void eXMLWriter::addToXML(EOSObject *obj)
+void XMLWriter::addToXML(Object *obj)
 {
   node = xmlNewChild(tree, NULL, (const xmlChar *)"object", NULL);
   xmlNewProp(node, (const xmlChar*)"id", (const xmlChar*)toString(obj->i).c_str());
@@ -145,7 +146,7 @@ void eXMLWriter::addToXML(EOSObject *obj)
   
   for( auto iter : obj->data ) {
     xmlNodePtr field = NULL;
-    if( EOSData<uint8_t>* data = dynamic_cast<EOSData<uint8_t>*>(iter.second) ) {
+    if( Data<uint8_t>* data = dynamic_cast<Data<uint8_t>*>(iter.second) ) {
       field = xmlNewChild(node, NULL, (const xmlChar*)"uint8_t", (const xmlChar*)toString((int)data->data).c_str());
     }
     WRITE_XML(uint16_t)
@@ -158,14 +159,14 @@ void eXMLWriter::addToXML(EOSObject *obj)
     WRITE_XML(float)
     WRITE_XML(double)
     WRITE_XML(long double)
-    else if( EOSData<bool>* data = dynamic_cast<EOSData<bool>*>(iter.second) ) {
+    else if( Data<bool>* data = dynamic_cast<Data<bool>*>(iter.second) ) {
       field = xmlNewChild(node, NULL, (const xmlChar*)"bool", (const xmlChar*)toString((int)data->data).c_str());
     }
-    else if( EOSData<const char*>* data = dynamic_cast<EOSData<const char*>*>(iter.second) ) {
+    else if( Data<const char*>* data = dynamic_cast<Data<const char*>*>(iter.second) ) {
       field = xmlNewTextChild(node, NULL, (const xmlChar*)"char*", (const xmlChar*)data->data);
     }
-    else if( EOSData<eWritable*> * data = dynamic_cast<EOSData<eWritable*>*>(iter.second) ) {
-      field = xmlNewChild(node, NULL, (const xmlChar*)"eWritable", NULL);
+    else if( Data<Writable*> * data = dynamic_cast<Data<Writable*>*>(iter.second) ) {
+      field = xmlNewChild(node, NULL, (const xmlChar*)"eos.serialization.Writable", NULL);
       xmlNewProp(field, (const xmlChar*)"id", (const xmlChar*)toString(data->i).c_str());
     }
     WRITE_XML_ARRAY(uint8_t)
@@ -180,7 +181,7 @@ void eXMLWriter::addToXML(EOSObject *obj)
     WRITE_XML_ARRAY(double)
     WRITE_XML_ARRAY(long double)
     WRITE_XML_ARRAY(bool)
-    WRITE_XML_ARRAY(eWritable*)
+    WRITE_XML_ARRAY(Writable*)
     
     xmlNewProp(field, (const xmlChar*)"name", (const xmlChar*)iter.first.c_str());
   }

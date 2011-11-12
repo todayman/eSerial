@@ -10,45 +10,47 @@
 #include <map>
 #include <stack>
 
-class eWriter;
-class eParser;
-class eWritable;
-class EOSObject;
-
 #ifndef __E_PARSER__
 #define __E_PARSER__
 
-typedef eWritable * (*ctor_func_t)(/*EOSClass * data*/) ;
+namespace eos {
+namespace serialization {
+
+class Parser;
+class Writable;
+class Object;
+
+typedef Writable * (*ctor_func_t)(/*EOSClass * data*/) ;
 
 class ctor_block_t {
 public:
-  virtual eWritable * newObject() const = 0;
+  virtual Writable * newObject() const = 0;
 };
 
-class eFactory {
+class Factory {
   std::map<std::string, ctor_block_t*> ctors;
 public:
   void registerClass(const std::string& className, ctor_func_t ctor);
   void registerClass(const std::string& className, ctor_block_t* ctor);
-	eWritable * newObject(std::string className);
+	Writable * newObject(std::string className);
 };
 
-class eParser {
+class Parser {
 protected:
-  std::map<size_t, EOSObject*> data;
+  std::map<size_t, Object*> data;
 	virtual void firstPass(const char * filename) = 0;
 	
 private:
-  std::map<size_t, eWritable*> objects;
-	eFactory * factory;
-  std::stack<EOSObject*> objStack;
-  EOSObject * curObj;
+  std::map<size_t, Writable*> objects;
+	Factory * factory;
+  std::stack<Object*> objStack;
+  Object * curObj;
 	void secondPass();
-	void parseObject(EOSObject * curObj);
+	void parseObject(Object * curObj);
 	
 public:
 	void parseFile(const char * filename);
-	void setFactory(eFactory * newFactory);
+	void setFactory(Factory * newFactory);
   
   template<typename T>
   void read(const char * name, T * val);
@@ -56,7 +58,10 @@ public:
   template<typename T>
   void readArray(const char * name, T ** elements, size_t * count);
   
-  static eParser * newXMLParser();
+  static Parser * newXMLParser();
 };
+  
+} // namespace serialization
+} // namespace eos
 
 #endif
