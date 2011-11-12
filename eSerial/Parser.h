@@ -1,6 +1,5 @@
 /*
- *  eParser.h
- *  space
+ *  eos/serialization/Parser.h
  *
  *  Created by Paul O'Neil on 7/31/09.
  *  Copyright 2011 Paul O'Neil. All rights reserved.
@@ -10,8 +9,8 @@
 #include <map>
 #include <stack>
 
-#ifndef __E_PARSER__
-#define __E_PARSER__
+#ifndef __EOS_SERIALIZTION_PARSER_H__
+#define __EOS_SERIALIZTION_PARSER_H__
 
 namespace eos {
 namespace serialization {
@@ -67,4 +66,4 @@ public:
 } // namespace serialization
 } // namespace eos
 
-#endif
+#endif // __EOS_SERIALIZTION_PARSER_H__

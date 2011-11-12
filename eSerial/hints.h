@@ -1,6 +1,5 @@
 //
-//  hints.h
-//  eSerial
+//  eos/serialization/hints.h
 //
 //  Created by Paul O'Neil on 11/12/11.
 //  Copyright (c) 2011 Paul O'Neil. All rights reserved.

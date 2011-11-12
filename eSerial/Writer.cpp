@@ -1,6 +1,5 @@
 /*
- *  eWriter.cpp
- *  Elib
+ *  eos/serialization/Writer.cpp
  *
  *  Created by Paul O'Neil on 4/10/09.
  *  Copyright 2011 Paul O'Neil. All rights reserved.

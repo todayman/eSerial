@@ -1,13 +1,13 @@
 //
-//  b64.h
+//  eos/serialization/b64.h
 //  eSerial
 //
 //  Created by Paul O'Neil on 10/15/11.
 //  Copyright (c) 2011 Paul O'Neil. All rights reserved.
 //
 
-#ifndef eSerial_b64_h
-#define eSerial_b64_h
+#ifndef __EOS_SERIALIZATION_B64_H__
+#define __EOS_SERIALIZATION_B64_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -69,6 +69,6 @@ static inline size_t convert_from_base64(const char * data, size_t length, T ** 
  */
 #define convert_from_base64(data, length, decoded) _convert_to_base64(data, length, decoded)
 
-#endif
+#endif // __cplusplus
 
-#endif
+#endif // __EOS_SERIALIZATION_B64_H__

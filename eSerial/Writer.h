@@ -1,6 +1,5 @@
 /*
- *  eWriter.h
- *  Elib
+ *  eos/serialization/Writer.h
  *
  *  Created by Paul O'Neil on 4/10/09.
  *  Copyright 2011 Paul O'Neil. All rights reserved.
@@ -12,8 +11,8 @@
 #include "Writable.h"
 #include "Data.h"
 
-#ifndef __E_WRITER_H__
-#define __E_WRITER_H__
+#ifndef __EOS_SERIALIZATION_WRITER_H__
+#define __EOS_SERIALIZATION_WRITER_H__
 
 namespace eos {
 namespace serialization {
@@ -48,4 +47,4 @@ public:
 
 } // namespace serialization
 } // namespace eos
-#endif // __E_WRITER_H__
+#endif // __EOS_SERIALIZATION_WRITER_H__

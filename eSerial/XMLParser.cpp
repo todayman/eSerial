@@ -1,6 +1,5 @@
 //
-//  eXMLParser.cpp
-//  eSerial
+//  eos/serialization/eXMLParser.cpp
 //
 //  Created by Paul O'Neil on 10/21/11.
 //  Copyright (c) 2011 Paul O'Neil. All rights reserved.

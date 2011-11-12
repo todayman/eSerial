@@ -1,6 +1,5 @@
 /*
- *  eParser.cpp
- *  space
+ *  eos/serialization/eParser.cpp
  *
  *  Created by Paul O'Neil on 7/31/09.
  *  Copyright 2011 Paul O'Neil. All rights reserved.

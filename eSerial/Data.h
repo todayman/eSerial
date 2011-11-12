@@ -1,6 +1,5 @@
 //
-//  eData.h
-//  eSerial
+//  eos/serialization/Data.h
 //
 //  Created by Paul O'Neil on 3/21/11.
 //  Copyright 2011 Paul O'Neil. All rights reserved.
@@ -11,8 +10,8 @@
 
 #include <hints.h>
 
-#ifndef __E_DATA_H__
-#define __E_DATA_H__
+#ifndef __EOS_SERIALIZATION_DATA_H__
+#define __EOS_SERIALIZATION_DATA_H__
 
 namespace eos {
 namespace serialization {
@@ -75,4 +74,4 @@ struct Object {
 } // namespace serialization
 } // namespace eos
 
-#endif // __E_DATA_H__
+#endif // __EOS_SERIALIZATION_DATA_H__

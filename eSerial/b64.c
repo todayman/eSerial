@@ -1,6 +1,5 @@
 //
-//  b64.c
-//  eSerial
+//  eos/serialization/b64.c
 //
 //  Created by Paul O'Neil on 10/15/11.
 //  Copyright (c) 2011 Paul O'Neil. All rights reserved.
