@@ -11,8 +11,8 @@
 #include <sstream>
 using namespace std;
 #include <libxml/tree.h>
-#include "eParser.h"
-#include "eData.h"
+#include "Parser.h"
+#include "Data.h"
 #include "b64.h"
 using namespace eos::serialization;
 

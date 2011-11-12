@@ -9,8 +9,8 @@
 #include <iostream>
 #include <fstream>
 using namespace std;
-#include "eWriter.h"
-#include "eData.h"
+#include "Writer.h"
+#include "Data.h"
 #include "macros.h"
 using namespace eos::serialization;
 

@@ -9,24 +9,23 @@
 /* Begin PBXBuildFile section */
 		DA013886144A01EC0014EBD1 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA013885144A01EC0014EBD1 /* main.cpp */; };
 		DA01388E144A028E0014EBD1 /* libxml2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DA01388D144A028E0014EBD1 /* libxml2.2.dylib */; };
-		DA2C383213382F450013BE0F /* eParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2C382E13382F450013BE0F /* eParser.cpp */; };
-		DA2C383313382F450013BE0F /* eParser.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2C382F13382F450013BE0F /* eParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		DA2C383413382F450013BE0F /* eWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2C383013382F450013BE0F /* eWriter.cpp */; };
-		DA2C383513382F450013BE0F /* eWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2C383113382F450013BE0F /* eWriter.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		DA2C38371338330D0013BE0F /* eWritable.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2C38361338330D0013BE0F /* eWritable.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		DA2C3852133838840013BE0F /* eData.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2C3851133838840013BE0F /* eData.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DA05A31D146F1275001425BA /* eSerial.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2C381513382E200013BE0F /* eSerial.dylib */; };
+		DA2C383213382F450013BE0F /* Parser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2C382E13382F450013BE0F /* Parser.cpp */; };
+		DA2C383313382F450013BE0F /* Parser.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2C382F13382F450013BE0F /* Parser.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DA2C383413382F450013BE0F /* Writer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2C383013382F450013BE0F /* Writer.cpp */; };
+		DA2C383513382F450013BE0F /* Writer.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2C383113382F450013BE0F /* Writer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DA2C38371338330D0013BE0F /* Writable.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2C38361338330D0013BE0F /* Writable.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DA2C3852133838840013BE0F /* Data.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2C3851133838840013BE0F /* Data.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA2C385413383A350013BE0F /* macros.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2C385313383A350013BE0F /* macros.h */; settings = {ATTRIBUTES = (); }; };
-		DA3FD1211452320800431974 /* eXMLWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA3FD1201452320800431974 /* eXMLWriter.cpp */; };
-		DA3FD127145240A700431974 /* eXMLParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA3FD126145240A700431974 /* eXMLParser.cpp */; };
+		DA3FD1211452320800431974 /* XMLWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA3FD1201452320800431974 /* XMLWriter.cpp */; };
+		DA3FD127145240A700431974 /* XMLParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA3FD126145240A700431974 /* XMLParser.cpp */; };
 		DA5EA858144A5D86000DC973 /* b64.c in Sources */ = {isa = PBXBuildFile; fileRef = DA5EA857144A5D86000DC973 /* b64.c */; };
-		DA5EA85A144A634C000DC973 /* b64.c in Sources */ = {isa = PBXBuildFile; fileRef = DA5EA857144A5D86000DC973 /* b64.c */; };
 		DA5EA85C144A66A4000DC973 /* b64.h in Headers */ = {isa = PBXBuildFile; fileRef = DA5EA85B144A66A4000DC973 /* b64.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DADEF564144AA30600EE2C6B /* libxml2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DA01388D144A028E0014EBD1 /* libxml2.2.dylib */; };
-		DADEF568144AA77600EE2C6B /* eSerial.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2C381513382E200013BE0F /* eSerial.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		DADEF566144AA77200EE2C6B /* PBXContainerItemProxy */ = {
+		DA05A31E146F128A001425BA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DA2C380C13382E200013BE0F /* Project object */;
 			proxyType = 1;
@@ -104,15 +103,15 @@
 		DA013890144A03360014EBD1 /* dia_xml.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = dia_xml.c; path = "../../../Users/paul/Library/Caches/Homebrew/dia-0.97.1/lib/dia_xml.c"; sourceTree = "<group>"; };
 		DA013891144A03360014EBD1 /* dia_xml.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = dia_xml.h; path = "../../../Users/paul/Library/Caches/Homebrew/dia-0.97.1/lib/dia_xml.h"; sourceTree = "<group>"; };
 		DA2C381513382E200013BE0F /* eSerial.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = eSerial.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
-		DA2C382E13382F450013BE0F /* eParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = eParser.cpp; sourceTree = "<group>"; };
-		DA2C382F13382F450013BE0F /* eParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = eParser.h; sourceTree = "<group>"; };
-		DA2C383013382F450013BE0F /* eWriter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = eWriter.cpp; sourceTree = "<group>"; };
-		DA2C383113382F450013BE0F /* eWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = eWriter.h; sourceTree = "<group>"; };
-		DA2C38361338330D0013BE0F /* eWritable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = eWritable.h; sourceTree = "<group>"; };
-		DA2C3851133838840013BE0F /* eData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = eData.h; sourceTree = "<group>"; };
+		DA2C382E13382F450013BE0F /* Parser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Parser.cpp; sourceTree = "<group>"; };
+		DA2C382F13382F450013BE0F /* Parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Parser.h; sourceTree = "<group>"; };
+		DA2C383013382F450013BE0F /* Writer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Writer.cpp; sourceTree = "<group>"; };
+		DA2C383113382F450013BE0F /* Writer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Writer.h; sourceTree = "<group>"; };
+		DA2C38361338330D0013BE0F /* Writable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Writable.h; sourceTree = "<group>"; };
+		DA2C3851133838840013BE0F /* Data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Data.h; sourceTree = "<group>"; };
 		DA2C385313383A350013BE0F /* macros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = macros.h; sourceTree = "<group>"; };
-		DA3FD1201452320800431974 /* eXMLWriter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = eXMLWriter.cpp; sourceTree = "<group>"; };
-		DA3FD126145240A700431974 /* eXMLParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = eXMLParser.cpp; sourceTree = "<group>"; };
+		DA3FD1201452320800431974 /* XMLWriter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = XMLWriter.cpp; sourceTree = "<group>"; };
+		DA3FD126145240A700431974 /* XMLParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = XMLParser.cpp; sourceTree = "<group>"; };
 		DA5EA857144A5D86000DC973 /* b64.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = b64.c; sourceTree = "<group>"; };
 		DA5EA85B144A66A4000DC973 /* b64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = b64.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -122,7 +121,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DADEF568144AA77600EE2C6B /* eSerial.dylib in Frameworks */,
+				DA05A31D146F1275001425BA /* eSerial.dylib in Frameworks */,
 				DA01388E144A028E0014EBD1 /* libxml2.2.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -237,14 +236,14 @@
 			isa = PBXGroup;
 			children = (
 				DA2C385313383A350013BE0F /* macros.h */,
-				DA2C38361338330D0013BE0F /* eWritable.h */,
-				DA2C3851133838840013BE0F /* eData.h */,
-				DA2C382F13382F450013BE0F /* eParser.h */,
-				DA2C382E13382F450013BE0F /* eParser.cpp */,
-				DA2C383113382F450013BE0F /* eWriter.h */,
-				DA2C383013382F450013BE0F /* eWriter.cpp */,
-				DA3FD1201452320800431974 /* eXMLWriter.cpp */,
-				DA3FD126145240A700431974 /* eXMLParser.cpp */,
+				DA2C38361338330D0013BE0F /* Writable.h */,
+				DA2C3851133838840013BE0F /* Data.h */,
+				DA2C382F13382F450013BE0F /* Parser.h */,
+				DA2C382E13382F450013BE0F /* Parser.cpp */,
+				DA2C383113382F450013BE0F /* Writer.h */,
+				DA2C383013382F450013BE0F /* Writer.cpp */,
+				DA3FD1201452320800431974 /* XMLWriter.cpp */,
+				DA3FD126145240A700431974 /* XMLParser.cpp */,
 				DA0138171449F8D90014EBD1 /* libxml2 */,
 				DA5EA85B144A66A4000DC973 /* b64.h */,
 				DA5EA857144A5D86000DC973 /* b64.c */,
@@ -259,11 +258,11 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DA2C383313382F450013BE0F /* eParser.h in Headers */,
-				DA2C383513382F450013BE0F /* eWriter.h in Headers */,
+				DA2C383313382F450013BE0F /* Parser.h in Headers */,
+				DA2C383513382F450013BE0F /* Writer.h in Headers */,
 				DA5EA85C144A66A4000DC973 /* b64.h in Headers */,
-				DA2C38371338330D0013BE0F /* eWritable.h in Headers */,
-				DA2C3852133838840013BE0F /* eData.h in Headers */,
+				DA2C38371338330D0013BE0F /* Writable.h in Headers */,
+				DA2C3852133838840013BE0F /* Data.h in Headers */,
 				DA2C385413383A350013BE0F /* macros.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -282,7 +281,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				DADEF567144AA77200EE2C6B /* PBXTargetDependency */,
+				DA05A31F146F128A001425BA /* PBXTargetDependency */,
 			);
 			name = test;
 			productName = test;
@@ -338,7 +337,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DA5EA85A144A634C000DC973 /* b64.c in Sources */,
 				DA013886144A01EC0014EBD1 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -347,21 +345,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DA2C383213382F450013BE0F /* eParser.cpp in Sources */,
-				DA2C383413382F450013BE0F /* eWriter.cpp in Sources */,
+				DA2C383213382F450013BE0F /* Parser.cpp in Sources */,
+				DA2C383413382F450013BE0F /* Writer.cpp in Sources */,
 				DA5EA858144A5D86000DC973 /* b64.c in Sources */,
-				DA3FD1211452320800431974 /* eXMLWriter.cpp in Sources */,
-				DA3FD127145240A700431974 /* eXMLParser.cpp in Sources */,
+				DA3FD1211452320800431974 /* XMLWriter.cpp in Sources */,
+				DA3FD127145240A700431974 /* XMLParser.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		DADEF567144AA77200EE2C6B /* PBXTargetDependency */ = {
+		DA05A31F146F128A001425BA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = DA2C381413382E200013BE0F /* eSerial */;
-			targetProxy = DADEF566144AA77200EE2C6B /* PBXContainerItemProxy */;
+			targetProxy = DA05A31E146F128A001425BA /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -369,9 +367,7 @@
 		DA013889144A01EC0014EBD1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = NO;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -379,7 +375,11 @@
 					"$(inherited)",
 				);
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
-				HEADER_SEARCH_PATHS = /usr/include/libxml2;
+				HEADER_SEARCH_PATHS = (
+					/usr/local/include,
+					"$(inherited)",
+					/usr/include/libxml2,
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -388,13 +388,15 @@
 		DA01388A144A01EC0014EBD1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
-				HEADER_SEARCH_PATHS = /usr/include/libxml2;
+				HEADER_SEARCH_PATHS = (
+					/usr/local/include,
+					"$(inherited)",
+					/usr/include/libxml2,
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

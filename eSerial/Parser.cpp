@@ -7,9 +7,9 @@
  *
  */
 
-#include "eWritable.h"
-#include "eParser.h"
-#include "eData.h"
+#include "Writable.h"
+#include "Parser.h"
+#include "Data.h"
 #include "macros.h"
 using namespace std;
 using namespace eos::serialization;

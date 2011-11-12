@@ -10,8 +10,8 @@
 using namespace std;
 #include <libxml/tree.h>
 #include "b64.h"
-#include "eData.h"
-#include "eWriter.h"
+#include "Data.h"
+#include "Writer.h"
 using namespace eos::serialization;
 
 class XMLWriter : public Writer {

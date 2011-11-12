@@ -9,8 +9,8 @@
 
 #include <vector>
 #include <map>
-#include "eWritable.h"
-#include "eData.h"
+#include "Writable.h"
+#include "Data.h"
 
 #ifndef __E_WRITER_H__
 #define __E_WRITER_H__
