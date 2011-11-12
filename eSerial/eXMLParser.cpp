@@ -88,17 +88,65 @@ void eXMLParser::parseXMLObject(xmlNodePtr node)
   }
 }
 
+template<typename T>
+static inline void parseString(T * data, const char * str, size_t count)
+{
+	stringstream ss(str);
+	if( count ) {
+		ss >> data[0];
+	}
+	for( size_t i = 1; i < count; i++ ) {
+		ss >> data[i];
+	}
+}
+
+template<>
+inline void parseString(uint8_t * data, const char * str, size_t count)
+{
+	stringstream ss(str);
+	int buf;
+	if( count ) {
+		ss >> buf;
+		data[0] = buf;
+	}
+	for( size_t i = 1; i < count; i++ ) {
+		ss >> buf;
+		data[i] = buf;
+	}
+}
+
+template<>
+inline void parseString(int8_t * data, const char * str, size_t count)
+{
+	stringstream ss(str);
+	int buf;
+	if( count ) {
+		ss >> buf;
+		data[0] = buf;
+	}
+	for( size_t i = 1; i < count; i++ ) {
+		ss >> buf;
+		data[i] = buf;
+	}
+}
+
 #define PARSE_TYPE( x ) \
 else if( type == #x ) {\
-  result = new EOSData<x>(parse<x>(content)); \
+result = new EOSData<x>(parse<x>(content)); \
 }
+
 
 #define PARSE_ARRAY_TYPE( x ) \
 else if( type == #x ) { \
-  EOSArrayData<x> * arrData = new EOSArrayData<x>(); \
-  convert_from_base64(reinterpret_cast<const char*>(content), xmlStrlen(content), &arrData->data); \
-  arrData->count = count; \
-  result = arrData; \
+EOSArrayData<x> * arrData = new EOSArrayData<x>(); \
+if( readable_hint ) { \
+parseString(arrData->data, reinterpret_cast<const char*>(content), count); \
+} \
+else { \
+  convert_from_base64(reinterpret_cast<const char *>(content), xmlStrlen(content), &arrData->data); \
+} \
+arrData->count = count; \
+result = arrData; \
 }
 
 void eXMLParser::parseXMLField(xmlNodePtr field, EOSObject * obj)
@@ -146,9 +194,25 @@ void eXMLParser::parseXMLField(xmlNodePtr field, EOSObject * obj)
     size_t count = parse<size_t>(propText);
     xmlFree(propText);
     
+    // see if the array is human readable
+    bool readable_hint = false;
+    propText = xmlGetProp(field, (const xmlChar*)"hints");
+    if( propText ) {
+      hint_t hints;
+      parseString(&hints, reinterpret_cast<const char*>(propText), 1);
+      if( hints & READABLE_HINT ) {
+        readable_hint = true;
+      }
+    }
+    
     if( type == "uint8_t" ) {
       EOSArrayData<uint8_t> * arrData = new EOSArrayData<uint8_t>();
-      convert_from_base64(reinterpret_cast<const char *>(content), xmlStrlen(content), &arrData->data);
+      if( readable_hint ) {
+        parseString(arrData->data, reinterpret_cast<const char*>(content), count);
+      }
+      else {
+        convert_from_base64(reinterpret_cast<const char *>(content), xmlStrlen(content), &arrData->data);
+      }
       arrData->count = count;
       result = arrData;
     }
