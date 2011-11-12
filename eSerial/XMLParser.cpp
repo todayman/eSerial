@@ -143,15 +143,17 @@ result = new Data<x>(parse<x>(content)); \
 
 #define PARSE_ARRAY_TYPE( x ) \
 else if( type == #x ) { \
-ArrayData<x> * arrData = new ArrayData<x>(); \
-if( readable_hint ) { \
-parseString(arrData->data, reinterpret_cast<const char*>(content), count); \
-} \
-else { \
-  convert_from_base64(reinterpret_cast<const char *>(content), (size_t)xmlStrlen(content), &arrData->data); \
-} \
-arrData->count = count; \
-result = arrData; \
+  ArrayData<x> * arrData = new ArrayData<x>(); \
+  if( readable_hint ) { \
+    arrData->data = new x[count]; \
+    parseString(arrData->data, reinterpret_cast<const char*>(content), count); \
+  } \
+  else { \
+    arrData->hints |= FREE_HINT; \
+    convert_from_base64(reinterpret_cast<const char *>(content), (size_t)xmlStrlen(content), &arrData->data); \
+  } \
+  arrData->count = count; \
+  result = arrData; \
 }
 
 void XMLParser::parseXMLField(xmlNodePtr field, Object * obj)
@@ -213,9 +215,11 @@ void XMLParser::parseXMLField(xmlNodePtr field, Object * obj)
     if( type == "uint8_t" ) {
       ArrayData<uint8_t> * arrData = new ArrayData<uint8_t>();
       if( readable_hint ) {
+        arrData->data = new uint8_t[count];
         parseString(arrData->data, reinterpret_cast<const char*>(content), count);
       }
       else {
+        arrData->hints |= FREE_HINT;
         convert_from_base64(reinterpret_cast<const char *>(content), (size_t)xmlStrlen(content), &arrData->data);
       }
       arrData->count = count;
@@ -232,7 +236,19 @@ void XMLParser::parseXMLField(xmlNodePtr field, Object * obj)
     PARSE_ARRAY_TYPE(double)
     PARSE_ARRAY_TYPE(long double)
     PARSE_ARRAY_TYPE(bool)
-    PARSE_ARRAY_TYPE(Writable*)
+    else if( type == "eos.serialization.Writable*" ) {
+      ArrayData<Writable*> * arrData = new ArrayData<Writable*>();
+      if( readable_hint ) {
+        arrData->data = new size_t[count];
+        parseString(arrData->data, reinterpret_cast<const char*>(content), count);
+      }
+      else {
+        arrData->hints |= FREE_HINT;
+        convert_from_base64(reinterpret_cast<const char *>(content), (size_t)xmlStrlen(content), &arrData->data);
+      }
+      arrData->count = count;
+      result = arrData;
+    }
   }
   xmlFree(content);
   content = nullptr;

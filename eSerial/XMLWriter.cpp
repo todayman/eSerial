@@ -183,7 +183,9 @@ void XMLWriter::addToXML(Object *obj)
     WRITE_XML_ARRAY(double)
     WRITE_XML_ARRAY(long double)
     WRITE_XML_ARRAY(bool)
-    WRITE_XML_ARRAY(Writable*)
+    else if( ArrayData<Writable*>* data = dynamic_cast<ArrayData<Writable*>*>(iter.second) ) {
+      writeArrayToXML(field, data, "eos.serialization.Writable*");
+    }
     
     xmlNewProp(field, (const xmlChar*)"name", (const xmlChar*)iter.first.c_str());
   }

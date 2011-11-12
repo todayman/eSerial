@@ -247,9 +247,9 @@
 				DA05A320146F15EE001425BA /* hints.h */,
 				DA3FD1201452320800431974 /* XMLWriter.cpp */,
 				DA3FD126145240A700431974 /* XMLParser.cpp */,
-				DA0138171449F8D90014EBD1 /* libxml2 */,
 				DA5EA85B144A66A4000DC973 /* b64.h */,
 				DA5EA857144A5D86000DC973 /* b64.c */,
+				DA0138171449F8D90014EBD1 /* libxml2 */,
 			);
 			path = eSerial;
 			sourceTree = "<group>";

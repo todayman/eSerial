@@ -7,6 +7,7 @@
 
 #include <map>
 #include <string>
+#include <cstdlib>
 
 #include <hints.h>
 
@@ -46,8 +47,13 @@ public:
   ArrayData() : count(0), data(nullptr), hints(NO_HINT) { }
   ArrayData(size_t c, T * d, hint_t h) : count(c), data(d), hints(h) { }
   ~ArrayData() {
-    if( hints & COPY_ARRAY_HINT ) {
-      delete[] data;
+    if( count && (hints & COPY_ARRAY_HINT) ) {
+      if( hints & FREE_HINT ) {
+        free(data);
+      }
+      else {
+        delete[] data;
+      }
     }
   }
 };
