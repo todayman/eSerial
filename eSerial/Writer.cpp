@@ -71,7 +71,15 @@ void Writer::write(Writable * object, const char * name)
 template<typename T>
 void Writer::writeArray( T * val, size_t count, const char * name, hint_t hint)
 {
-  curObj->data.insert(make_pair(string(name), new ArrayData<T>(count, val, hint)));
+  T * array = nullptr;
+  if( hint & COPY_ARRAY_HINT ) {
+    array = new T[count];
+    memcpy(array, val, count*sizeof(T));
+  }
+  else {
+    array = val;
+  }
+  curObj->data.insert(make_pair(string(name), new ArrayData<T>(count, array, hint)));
 }
 
 #define WRITE_ARRAY(x) \

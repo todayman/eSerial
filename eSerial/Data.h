@@ -41,6 +41,7 @@ typedef uint32_t hint_t;
 constexpr hint_t NO_HINT        = 0;
 constexpr hint_t READABLE_HINT  = 1 << 0;
 constexpr hint_t BINARY_HINT    = READABLE_HINT << 1;
+constexpr hint_t COPY_ARRAY_HINT= BINARY_HINT << 1;
 
 template<typename T> class ArrayData : public _Data {
 public:
@@ -50,6 +51,11 @@ public:
   
   ArrayData() : count(0), data(nullptr), hints(NO_HINT) { }
   ArrayData(size_t c, T * d, hint_t h) : count(c), data(d), hints(h) { }
+  ~ArrayData() {
+    if( hints & COPY_ARRAY_HINT ) {
+      delete[] data;
+    }
+  }
 };
 
 template<> class ArrayData<Writable*> : public _Data {
