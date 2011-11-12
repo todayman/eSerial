@@ -25,7 +25,7 @@ typedef _Data * pData;
 
 template<typename T> class Data : public _Data {
 public:
-	Data(T d = NULL) { data = d; }
+	Data(T d = nullptr) { data = d; }
 	T data;
 };
 
@@ -48,7 +48,7 @@ public:
 	T * data;
   hint_t hints;
   
-  ArrayData() : count(0), data(NULL), hints(NO_HINT) { }
+  ArrayData() : count(0), data(nullptr), hints(NO_HINT) { }
   ArrayData(size_t c, T * d, hint_t h) : count(c), data(d), hints(h) { }
 };
 
@@ -58,7 +58,7 @@ public:
 	size_t * data;
   hint_t hints;
   
-  ArrayData() : count(0), data(NULL), hints(NO_HINT) { }
+  ArrayData() : count(0), data(nullptr), hints(NO_HINT) { }
   ArrayData(size_t c, size_t * d, hint_t h) : count(c), data(d), hints(h) { }
   ~ArrayData() {
     delete [] data;

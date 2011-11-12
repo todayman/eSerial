@@ -45,7 +45,7 @@ void XMLWriter::writeFile(const char * filename)
 {
   doc = xmlNewDoc((const xmlChar *)"1.0");
   doc->encoding = xmlStrdup((const xmlChar *)"UTF-8");
-  doc->xmlRootNode = xmlNewDocNode(doc, nullptr, (const xmlChar *)"eSerial", nullptr);
+  doc->xmlRootNode = xmlNewDocNode(doc, nullptr, (const xmlChar *)"eos.serialization", nullptr);
   
   tree = doc->xmlRootNode;
   

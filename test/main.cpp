@@ -61,9 +61,9 @@ int main (int argc, const char * argv[])
   doc = xmlNewDoc((const xmlChar*)"1.0");
   
   doc->encoding = xmlStrdup((const xmlChar*)"UTF-8");
-  doc->xmlRootNode = xmlNewDocNode(doc, NULL, (const xmlChar *)"eSerial", NULL);
+  doc->xmlRootNode = xmlNewDocNode(doc, nullptr, (const xmlChar *)"eSerial", nullptr);
   
-  xmlNodePtr tree = xmlNewChild(doc->xmlRootNode, NULL, (const xmlChar*)"data", (const xmlChar*)"<l&ook!");
+  xmlNodePtr tree = xmlNewChild(doc->xmlRootNode, nullptr, (const xmlChar*)"data", (const xmlChar*)"<l&ook!");
   
   xmlSaveFormatFileEnc("test.xml", doc, "UTF-8", 1);
   xmlFreeDoc(doc);*/

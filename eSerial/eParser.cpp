@@ -70,7 +70,7 @@ void Parser::parseObject(Object * c)
     objStack.pop();
   }
   else {
-    curObj = NULL;
+    curObj = nullptr;
   }
 }
 
