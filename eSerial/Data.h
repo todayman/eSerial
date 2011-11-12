@@ -9,6 +9,8 @@
 #include <map>
 #include <string>
 
+#include <hints.h>
+
 #ifndef __E_DATA_H__
 #define __E_DATA_H__
 
@@ -35,13 +37,6 @@ public:
 	
 	size_t i;
 };
-
-typedef uint32_t hint_t;
-
-constexpr hint_t NO_HINT        = 0;
-constexpr hint_t READABLE_HINT  = 1 << 0;
-constexpr hint_t BINARY_HINT    = READABLE_HINT << 1;
-constexpr hint_t COPY_ARRAY_HINT= BINARY_HINT << 1;
 
 template<typename T> class ArrayData : public _Data {
 public:

@@ -10,12 +10,13 @@
 		DA013886144A01EC0014EBD1 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA013885144A01EC0014EBD1 /* main.cpp */; };
 		DA01388E144A028E0014EBD1 /* libxml2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DA01388D144A028E0014EBD1 /* libxml2.2.dylib */; };
 		DA05A31D146F1275001425BA /* eSerial.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2C381513382E200013BE0F /* eSerial.dylib */; };
+		DA05A321146F15EE001425BA /* hints.h in Headers */ = {isa = PBXBuildFile; fileRef = DA05A320146F15EE001425BA /* hints.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA2C383213382F450013BE0F /* Parser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2C382E13382F450013BE0F /* Parser.cpp */; };
 		DA2C383313382F450013BE0F /* Parser.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2C382F13382F450013BE0F /* Parser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA2C383413382F450013BE0F /* Writer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2C383013382F450013BE0F /* Writer.cpp */; };
 		DA2C383513382F450013BE0F /* Writer.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2C383113382F450013BE0F /* Writer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA2C38371338330D0013BE0F /* Writable.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2C38361338330D0013BE0F /* Writable.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		DA2C3852133838840013BE0F /* Data.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2C3851133838840013BE0F /* Data.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DA2C3852133838840013BE0F /* Data.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2C3851133838840013BE0F /* Data.h */; settings = {ATTRIBUTES = (); }; };
 		DA2C385413383A350013BE0F /* macros.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2C385313383A350013BE0F /* macros.h */; settings = {ATTRIBUTES = (); }; };
 		DA3FD1211452320800431974 /* XMLWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA3FD1201452320800431974 /* XMLWriter.cpp */; };
 		DA3FD127145240A700431974 /* XMLParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA3FD126145240A700431974 /* XMLParser.cpp */; };
@@ -102,6 +103,7 @@
 		DA01388F144A03360014EBD1 /* dia_xml_libxml.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = dia_xml_libxml.h; path = "../../../Users/paul/Library/Caches/Homebrew/dia-0.97.1/lib/dia_xml_libxml.h"; sourceTree = "<group>"; };
 		DA013890144A03360014EBD1 /* dia_xml.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = dia_xml.c; path = "../../../Users/paul/Library/Caches/Homebrew/dia-0.97.1/lib/dia_xml.c"; sourceTree = "<group>"; };
 		DA013891144A03360014EBD1 /* dia_xml.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = dia_xml.h; path = "../../../Users/paul/Library/Caches/Homebrew/dia-0.97.1/lib/dia_xml.h"; sourceTree = "<group>"; };
+		DA05A320146F15EE001425BA /* hints.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hints.h; sourceTree = "<group>"; };
 		DA2C381513382E200013BE0F /* eSerial.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = eSerial.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA2C382E13382F450013BE0F /* Parser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Parser.cpp; sourceTree = "<group>"; };
 		DA2C382F13382F450013BE0F /* Parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Parser.h; sourceTree = "<group>"; };
@@ -242,6 +244,7 @@
 				DA2C382E13382F450013BE0F /* Parser.cpp */,
 				DA2C383113382F450013BE0F /* Writer.h */,
 				DA2C383013382F450013BE0F /* Writer.cpp */,
+				DA05A320146F15EE001425BA /* hints.h */,
 				DA3FD1201452320800431974 /* XMLWriter.cpp */,
 				DA3FD126145240A700431974 /* XMLParser.cpp */,
 				DA0138171449F8D90014EBD1 /* libxml2 */,
@@ -260,6 +263,7 @@
 			files = (
 				DA2C383313382F450013BE0F /* Parser.h in Headers */,
 				DA2C383513382F450013BE0F /* Writer.h in Headers */,
+				DA05A321146F15EE001425BA /* hints.h in Headers */,
 				DA5EA85C144A66A4000DC973 /* b64.h in Headers */,
 				DA2C38371338330D0013BE0F /* Writable.h in Headers */,
 				DA2C3852133838840013BE0F /* Data.h in Headers */,
