@@ -26,7 +26,8 @@ protected:
   size_t addObjectGetID(Writable * object);
 
 public:
-  Writer() : idList(), objs(), curObj(NULL) { }
+  Writer() : idList(), objs(), curObj(nullptr) { }
+  virtual ~Writer();
 	virtual void writeFile(const char * pathname)=0;
 	void addObject(Writable * object) {
     addObjectGetID(object);

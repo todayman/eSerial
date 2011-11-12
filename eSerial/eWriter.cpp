@@ -12,8 +12,13 @@ using namespace std;
 #include "eWriter.h"
 #include "eData.h"
 #include "macros.h"
-using namespace eos;
-using namespace serialization;
+using namespace eos::serialization;
+
+Writer::~Writer() {
+  for( Object * o : objs ) {
+    delete o;
+  }
+}
 
 size_t Writer::addObjectGetID(Writable * object)
 {
@@ -23,7 +28,7 @@ size_t Writer::addObjectGetID(Writable * object)
 	objs.push_back(curObj);
 	idList.insert(make_pair(object, id));
 	object->write(this);
-  curObj = NULL;
+  curObj = nullptr;
   return id;
 }
 
@@ -74,7 +79,7 @@ template void Writer::writeArray(x *, size_t, const char *, hint_t);
 
 PRIMITIVE_TYPES(WRITE_ARRAY)
 template<> void Writer::writeArray(Writable ** val, size_t count, const char * name, hint_t hint) {
-  ArrayData<Writable*> * data = new ArrayData<Writable*>(count, NULL, hint);
+  ArrayData<Writable*> * data = new ArrayData<Writable*>(count, nullptr, hint);
   
   for( size_t i = 0; i < count; i++ ) {
     data->data[i] = addObjectGetID(val[i]);

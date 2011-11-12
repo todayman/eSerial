@@ -12,13 +12,13 @@
 #include "eData.h"
 #include "macros.h"
 using namespace std;
-using namespace eos;
-using namespace serialization;
+using namespace eos::serialization;
 
 class ctor_func_block {
   ctor_func_t func;
 public:
   ctor_func_block(ctor_func_t f) : func(f) { }
+  virtual ~ctor_func_block() { }
   virtual Writable * newObject() const {
     return func();
   }
@@ -30,6 +30,12 @@ void Factory::registerClass(const string &className, ctor_func_t ctor) {
 
 Writable * Factory::newObject(std::string className) {
   return /*dynamic_cast<eWritable*>(*/ctors[className]->newObject()/*)*/;
+}
+
+Parser::~Parser() {
+  for( auto iter : data ) {
+    delete iter.second;
+  }
 }
 
 void Parser::parseFile(const char * filename)

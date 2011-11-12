@@ -24,6 +24,7 @@ typedef Writable * (*ctor_func_t)(/*EOSClass * data*/) ;
 
 class ctor_block_t {
 public:
+  virtual ~ctor_block_t() { };
   virtual Writable * newObject() const = 0;
 };
 
@@ -32,35 +33,37 @@ class Factory {
 public:
   void registerClass(const std::string& className, ctor_func_t ctor);
   void registerClass(const std::string& className, ctor_block_t* ctor);
-	Writable * newObject(std::string className);
+  Writable * newObject(std::string className);
 };
 
 class Parser {
 protected:
   std::map<size_t, Object*> data;
-	virtual void firstPass(const char * filename) = 0;
-	
+  virtual void firstPass(const char * filename) = 0;
+  
 private:
   std::map<size_t, Writable*> objects;
-	Factory * factory;
+  Factory * factory;
   std::stack<Object*> objStack;
   Object * curObj;
-	void secondPass();
-	void parseObject(Object * curObj);
-	
+  void secondPass();
+  void parseObject(Object * curObj);
+  
 public:
-	void parseFile(const char * filename);
-	void setFactory(Factory * newFactory);
+  Parser() = default;
+  virtual ~Parser();
+  void parseFile(const char * filename);
+  void setFactory(Factory * newFactory);
   
   template<typename T>
   void read(const char * name, T * val);
-	
+  
   template<typename T>
   void readArray(const char * name, T ** elements, size_t * count);
   
   static Parser * newXMLParser();
 };
-  
+
 } // namespace serialization
 } // namespace eos
 

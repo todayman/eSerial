@@ -26,10 +26,11 @@ private:
   void parseXMLObject(xmlNodePtr node);
   void parseXMLField(xmlNodePtr field, Object * obj);
 protected:
-  virtual void firstPass(const char * filename);
+  virtual void firstPass(const char * filename) override;
   
 public:
-  XMLParser() : doc(NULL), root(NULL), node(NULL) { }
+  XMLParser() : doc(nullptr), root(nullptr), node(nullptr) { }
+  virtual ~XMLParser() { }
 };
 
 template<typename T>
@@ -43,7 +44,7 @@ static inline T parse(const xmlChar * text) {
 
 template<>
 inline char * parse(const xmlChar * text) {
-  size_t len = xmlStrlen(text);
+  size_t len = (size_t)xmlStrlen(text);
   char * result = new char[len + 1];
   strncpy(result, (const char*)text, len);
   result[len] = 0;
@@ -60,12 +61,16 @@ void XMLParser::firstPass(const char *filename)
   doc = xmlParseFile(filename);
   root = xmlDocGetRootElement(doc);
   for ( node = xmlFirstElementChild(root);
-       node != NULL;
+       node != nullptr;
        node = xmlNextElementSibling(node)
        )
   {
     parseXMLObject(node);
   }
+  
+  xmlFreeDoc(doc);
+  root = nullptr;
+  doc = nullptr;
 }
 
 void XMLParser::parseXMLObject(xmlNodePtr node)
@@ -81,7 +86,7 @@ void XMLParser::parseXMLObject(xmlNodePtr node)
   xmlFree(xmlPropText);
   
   for ( xmlNodePtr field = xmlFirstElementChild(node);
-       field != NULL;
+       field != nullptr;
        field = xmlNextElementSibling(field)
        )
   {
@@ -108,11 +113,11 @@ inline void parseString(uint8_t * data, const char * str, size_t count)
 	int buf;
 	if( count ) {
 		ss >> buf;
-		data[0] = buf;
+		data[0] = (uint8_t)buf;
 	}
 	for( size_t i = 1; i < count; i++ ) {
 		ss >> buf;
-		data[i] = buf;
+		data[i] = (uint8_t)buf;
 	}
 }
 
@@ -123,11 +128,11 @@ inline void parseString(int8_t * data, const char * str, size_t count)
 	int buf;
 	if( count ) {
 		ss >> buf;
-		data[0] = buf;
+		data[0] = (int8_t)buf;
 	}
 	for( size_t i = 1; i < count; i++ ) {
 		ss >> buf;
-		data[i] = buf;
+		data[i] = (int8_t)buf;
 	}
 }
 
@@ -144,7 +149,7 @@ if( readable_hint ) { \
 parseString(arrData->data, reinterpret_cast<const char*>(content), count); \
 } \
 else { \
-  convert_from_base64(reinterpret_cast<const char *>(content), xmlStrlen(content), &arrData->data); \
+  convert_from_base64(reinterpret_cast<const char *>(content), (size_t)xmlStrlen(content), &arrData->data); \
 } \
 arrData->count = count; \
 result = arrData; \
@@ -153,9 +158,9 @@ result = arrData; \
 void XMLParser::parseXMLField(xmlNodePtr field, Object * obj)
 {
   string type(reinterpret_cast<const char*>(field->name));
-  pData result = NULL;
+  pData result = nullptr;
   xmlChar* content = xmlNodeGetContent(field);
-  if( NULL == content ) {
+  if( nullptr == content ) {
     // TODO error
     return;
   }
@@ -212,7 +217,7 @@ void XMLParser::parseXMLField(xmlNodePtr field, Object * obj)
         parseString(arrData->data, reinterpret_cast<const char*>(content), count);
       }
       else {
-        convert_from_base64(reinterpret_cast<const char *>(content), xmlStrlen(content), &arrData->data);
+        convert_from_base64(reinterpret_cast<const char *>(content), (size_t)xmlStrlen(content), &arrData->data);
       }
       arrData->count = count;
       result = arrData;
@@ -231,17 +236,17 @@ void XMLParser::parseXMLField(xmlNodePtr field, Object * obj)
     PARSE_ARRAY_TYPE(Writable*)
   }
   xmlFree(content);
-  content = NULL;
+  content = nullptr;
   
   if( result ) {
     content = xmlGetProp(field, (const xmlChar*)"name");
-    if( NULL == content ) {
+    if( nullptr == content ) {
       // TODO error;
       delete result;
       return;
     }
     obj->data.insert(make_pair(string((const char*)content), result));
     xmlFree(content);
-    content = NULL;
+    content = nullptr;
   }
 }

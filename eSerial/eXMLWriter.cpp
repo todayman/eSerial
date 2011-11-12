@@ -25,6 +25,7 @@ class XMLWriter : public Writer {
   void writeArrayToXML(xmlNodePtr field, ArrayData<T> * data, const char * type);
   
 public:
+  XMLWriter() : doc(nullptr), tree(nullptr), node(nullptr) { }
   void writeFile(const char * filename);
 };
 
@@ -44,7 +45,7 @@ void XMLWriter::writeFile(const char * filename)
 {
   doc = xmlNewDoc((const xmlChar *)"1.0");
   doc->encoding = xmlStrdup((const xmlChar *)"UTF-8");
-  doc->xmlRootNode = xmlNewDocNode(doc, NULL, (const xmlChar *)"eSerial", NULL);
+  doc->xmlRootNode = xmlNewDocNode(doc, nullptr, (const xmlChar *)"eSerial", nullptr);
   
   tree = doc->xmlRootNode;
   
@@ -54,12 +55,14 @@ void XMLWriter::writeFile(const char * filename)
   
   xmlSaveFormatFileEnc(filename, doc, "UTF-8", 1);
   xmlFreeDoc(doc);
+  tree = node = nullptr;
+  doc = nullptr;
 }
 
 
 #define WRITE_XML(x)\
 else if( Data<x>* data = dynamic_cast<Data<x>*>(iter.second) ) { \
-  field = xmlNewChild(node, NULL, (const xmlChar*)#x, (const xmlChar*)toString(data->data).c_str()); \
+  field = xmlNewChild(node, nullptr, (const xmlChar*)#x, (const xmlChar*)toString(data->data).c_str()); \
 }
 
 template<typename T>
@@ -116,14 +119,14 @@ inline char * toString(const int8_t * data, size_t count)
 template<typename T>
 void XMLWriter::writeArrayToXML(xmlNodePtr field, ArrayData<T> * data, const char * type)
 {
-  char* dst = NULL;
+  char* dst = nullptr;
   if( data->hints & READABLE_HINT ) {
     dst = toString(data->data, data->count);
   }
   else {
     convert_to_base64(data->data, data->count, &dst);
   }
-  field = xmlNewTextChild(node, NULL, (const xmlChar*)"array", (xmlChar*)dst);
+  field = xmlNewTextChild(node, nullptr, (const xmlChar*)"array", (xmlChar*)dst);
   free(dst);
   
   if( data->hints & READABLE_HINT ) {
@@ -140,14 +143,14 @@ else if( ArrayData<x>* data = dynamic_cast<ArrayData<x>*>(iter.second) ) { \
 
 void XMLWriter::addToXML(Object *obj)
 {
-  node = xmlNewChild(tree, NULL, (const xmlChar *)"object", NULL);
+  node = xmlNewChild(tree, nullptr, (const xmlChar *)"object", nullptr);
   xmlNewProp(node, (const xmlChar*)"id", (const xmlChar*)toString(obj->i).c_str());
   xmlNewProp(node, (const xmlChar*)"class", (const xmlChar*)obj->name.c_str());
   
   for( auto iter : obj->data ) {
-    xmlNodePtr field = NULL;
+    xmlNodePtr field = nullptr;
     if( Data<uint8_t>* data = dynamic_cast<Data<uint8_t>*>(iter.second) ) {
-      field = xmlNewChild(node, NULL, (const xmlChar*)"uint8_t", (const xmlChar*)toString((int)data->data).c_str());
+      field = xmlNewChild(node, nullptr, (const xmlChar*)"uint8_t", (const xmlChar*)toString((int)data->data).c_str());
     }
     WRITE_XML(uint16_t)
     WRITE_XML(uint32_t)
@@ -160,13 +163,13 @@ void XMLWriter::addToXML(Object *obj)
     WRITE_XML(double)
     WRITE_XML(long double)
     else if( Data<bool>* data = dynamic_cast<Data<bool>*>(iter.second) ) {
-      field = xmlNewChild(node, NULL, (const xmlChar*)"bool", (const xmlChar*)toString((int)data->data).c_str());
+      field = xmlNewChild(node, nullptr, (const xmlChar*)"bool", (const xmlChar*)toString((int)data->data).c_str());
     }
     else if( Data<const char*>* data = dynamic_cast<Data<const char*>*>(iter.second) ) {
-      field = xmlNewTextChild(node, NULL, (const xmlChar*)"char*", (const xmlChar*)data->data);
+      field = xmlNewTextChild(node, nullptr, (const xmlChar*)"char*", (const xmlChar*)data->data);
     }
     else if( Data<Writable*> * data = dynamic_cast<Data<Writable*>*>(iter.second) ) {
-      field = xmlNewChild(node, NULL, (const xmlChar*)"eos.serialization.Writable", NULL);
+      field = xmlNewChild(node, nullptr, (const xmlChar*)"eos.serialization.Writable", nullptr);
       xmlNewProp(field, (const xmlChar*)"id", (const xmlChar*)toString(data->i).c_str());
     }
     WRITE_XML_ARRAY(uint8_t)

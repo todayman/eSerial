@@ -12,18 +12,13 @@
 namespace eos {
 namespace serialization {
 
-#ifndef __E_WRITER_H__
 class Writer;
-#endif
-
-#ifndef __E_PARSER_H__
 class Parser;
-#endif
 
 class Writable {
 public:
-	virtual void write(Writer * writer) { }
-	virtual void read(Parser * reader) { }
+	virtual void write(Writer * writer) = 0;
+	virtual void read(Parser * reader) = 0;
 };
 
 } // namespace serialization

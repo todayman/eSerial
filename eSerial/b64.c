@@ -13,7 +13,7 @@
 #include "b64.h"
 
 static char toB64[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-static char fromB64[] = {
+static unsigned char fromB64[] = {
 	['A'] = 0,
 	['B'] = 1,
 	['C'] = 2,
@@ -98,10 +98,10 @@ static inline char get_char(base64_conversion_t data, unsigned int idx)
       helper1 >>= 12;
       helper2 = data.bits & 0x03;
       helper2 <<= 4;
-      result = helper1 | helper2;
+      result = (char)(helper1 | helper2);
       break;
     case 2:
-      result = ((((data.bits & 0x00C00000) >> 14) | ((data.bits & 0x0F00) << 2)) >> 8);
+      result = (char)((((data.bits & 0x00C00000) >> 14) | ((data.bits & 0x0F00) << 2)) >> 8);
       break;
     case 3:
       result = (data.bits & 0x003F0000) >> 16;
@@ -116,7 +116,7 @@ static inline void set_char(const char in[4], char * out)
 {
   base64_conversion_t buff;
   buff.bits = 0;
-  buff.bits |= (fromB64[in[0]] << 2);
+  buff.bits |= ((unsigned)fromB64[in[0]] << 2);
   
   uint32_t val = fromB64[in[1]];
   buff.bits |= ((val & 0x30) >> 4);
@@ -155,7 +155,7 @@ size_t _convert_to_base64(const char * data, size_t length, char ** encoded)
     memcpy(buffer.bytes, data + src_idx, 3);
     
     for( char i = 0; i < 4; i++ ) {
-      result[dst_idx + i] = get_char(buffer, i);
+      result[dst_idx + (size_t)i] = get_char(buffer, (unsigned int)i);
     }
   }
   
