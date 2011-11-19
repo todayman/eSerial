@@ -77,7 +77,7 @@ void XMLParser::parseXMLObject(xmlNodePtr node)
   Object * obj = new Object();
   
   xmlChar * xmlPropText = xmlGetProp(node, (const xmlChar*)"id");
-  obj->i = parse<size_t>(xmlPropText);
+  obj->id = parse<size_t>(xmlPropText);
   xmlFree(xmlPropText);
   
   xmlPropText = xmlGetProp(node, (const xmlChar *)"class");

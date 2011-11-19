@@ -14,21 +14,28 @@ using namespace std;
 using namespace eos::serialization;
 
 Writer::~Writer() {
-  for( Object * o : objs ) {
+  for( Object * o : root_objs ) {
     delete o;
   }
 }
 
-size_t Writer::addObjectGetID(Writable * object)
+Object * Writer::newObject(const Writable * object) {
+  size_t id = obj_count;
+	Object *obj = new Object();
+  obj_count += 1;
+	obj->id = id;
+	idList.insert(make_pair(object, obj));
+  return obj;
+}
+
+Object * Writer::addObjectGetID(const Writable * object)
 {
-  size_t id = objs.size();
-	curObj = new Object();
-	curObj->i = id;
-	objs.push_back(curObj);
-	idList.insert(make_pair(object, id));
+  Object * meta = newObject(object);
+  curObj = meta;
+	root_objs.push_back(curObj);
 	object->write(this);
   curObj = nullptr;
-  return id;
+  return meta;
 }
 
 void Writer::writeName(const char * name)
@@ -39,32 +46,22 @@ void Writer::writeName(const char * name)
 }
 
 template<typename T>
-void Writer::write( T val, const char * name ) {
+void Writer::write_impl( T val, const char * name ) {
   curObj->data.insert(make_pair(string(name), new Data< T >(val)));
 }
 
-#define WRITE(x) \
-template void Writer::write(x, const char *);
+#define SPECIALIZATION(x) \
+template void Writer::write_impl( x val, const char * name);
+PRIMITIVE_TYPES(SPECIALIZATION)
+#undef SPECIALIZATION
+template void Writer::write_impl(const char* val, const char * name);
 
-PRIMITIVE_TYPES(WRITE)
-template void Writer::write(const char*, const char *);
-
-template<>
-void Writer::write(Writable * object, const char * name)
-{
-	bool writeObj = false;
-	if( !idList.count(object)  ) {
-		idList.insert(make_pair(object, idList.size()));
-		writeObj = true;
-	}
-	
-	curObj->data.insert(make_pair(string(name), new Data<Writable*>(idList[object])));
-	
-	if(writeObj) {
-		Object * oldObj = curObj;
-		addObject(object);
-		curObj = oldObj;
-	}
+template<> void Writer::write_impl(const Writable& val, const char * name) {
+  Object * oldObj = curObj;
+  curObj = newObject(&val);
+  val.write(this);
+  oldObj->data.insert(make_pair(string(name), curObj));
+  curObj = oldObj;
 }
 
 template<typename T>
@@ -89,7 +86,7 @@ template<> void Writer::writeArray(Writable ** val, size_t count, const char * n
   ArrayData<Writable*> * data = new ArrayData<Writable*>(count, nullptr, hint);
   
   for( size_t i = 0; i < count; i++ ) {
-    data->data[i] = addObjectGetID(val[i]);
+    data->data[i] = addObjectGetID(val[i])->id;
   }
   
   curObj->data.insert(make_pair(string(name), data));

@@ -26,7 +26,7 @@ class Car : public Writable {
   
 public:
   Car(uint8_t p, uint8_t s, float m) : _passengers(p), _seats(s), _mpg(m) {}
-  virtual void write(Writer * writer) {
+  virtual void write(Writer * writer) const override {
     writer->writeName("Car");
     writer->write(_passengers, "passengers");
     writer->write(_seats, "seats");
@@ -35,9 +35,23 @@ public:
     writer->write("A message in a bottle!", "msg");
   }
   
-  virtual void read(Parser * parser) {
+  virtual void read(Parser * parser) const override {
   }
 };
+
+class Car_Container : public Writable {
+  Car c;
+public:
+  Car_Container() : c(1,2,3.0) { }
+  virtual void write(Writer * writer) const override {
+    writer->writeName("Car_Container");
+    writer->write(c, "car");
+  }
+  
+  virtual void read(Parser * reader) const override {
+  }
+};
+
 
 int main (int argc, const char * argv[])
 {
@@ -69,8 +83,9 @@ int main (int argc, const char * argv[])
   
   // insert code here...
   Car c(1,2,3.0);
+  Car_Container cc;
   Writer * writer = Writer::newXMLWriter();
-  writer->addObject(&c);
+  writer->addObject(&cc);
   writer->writeFile("testFile.xml");
   delete writer;
   return 0;

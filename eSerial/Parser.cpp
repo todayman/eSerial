@@ -61,7 +61,7 @@ void Parser::parseObject(Object * c)
   }
   curObj = c;
   Writable * obj = factory->newObject(curObj->name);
-  objects.insert(make_pair(curObj->i, obj));
+  objects.insert(make_pair(curObj->id, obj));
 	obj->read(this);
   
   if( !objStack.empty() ) {
@@ -87,10 +87,10 @@ PRIMITIVE_TYPES(READ)
 template<>
 void Parser::read(const char * name, Writable ** val) {
 	Data<Writable*>* newObj = dynamic_cast<Data<Writable*>*> ( curObj->data[string(name)] );
-	if(!objects.count(newObj->i)) {
-		parseObject(data[newObj->i]);
+	if(!objects.count(newObj->id)) {
+		parseObject(data[newObj->id]);
   }
-	(*val) = objects[newObj->i];
+	(*val) = objects[newObj->id];
 }
 
 template<typename T>

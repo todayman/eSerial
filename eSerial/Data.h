@@ -27,15 +27,15 @@ typedef _Data * pData;
 
 template<typename T> class Data : public _Data {
 public:
-	Data(T d = nullptr) { data = d; }
+	Data(T d = nullptr) : data(d) {}
 	T data;
 };
 
 template<> class Data<Writable*> : public _Data {
 public:
-	Data(size_t ident = 0) { i = ident; }
+	Data(size_t ident = 0) : id(ident) { }
 	
-	size_t i;
+	size_t id;
 };
 
 template<typename T> class ArrayData : public _Data {
@@ -71,11 +71,14 @@ public:
   }
 };
 
-struct Object {
-	size_t i;
+template<> class Data<Writable> : public _Data {
+public:
+  size_t id;
   std::string name;
-	std::map<std::string, pData> data;
+  std::map<std::string, pData> data;
 };
+
+typedef Data<Writable> Object;
 
 } // namespace serialization
 } // namespace eos

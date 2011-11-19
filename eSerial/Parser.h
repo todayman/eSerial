@@ -17,7 +17,9 @@ namespace serialization {
 
 class Parser;
 class Writable;
-class Object;
+
+template<typename T> class Data;
+typedef Data<Writable> Object;
 
 typedef Writable * (*ctor_func_t)(/*EOSClass * data*/) ;
 

@@ -16,8 +16,8 @@ class Parser;
 
 class Writable {
 public:
-	virtual void write(Writer * writer) = 0;
-	virtual void read(Parser * reader) = 0;
+	virtual void write(Writer * writer) const = 0;
+	virtual void read(Parser * reader) const = 0;
 };
 
 } // namespace serialization

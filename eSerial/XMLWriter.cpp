@@ -14,17 +14,13 @@ using namespace std;
 using namespace eos::serialization;
 
 class XMLWriter : public Writer {
-  xmlDocPtr doc;
-  xmlNodePtr tree;
-  xmlNodePtr node;
-  
-  void addToXML(Object * obj);
+  void addToXML(Object * obj, xmlNodePtr parent);
   
   template<typename T>
-  void writeArrayToXML(xmlNodePtr field, ArrayData<T> * data, const char * type);
+  void writeArrayToXML(xmlNodePtr node, xmlNodePtr field, ArrayData<T> * data, const char * type);
   
 public:
-  XMLWriter() : doc(nullptr), tree(nullptr), node(nullptr) { }
+  XMLWriter() = default;
   void writeFile(const char * filename);
 };
 
@@ -42,20 +38,18 @@ static inline std::string toString (const T & t)
 
 void XMLWriter::writeFile(const char * filename)
 {
-  doc = xmlNewDoc((const xmlChar *)"1.0");
+  xmlDocPtr doc = xmlNewDoc((const xmlChar *)"1.0");
   doc->encoding = xmlStrdup((const xmlChar *)"UTF-8");
   doc->xmlRootNode = xmlNewDocNode(doc, nullptr, (const xmlChar *)"eos.serialization", nullptr);
   
-  tree = doc->xmlRootNode;
+  xmlNodePtr tree = doc->xmlRootNode;
   
-  for( auto iter = objs.begin(); iter != objs.end(); iter++ ) {
-    addToXML(*iter);
+  for( auto iter = root_objs.begin(); iter != root_objs.end(); iter++ ) {
+    addToXML(*iter, tree);
   }
   
   xmlSaveFormatFileEnc(filename, doc, "UTF-8", 1);
   xmlFreeDoc(doc);
-  tree = node = nullptr;
-  doc = nullptr;
 }
 
 
@@ -116,7 +110,7 @@ inline char * toString(const int8_t * data, size_t count)
 }
 
 template<typename T>
-void XMLWriter::writeArrayToXML(xmlNodePtr field, ArrayData<T> * data, const char * type)
+void XMLWriter::writeArrayToXML(xmlNodePtr node, xmlNodePtr field, ArrayData<T> * data, const char * type)
 {
   char* dst = nullptr;
   if( data->hints & READABLE_HINT ) {
@@ -137,13 +131,13 @@ void XMLWriter::writeArrayToXML(xmlNodePtr field, ArrayData<T> * data, const cha
 
 #define WRITE_XML_ARRAY(x)\
 else if( ArrayData<x>* data = dynamic_cast<ArrayData<x>*>(iter.second) ) { \
-  writeArrayToXML(field, data, #x);\
+  writeArrayToXML(node, field, data, #x);\
 }
 
-void XMLWriter::addToXML(Object *obj)
+void XMLWriter::addToXML(Object *obj, xmlNodePtr parent)
 {
-  node = xmlNewChild(tree, nullptr, (const xmlChar *)"object", nullptr);
-  xmlNewProp(node, (const xmlChar*)"id", (const xmlChar*)toString(obj->i).c_str());
+  xmlNodePtr node = xmlNewChild(parent, nullptr, (const xmlChar *)"object", nullptr);
+  xmlNewProp(node, (const xmlChar*)"id", (const xmlChar*)toString(obj->id).c_str());
   xmlNewProp(node, (const xmlChar*)"class", (const xmlChar*)obj->name.c_str());
   
   for( auto iter : obj->data ) {
@@ -167,9 +161,12 @@ void XMLWriter::addToXML(Object *obj)
     else if( Data<const char*>* data = dynamic_cast<Data<const char*>*>(iter.second) ) {
       field = xmlNewTextChild(node, nullptr, (const xmlChar*)"char*", (const xmlChar*)data->data);
     }
+    else if( Data<Writable> * data = dynamic_cast<Data<Writable>*>(iter.second) ) {
+      addToXML(data, node);
+    }
     else if( Data<Writable*> * data = dynamic_cast<Data<Writable*>*>(iter.second) ) {
       field = xmlNewChild(node, nullptr, (const xmlChar*)"eos.serialization.Writable", nullptr);
-      xmlNewProp(field, (const xmlChar*)"id", (const xmlChar*)toString(data->i).c_str());
+      xmlNewProp(field, (const xmlChar*)"id", (const xmlChar*)toString(data->id).c_str());
     }
     WRITE_XML_ARRAY(uint8_t)
     WRITE_XML_ARRAY(uint16_t)
@@ -184,7 +181,7 @@ void XMLWriter::addToXML(Object *obj)
     WRITE_XML_ARRAY(long double)
     WRITE_XML_ARRAY(bool)
     else if( ArrayData<Writable*>* data = dynamic_cast<ArrayData<Writable*>*>(iter.second) ) {
-      writeArrayToXML(field, data, "eos.serialization.Writable*");
+      writeArrayToXML(node, field, data, "eos.serialization.Writable*");
     }
     
     xmlNewProp(field, (const xmlChar*)"name", (const xmlChar*)iter.first.c_str());
