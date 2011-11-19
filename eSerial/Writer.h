@@ -60,7 +60,7 @@ public:
 	/* write individual values */
   template<typename T>
   void write(T val, const char * name) {
-    static_assert( !is_pointer<T>::value || is_base_of<Writable, T>::value,
+    static_assert( !std::is_pointer<T>::value || std::is_base_of<Writable, T>::value,
                   "Only pointers to subclasses of eos::serialization::Writable may be written.");
     write_impl< typename is_base_type_thingy<std::is_scalar<T>::value, T>::theType >(val, name);
   }

@@ -5,12 +5,10 @@
  *  Copyright 2011 Paul O'Neil. All rights reserved.
  *
  */
-#include <iostream>
-#include <fstream>
-using namespace std;
 #include "Writer.h"
 #include "Data.h"
 #include "macros.h"
+using namespace std;
 using namespace eos::serialization;
 
 Writer::~Writer() {
