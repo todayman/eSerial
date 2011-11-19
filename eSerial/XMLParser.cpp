@@ -25,7 +25,7 @@ private:
   void parseXMLObject(xmlNodePtr node);
   void parseXMLField(xmlNodePtr field, Object * obj);
 protected:
-  virtual void firstPass(const char * filename) override;
+  virtual void firstPass(const string& filename) override;
   
 public:
   XMLParser() : doc(nullptr), root(nullptr), node(nullptr) { }
@@ -55,9 +55,9 @@ Parser * Parser::newXMLParser()
   return new XMLParser();
 }
 
-void XMLParser::firstPass(const char *filename)
+void XMLParser::firstPass(const string& filename)
 {
-  doc = xmlParseFile(filename);
+  doc = xmlParseFile(filename.c_str());
   root = xmlDocGetRootElement(doc);
   for ( node = xmlFirstElementChild(root);
        node != nullptr;

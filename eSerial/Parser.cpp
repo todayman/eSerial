@@ -37,7 +37,7 @@ Parser::~Parser() {
   }
 }
 
-void Parser::parseFile(const char * filename)
+void Parser::parseFile(const string& filename)
 {
 	firstPass(filename);
 	secondPass();
@@ -74,19 +74,19 @@ void Parser::parseObject(Object * c)
 }
 
 template<typename T>
-void Parser::read(const char * name, T * val)
+void Parser::read(const string& name, T * val)
 {
-  (*val) = (dynamic_cast<Data<T>*>(curObj->data[string(name)]))->data;
+  (*val) = (dynamic_cast<Data<T>*>(curObj->data[name]))->data;
 }
 
 #define READ(x) \
-template void Parser::read(const char *, x *);
+template void Parser::read(const string& name, x * val);
 
 PRIMITIVE_TYPES(READ)
 
 template<>
-void Parser::read(const char * name, Writable ** val) {
-	Data<Writable*>* newObj = dynamic_cast<Data<Writable*>*> ( curObj->data[string(name)] );
+void Parser::read(const string& name, Writable ** val) {
+	Data<Writable*>* newObj = dynamic_cast<Data<Writable*>*> ( curObj->data[name] );
 	if(!objects.count(newObj->id)) {
 		parseObject(data[newObj->id]);
   }
@@ -94,19 +94,19 @@ void Parser::read(const char * name, Writable ** val) {
 }
 
 template<typename T>
-void Parser::readArray(const char * name, T ** elements, size_t * count) {
-  (*elements) = (dynamic_cast<ArrayData<T>*>(curObj->data[std::string(name)]))->data;
-  if(count) (*count) = (dynamic_cast<ArrayData<T>*>(curObj->data[std::string(name)]))->count;
+void Parser::readArray(const string& name, T ** elements, size_t * count) {
+  (*elements) = (dynamic_cast<ArrayData<T>*>(curObj->data[name]))->data;
+  if(count) (*count) = (dynamic_cast<ArrayData<T>*>(curObj->data[name]))->count;
 }
 
 #define READ_ARRAY(x)\
-template void Parser::readArray(const char * name, x ** elements, size_t * count);
+template void Parser::readArray(const string& name, x ** elements, size_t * count);
 PRIMITIVE_TYPES(READ_ARRAY)
 
 template<>
-void Parser::readArray(const char * name, Writable *** elements, size_t * count)
+void Parser::readArray(const string& name, Writable *** elements, size_t * count)
 {
-	ArrayData<Writable*>* newObj = dynamic_cast<ArrayData<Writable*>*> ( curObj->data[string(name)] );
+	ArrayData<Writable*>* newObj = dynamic_cast<ArrayData<Writable*>*> ( curObj->data[name] );
 	
   if(count)
 		(*count) = newObj->count;

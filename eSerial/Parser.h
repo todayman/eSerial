@@ -8,6 +8,7 @@
 
 #include <map>
 #include <stack>
+#include <string>
 
 #ifndef __EOS_SERIALIZTION_PARSER_H__
 #define __EOS_SERIALIZTION_PARSER_H__
@@ -40,7 +41,7 @@ public:
 class Parser {
 protected:
   std::map<size_t, Object*> data;
-  virtual void firstPass(const char * filename) = 0;
+  virtual void firstPass(const std::string& filename) = 0;
   
 private:
   std::map<size_t, Writable*> objects;
@@ -53,14 +54,14 @@ private:
 public:
   Parser() = default;
   virtual ~Parser();
-  void parseFile(const char * filename);
+  void parseFile(const std::string& filename);
   void setFactory(Factory * newFactory);
   
   template<typename T>
-  void read(const char * name, T * val);
+  void read(const std::string& name, T * val);
   
   template<typename T>
-  void readArray(const char * name, T ** elements, size_t * count);
+  void readArray(const std::string& name, T ** elements, size_t * count);
   
   static Parser * newXMLParser();
 };

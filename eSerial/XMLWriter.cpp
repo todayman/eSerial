@@ -21,7 +21,7 @@ class XMLWriter : public Writer {
   
 public:
   XMLWriter() = default;
-  void writeFile(const char * filename);
+  virtual void writeFile(const string& filename) override;
 };
 
 Writer * Writer::newXMLWriter() {
@@ -36,7 +36,7 @@ static inline std::string toString (const T & t)
   return ss.str();
 }
 
-void XMLWriter::writeFile(const char * filename)
+void XMLWriter::writeFile(const string& filename)
 {
   xmlDocPtr doc = xmlNewDoc((const xmlChar *)"1.0");
   doc->encoding = xmlStrdup((const xmlChar *)"UTF-8");
@@ -48,7 +48,7 @@ void XMLWriter::writeFile(const char * filename)
     addToXML(*iter, tree);
   }
   
-  xmlSaveFormatFileEnc(filename, doc, "UTF-8", 1);
+  xmlSaveFormatFileEnc(filename.c_str(), doc, "UTF-8", 1);
   xmlFreeDoc(doc);
 }
 

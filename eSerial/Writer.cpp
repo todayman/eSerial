@@ -36,34 +36,34 @@ Object * Writer::addObjectGetID(const Writable * object)
   return meta;
 }
 
-void Writer::writeName(const char * name)
+void Writer::writeName(const string& name)
 {
   if( curObj->name.size() == 0 ) {
-    curObj->name = string(name);
+    curObj->name = name;
   }
 }
 
 template<typename T>
-void Writer::write_impl( T val, const char * name ) {
+void Writer::write_impl( T val, const string& name ) {
   curObj->data.insert(make_pair(string(name), new Data< T >(val)));
 }
 
 #define SPECIALIZATION(x) \
-template void Writer::write_impl( x val, const char * name);
+template void Writer::write_impl( x val, const string& name);
 PRIMITIVE_TYPES(SPECIALIZATION)
 #undef SPECIALIZATION
-template void Writer::write_impl(const char* val, const char * name);
+template void Writer::write_impl(const char* val, const string& name);
 
-template<> void Writer::write_impl(const Writable& val, const char * name) {
+template<> void Writer::write_impl(const Writable& val, const string& name) {
   Object * oldObj = curObj;
   curObj = newObject(&val);
   val.write(this);
-  oldObj->data.insert(make_pair(string(name), curObj));
+  oldObj->data.insert(make_pair(name, curObj));
   curObj = oldObj;
 }
 
 template<typename T>
-void Writer::writeArray( T * val, size_t count, const char * name, hint_t hint)
+void Writer::writeArray( T * val, size_t count, const string& name, hint_t hint)
 {
   T * array = nullptr;
   if( hint & COPY_ARRAY_HINT ) {
@@ -73,19 +73,19 @@ void Writer::writeArray( T * val, size_t count, const char * name, hint_t hint)
   else {
     array = val;
   }
-  curObj->data.insert(make_pair(string(name), new ArrayData<T>(count, array, hint)));
+  curObj->data.insert(make_pair(name, new ArrayData<T>(count, array, hint)));
 }
 
 #define WRITE_ARRAY(x) \
-template void Writer::writeArray(x *, size_t, const char *, hint_t);
+template void Writer::writeArray(x * elements, size_t count, const string& name, hint_t hints);
 
 PRIMITIVE_TYPES(WRITE_ARRAY)
-template<> void Writer::writeArray(Writable ** val, size_t count, const char * name, hint_t hint) {
+template<> void Writer::writeArray(Writable ** val, size_t count, const string& name, hint_t hint) {
   ArrayData<Writable*> * data = new ArrayData<Writable*>(count, nullptr, hint);
   
   for( size_t i = 0; i < count; i++ ) {
     data->data[i] = addObjectGetID(val[i])->id;
   }
   
-  curObj->data.insert(make_pair(string(name), data));
+  curObj->data.insert(make_pair(name, data));
 }

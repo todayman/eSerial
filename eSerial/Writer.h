@@ -9,6 +9,7 @@
 #include <vector>
 #include <map>
 #include <type_traits>
+#include <string>
 #include "Writable.h"
 #include "Data.h"
 
@@ -28,7 +29,7 @@ protected:
   Object * addObjectGetID(const Writable * object);
   
   template<typename T>
-  void write_impl(T val, const char * name);
+  void write_impl(T val, const std::string& name);
   
   /* these structs are here to route
    instantiations of write() to the correct implementation */
@@ -51,15 +52,15 @@ protected:
 public:
   Writer() : idList(), root_objs(), obj_count(0), curObj(nullptr) { }
   virtual ~Writer();
-	virtual void writeFile(const char * pathname) = 0;
+	virtual void writeFile(const std::string& pathname) = 0;
 	void addObject(Writable * object) {
     addObjectGetID(object);
   }
-  void writeName(const char * name);
+  void writeName(const std::string& name);
   
 	/* write individual values */
   template<typename T>
-  void write(T val, const char * name) {
+  void write(T val, const std::string& name) {
     static_assert( !std::is_pointer<T>::value || std::is_base_of<Writable, T>::value,
                   "Only pointers to subclasses of eos::serialization::Writable may be written.");
     write_impl< typename is_base_type_thingy<std::is_scalar<T>::value, T>::theType >(val, name);
@@ -67,13 +68,13 @@ public:
   
 	/* write arrays of values */
   template<typename T>
-  void writeArray(T * elements, size_t count, const char * name, hint_t hint = NO_HINT);
+  void writeArray(T * elements, size_t count, const std::string& name, hint_t hint = NO_HINT);
   
   // Get a writer
   static Writer * newXMLWriter();
 };
 
-template<> inline void Writer::write<const char*>(const char * val, const char * name) {
+  template<> inline void Writer::write<const char*>(const char * val, const std::string& name) {
   write_impl<const char *>(val, name);
 }
 
