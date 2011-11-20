@@ -159,7 +159,7 @@ void XMLWriter::addToXML(Object *obj, xmlNodePtr parent)
       field = xmlNewChild(node, nullptr, (const xmlChar*)"bool", (const xmlChar*)toString((int)data->data).c_str());
     }
     else if( Data<const char*>* data = dynamic_cast<Data<const char*>*>(iter.second) ) {
-      field = xmlNewTextChild(node, nullptr, (const xmlChar*)"char*", (const xmlChar*)data->data);
+      field = xmlNewTextChild(node, nullptr, (const xmlChar*)"char_star", (const xmlChar*)data->data);
     }
     else if( Data<Writable> * data = dynamic_cast<Data<Writable>*>(iter.second) ) {
       addToXML(data, node);

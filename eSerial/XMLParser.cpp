@@ -184,7 +184,7 @@ void XMLParser::parseXMLField(xmlNodePtr field, Object * obj)
   else if( type == "bool" ) {
     result = new Data<bool>((bool)parse<int>(content));
   }
-  else if( type == "char*" ) {
+  else if( type == "char_star" ) {
     result = new Data<char*>(parse<char*>(content));
   }
   else if( type == "eos.serialization.Writable*" ) {
