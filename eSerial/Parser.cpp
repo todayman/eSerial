@@ -37,6 +37,10 @@ Parser::~Parser() {
   }
 }
 
+void Parser::setFactory(eos::serialization::Factory *newFactory) {
+  factory = newFactory;
+}
+
 void Parser::parseFile(const string& filename)
 {
 	firstPass(filename);
