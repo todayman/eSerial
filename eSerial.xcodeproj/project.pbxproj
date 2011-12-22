@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		DA013886144A01EC0014EBD1 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA013885144A01EC0014EBD1 /* main.cpp */; };
 		DA01388E144A028E0014EBD1 /* libxml2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DA01388D144A028E0014EBD1 /* libxml2.2.dylib */; };
 		DA05A31D146F1275001425BA /* eSerial.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2C381513382E200013BE0F /* eSerial.dylib */; };
 		DA05A321146F15EE001425BA /* hints.h in Headers */ = {isa = PBXBuildFile; fileRef = DA05A320146F15EE001425BA /* hints.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -18,6 +17,9 @@
 		DA2C38371338330D0013BE0F /* Writable.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2C38361338330D0013BE0F /* Writable.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA2C3852133838840013BE0F /* Data.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2C3851133838840013BE0F /* Data.h */; settings = {ATTRIBUTES = (); }; };
 		DA2C385413383A350013BE0F /* macros.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2C385313383A350013BE0F /* macros.h */; settings = {ATTRIBUTES = (); }; };
+		DA3AB8F314A3DEEA00002DD0 /* unittests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA3AB8F214A3DEEA00002DD0 /* unittests.cpp */; };
+		DA3AB8F614A3DF4200002DD0 /* b64_tests.c in Sources */ = {isa = PBXBuildFile; fileRef = DA3AB8F514A3DF4200002DD0 /* b64_tests.c */; };
+		DA3AB8F914A3E08400002DD0 /* libcunit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DA3AB8F814A3E08400002DD0 /* libcunit.a */; };
 		DA3FD1211452320800431974 /* XMLWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA3FD1201452320800431974 /* XMLWriter.cpp */; };
 		DA3FD127145240A700431974 /* XMLParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA3FD126145240A700431974 /* XMLParser.cpp */; };
 		DA5EA858144A5D86000DC973 /* b64.c in Sources */ = {isa = PBXBuildFile; fileRef = DA5EA857144A5D86000DC973 /* b64.c */; };
@@ -99,7 +101,7 @@
 		DA0138491449FDA70014EBD1 /* load_save.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = load_save.h; path = "../../../Users/paul/Library/Caches/Homebrew/dia-0.97.1/app/load_save.h"; sourceTree = "<group>"; };
 		DA013882144A01EB0014EBD1 /* test */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = test; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA013885144A01EC0014EBD1 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		DA01388D144A028E0014EBD1 /* libxml2.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.2.dylib; path = ../../../../../usr/lib/libxml2.2.dylib; sourceTree = "<group>"; };
+		DA01388D144A028E0014EBD1 /* libxml2.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.2.dylib; path = /usr/lib/libxml2.2.dylib; sourceTree = "<absolute>"; };
 		DA01388F144A03360014EBD1 /* dia_xml_libxml.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = dia_xml_libxml.h; path = "../../../Users/paul/Library/Caches/Homebrew/dia-0.97.1/lib/dia_xml_libxml.h"; sourceTree = "<group>"; };
 		DA013890144A03360014EBD1 /* dia_xml.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = dia_xml.c; path = "../../../Users/paul/Library/Caches/Homebrew/dia-0.97.1/lib/dia_xml.c"; sourceTree = "<group>"; };
 		DA013891144A03360014EBD1 /* dia_xml.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = dia_xml.h; path = "../../../Users/paul/Library/Caches/Homebrew/dia-0.97.1/lib/dia_xml.h"; sourceTree = "<group>"; };
@@ -112,6 +114,10 @@
 		DA2C38361338330D0013BE0F /* Writable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Writable.h; sourceTree = "<group>"; };
 		DA2C3851133838840013BE0F /* Data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Data.h; sourceTree = "<group>"; };
 		DA2C385313383A350013BE0F /* macros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = macros.h; sourceTree = "<group>"; };
+		DA3AB8F214A3DEEA00002DD0 /* unittests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = unittests.cpp; sourceTree = "<group>"; };
+		DA3AB8F514A3DF4200002DD0 /* b64_tests.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = b64_tests.c; sourceTree = "<group>"; };
+		DA3AB8F714A3E00900002DD0 /* unittests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = unittests.h; sourceTree = "<group>"; };
+		DA3AB8F814A3E08400002DD0 /* libcunit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcunit.a; path = "../../../../../usr/local/Cellar/cunit/2.1-2/lib/libcunit.a"; sourceTree = "<group>"; };
 		DA3FD1201452320800431974 /* XMLWriter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = XMLWriter.cpp; sourceTree = "<group>"; };
 		DA3FD126145240A700431974 /* XMLParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = XMLParser.cpp; sourceTree = "<group>"; };
 		DA5EA857144A5D86000DC973 /* b64.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = b64.c; sourceTree = "<group>"; };
@@ -125,6 +131,7 @@
 			files = (
 				DA05A31D146F1275001425BA /* eSerial.dylib in Frameworks */,
 				DA01388E144A028E0014EBD1 /* libxml2.2.dylib in Frameworks */,
+				DA3AB8F914A3E08400002DD0 /* libcunit.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -210,8 +217,11 @@
 		DA013884144A01EC0014EBD1 /* test */ = {
 			isa = PBXGroup;
 			children = (
+				DA3AB8F814A3E08400002DD0 /* libcunit.a */,
 				DA013885144A01EC0014EBD1 /* main.cpp */,
-				DA01388D144A028E0014EBD1 /* libxml2.2.dylib */,
+				DA3AB8F714A3E00900002DD0 /* unittests.h */,
+				DA3AB8F214A3DEEA00002DD0 /* unittests.cpp */,
+				DA3AB8F514A3DF4200002DD0 /* b64_tests.c */,
 			);
 			path = test;
 			sourceTree = "<group>";
@@ -221,6 +231,7 @@
 			children = (
 				DA2C381713382E200013BE0F /* eSerial */,
 				DA013884144A01EC0014EBD1 /* test */,
+				DA01388D144A028E0014EBD1 /* libxml2.2.dylib */,
 				DA2C381613382E200013BE0F /* Products */,
 			);
 			sourceTree = "<group>";
@@ -341,7 +352,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DA013886144A01EC0014EBD1 /* main.cpp in Sources */,
+				DA3AB8F314A3DEEA00002DD0 /* unittests.cpp in Sources */,
+				DA3AB8F614A3DF4200002DD0 /* b64_tests.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -371,6 +383,7 @@
 		DA013889144A01EC0014EBD1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -384,6 +397,10 @@
 					"$(inherited)",
 					/usr/include/libxml2,
 				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"/usr/local/Cellar/cunit/2.1-2/lib\"",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -392,6 +409,7 @@
 		DA01388A144A01EC0014EBD1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -400,6 +418,10 @@
 					/usr/local/include,
 					"$(inherited)",
 					/usr/include/libxml2,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"/usr/local/Cellar/cunit/2.1-2/lib\"",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";

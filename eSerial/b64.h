@@ -67,7 +67,7 @@ static inline size_t convert_from_base64(const char * data, size_t length, T ** 
  * \param encoded a pointer to the decoded data.  It should be released with free().
  * \return the length of the decoded data in bytes
  */
-#define convert_from_base64(data, length, decoded) _convert_to_base64(data, length, decoded)
+#define convert_from_base64(data, length, decoded) _convert_from_base64(data, length, decoded)
 
 #endif // __cplusplus
 
