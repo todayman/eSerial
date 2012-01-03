@@ -86,7 +86,7 @@ public:
 	
 	/* write individual values */
 	template<typename T>
-	void write(T val, const std::string& name) {
+	void write(T& val, const std::string& name) {
 		static_assert( !std::is_pointer<T>::value || std::is_base_of<Writable, typename std::remove_pointer<T>::type >::value,
 									"Only pointers to subclasses of eos::serialization::Writable may be written.");
 		write_impl< typename is_base_type_thingy<std::is_scalar<T>::value, T>::theType >(val, name);
@@ -100,7 +100,7 @@ public:
 	static Writer * newXMLWriter();
 };
 
-template<> inline void Writer::write<const char*>(const char * val, const std::string& name) {
+template<> inline void Writer::write<const char*>(const char *& val, const std::string& name) {
 	write_impl<const char *>(val, name);
 }
 

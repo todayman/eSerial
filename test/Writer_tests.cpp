@@ -82,16 +82,16 @@ TEST_F(WriterTest, AddRootObject) {
 }
 
 TYPED_TEST(TypedWriterTest, AddPrimitiveTest) {
-	// you cannot call writer->write() just for fun; you must be writing an object
-	EXPECT_THROW(this->write(static_cast<TypeParam>(0), "value"), Writer::NoCurrentObject);
-	
-	Object * newObj = new Object();
-	this->curObj = newObj;
-	
 	TypeParam val1 = 0;
 	TypeParam val2 = 1;
 	TypeParam val3 = 10;
 	TypeParam val4 = 127;
+	
+	// you cannot call writer->write() just for fun; you must be writing an object
+	EXPECT_THROW(this->write(val1, "value"), Writer::NoCurrentObject);
+	
+	Object * newObj = new Object();
+	this->curObj = newObj;
 	
 	this->write(val1, "value1");
 	this->write(val2, "value2");
@@ -154,6 +154,24 @@ TEST_F(WriterTest, AddPointerTest) {
 	
 	ASSERT_EQ(1, this->root_objs.size());
 	EXPECT_EQ(data_ptr, this->root_objs[0]);
+	
+	delete newObj;
+}
+
+TEST_F(WriterTest, CHAR_STAR_TEST) {
+	const char * toWrite = "a string to write to disk";
+	EXPECT_THROW(this->write(toWrite, "toWrite"), Writer::NoCurrentObject);
+	
+	Object * newObj = new Object();
+	this->curObj = newObj;
+	
+	this->write(toWrite, "toWrite");
+	EXPECT_EQ(1, newObj->data.size());
+	Data<const char *> * data_ptr = dynamic_cast<Data<const char*>*>(newObj->data[std::string("toWrite")]);
+	ASSERT_NE(nullptr, data_ptr);
+	EXPECT_EQ(toWrite, data_ptr->data);
+	
+	EXPECT_EQ(0, this->root_objs.size());
 	
 	delete newObj;
 }
