@@ -24,6 +24,7 @@
 		DA5EA858144A5D86000DC973 /* b64.c in Sources */ = {isa = PBXBuildFile; fileRef = DA5EA857144A5D86000DC973 /* b64.c */; };
 		DA5EA85C144A66A4000DC973 /* b64.h in Headers */ = {isa = PBXBuildFile; fileRef = DA5EA85B144A66A4000DC973 /* b64.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA8C8C5D14A58B84000B990B /* libgtest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DA8C8C5C14A58B84000B990B /* libgtest.a */; };
+		DA8C8CB714A5BAFC000B990B /* Writer_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA8C8CB614A5BAFC000B990B /* Writer_tests.cpp */; };
 		DADEF564144AA30600EE2C6B /* libxml2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DA01388D144A028E0014EBD1 /* libxml2.2.dylib */; };
 /* End PBXBuildFile section */
 
@@ -121,6 +122,7 @@
 		DA5EA857144A5D86000DC973 /* b64.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = b64.c; sourceTree = "<group>"; };
 		DA5EA85B144A66A4000DC973 /* b64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = b64.h; sourceTree = "<group>"; };
 		DA8C8C5C14A58B84000B990B /* libgtest.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgtest.a; path = /usr/local/Cellar/gtest/1.6.0/lib/libgtest.a; sourceTree = "<absolute>"; };
+		DA8C8CB614A5BAFC000B990B /* Writer_tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Writer_tests.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -220,6 +222,7 @@
 				DA013885144A01EC0014EBD1 /* main.cpp */,
 				DA3AB8F214A3DEEA00002DD0 /* unittests.cpp */,
 				DA3AB8F514A3DF4200002DD0 /* b64_tests.cpp */,
+				DA8C8CB614A5BAFC000B990B /* Writer_tests.cpp */,
 			);
 			path = test;
 			sourceTree = "<group>";
@@ -352,6 +355,7 @@
 			files = (
 				DA3AB8F314A3DEEA00002DD0 /* unittests.cpp in Sources */,
 				DA3AB8F614A3DF4200002DD0 /* b64_tests.cpp in Sources */,
+				DA8C8CB714A5BAFC000B990B /* Writer_tests.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
