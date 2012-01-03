@@ -35,8 +35,8 @@ protected:
 	std::vector<Object*> root_objs;
 	Object * curObj;
 	
-	Object * newObject(const Writable * object);
-	Object * addObjectGetID(const Writable * object);
+	Object * newObject(Writable * object);
+	Object * addObjectGetID(Writable * object);
 	
 	template<typename T>
 	void write_impl(T val, const std::string& name);
@@ -51,7 +51,7 @@ protected:
 	struct is_base_type_thingy<false, T> {
 		static_assert(std::is_base_of<Writable, T>::value,
 									"You must inherit from eos::serializable::Writable to be write an object.");
-		typedef const Writable& theType;
+		typedef Writable& theType;
 	};
 	
 	template<typename T>

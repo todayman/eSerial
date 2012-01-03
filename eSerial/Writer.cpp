@@ -20,7 +20,7 @@ Writer::~Writer() {
   }
 }
 
-Object * Writer::newObject(const Writable * object) {
+Object * Writer::newObject(Writable * object) {
 	if( nullptr == object ) return nullptr;
 	Object *obj = new Object();
 	obj->id = idList.size();
@@ -28,7 +28,7 @@ Object * Writer::newObject(const Writable * object) {
   return obj;
 }
 
-Object * Writer::addObjectGetID(const Writable * object)
+Object * Writer::addObjectGetID(Writable * object)
 {
 	if( nullptr == object ) return nullptr;
   Object * meta = newObject(object);
@@ -59,7 +59,7 @@ PRIMITIVE_TYPES(SPECIALIZATION)
 #undef SPECIALIZATION
 template void Writer::write_impl(const char* val, const string& name);
 
-template<> void Writer::write_impl(const Writable& val, const string& name) {
+template<> void Writer::write_impl(Writable& val, const string& name) {
 	if( nullptr == this->curObj ) throw NoCurrentObject();
   Object * oldObj = curObj;
   curObj = newObject(&val);

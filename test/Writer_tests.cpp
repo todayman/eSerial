@@ -21,10 +21,13 @@ public:
 class MockWritable : public Writable {
 public:
 	unsigned int writeCount;
-	unsigned int readCount;
+	MockWritable() : writeCount(0) { }
 	virtual ~MockWritable() { }
-	virtual void write(Writer * writer) const {}
-	virtual void read(Parser * reader) {}
+	virtual void write(Writer * writer) {
+		++writeCount;
+		writer->write(writeCount, "writeCount");
+	}
+	virtual void read(Parser * reader) { }
 };
 
 typedef TypedWriterTest<int> WriterTest;
