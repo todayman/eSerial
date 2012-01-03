@@ -142,7 +142,10 @@ void XMLWriter::addToXML(Object *obj, xmlNodePtr parent)
   
   for( auto iter : obj->data ) {
     xmlNodePtr field = nullptr;
-    if( Data<uint8_t>* data = dynamic_cast<Data<uint8_t>*>(iter.second) ) {
+		if( Data<char>* data = dynamic_cast<Data<char>*>(iter.second) ) {
+			field = xmlNewChild(node, nullptr, (const xmlChar*)"char", (const xmlChar*)toString((int)data->data).c_str());
+		}
+    else if( Data<uint8_t>* data = dynamic_cast<Data<uint8_t>*>(iter.second) ) {
       field = xmlNewChild(node, nullptr, (const xmlChar*)"uint8_t", (const xmlChar*)toString((int)data->data).c_str());
     }
     WRITE_XML(uint16_t)
