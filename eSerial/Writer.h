@@ -10,6 +10,7 @@
 #include <map>
 #include <type_traits>
 #include <string>
+#include <exception>
 #include "Writable.h"
 #include "Data.h"
 
@@ -20,6 +21,15 @@ namespace eos {
 namespace serialization {
 
 class Writer {
+public:
+	class NoCurrentObject : public std::exception {
+		static const char * message;
+	public:
+		virtual const char * what() const noexcept {
+			return message;
+		}
+	};
+
 protected:
 	std::map<const Writable*, Object*> idList;
 	std::vector<Object*> root_objs;
@@ -55,7 +65,7 @@ public:
 	void addObject(Writable * object) {
     addObjectGetID(object);
   }
-  void writeName(const std::string& name);
+  void writeName(const std::string& name) throw(NoCurrentObject);
   
 	/* write individual values */
   template<typename T>
@@ -67,7 +77,7 @@ public:
   
 	/* write arrays of values */
   template<typename T>
-  void writeArray(T * elements, size_t count, const std::string& name, hint_t hint = NO_HINT);
+  void writeArray(T * elements, size_t count, const std::string& name, hint_t hint = NO_HINT) throw(NoCurrentObject);
   
   // Get a writer
   static Writer * newXMLWriter();

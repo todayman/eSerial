@@ -11,6 +11,9 @@
 using namespace std;
 using namespace eos::serialization;
 
+const char * Writer::NoCurrentObject::message =
+	"There must be an object currently being written in order to complete this operation.";
+
 Writer::~Writer() {
   for( Object * o : root_objs ) {
     delete o;
@@ -18,6 +21,7 @@ Writer::~Writer() {
 }
 
 Object * Writer::newObject(const Writable * object) {
+	if( nullptr == object ) return nullptr;
 	Object *obj = new Object();
 	obj->id = idList.size();
 	idList.insert(make_pair(object, obj));
@@ -26,6 +30,7 @@ Object * Writer::newObject(const Writable * object) {
 
 Object * Writer::addObjectGetID(const Writable * object)
 {
+	if( nullptr == object ) return nullptr;
   Object * meta = newObject(object);
   curObj = meta;
 	root_objs.push_back(curObj);
@@ -34,8 +39,9 @@ Object * Writer::addObjectGetID(const Writable * object)
   return meta;
 }
 
-void Writer::writeName(const string& name)
+void Writer::writeName(const string& name) throw(NoCurrentObject)
 {
+	if( nullptr == curObj ) throw NoCurrentObject();
   if( curObj->name.size() == 0 ) {
     curObj->name = name;
   }
@@ -43,6 +49,7 @@ void Writer::writeName(const string& name)
 
 template<typename T>
 void Writer::write_impl( T val, const string& name ) {
+	if( nullptr == curObj ) throw NoCurrentObject();
   curObj->data.insert(make_pair(string(name), new Data< T >(val)));
 }
 
@@ -53,6 +60,7 @@ PRIMITIVE_TYPES(SPECIALIZATION)
 template void Writer::write_impl(const char* val, const string& name);
 
 template<> void Writer::write_impl(const Writable& val, const string& name) {
+	if( nullptr == this->curObj ) throw NoCurrentObject();
   Object * oldObj = curObj;
   curObj = newObject(&val);
   val.write(this);
@@ -61,8 +69,9 @@ template<> void Writer::write_impl(const Writable& val, const string& name) {
 }
 
 template<typename T>
-void Writer::writeArray( T * val, size_t count, const string& name, hint_t hint)
+void Writer::writeArray( T * val, size_t count, const string& name, hint_t hint) throw(NoCurrentObject)
 {
+	if( nullptr == this->curObj ) throw NoCurrentObject();
   T * array = nullptr;
   if( hint & COPY_ARRAY_HINT ) {
     array = new T[count];
@@ -78,7 +87,9 @@ void Writer::writeArray( T * val, size_t count, const string& name, hint_t hint)
 template void Writer::writeArray(x * elements, size_t count, const string& name, hint_t hints);
 
 PRIMITIVE_TYPES(WRITE_ARRAY)
-template<> void Writer::writeArray(Writable ** val, size_t count, const string& name, hint_t hint) {
+template<> void Writer::writeArray(Writable ** val, size_t count, const string& name, hint_t hint) throw(NoCurrentObject) {
+	if( nullptr == this->curObj ) throw NoCurrentObject();
+	
   ArrayData<Writable*> * data = new ArrayData<Writable*>(count, nullptr, hint);
   
   for( size_t i = 0; i < count; i++ ) {
