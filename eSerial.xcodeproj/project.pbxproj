@@ -18,12 +18,12 @@
 		DA2C3852133838840013BE0F /* Data.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2C3851133838840013BE0F /* Data.h */; settings = {ATTRIBUTES = (); }; };
 		DA2C385413383A350013BE0F /* macros.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2C385313383A350013BE0F /* macros.h */; settings = {ATTRIBUTES = (); }; };
 		DA3AB8F314A3DEEA00002DD0 /* unittests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA3AB8F214A3DEEA00002DD0 /* unittests.cpp */; };
-		DA3AB8F614A3DF4200002DD0 /* b64_tests.c in Sources */ = {isa = PBXBuildFile; fileRef = DA3AB8F514A3DF4200002DD0 /* b64_tests.c */; };
-		DA3AB8F914A3E08400002DD0 /* libcunit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DA3AB8F814A3E08400002DD0 /* libcunit.a */; };
+		DA3AB8F614A3DF4200002DD0 /* b64_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA3AB8F514A3DF4200002DD0 /* b64_tests.cpp */; };
 		DA3FD1211452320800431974 /* XMLWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA3FD1201452320800431974 /* XMLWriter.cpp */; };
 		DA3FD127145240A700431974 /* XMLParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA3FD126145240A700431974 /* XMLParser.cpp */; };
 		DA5EA858144A5D86000DC973 /* b64.c in Sources */ = {isa = PBXBuildFile; fileRef = DA5EA857144A5D86000DC973 /* b64.c */; };
 		DA5EA85C144A66A4000DC973 /* b64.h in Headers */ = {isa = PBXBuildFile; fileRef = DA5EA85B144A66A4000DC973 /* b64.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DA8C8C5D14A58B84000B990B /* libgtest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DA8C8C5C14A58B84000B990B /* libgtest.a */; };
 		DADEF564144AA30600EE2C6B /* libxml2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DA01388D144A028E0014EBD1 /* libxml2.2.dylib */; };
 /* End PBXBuildFile section */
 
@@ -115,13 +115,12 @@
 		DA2C3851133838840013BE0F /* Data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Data.h; sourceTree = "<group>"; };
 		DA2C385313383A350013BE0F /* macros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = macros.h; sourceTree = "<group>"; };
 		DA3AB8F214A3DEEA00002DD0 /* unittests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = unittests.cpp; sourceTree = "<group>"; };
-		DA3AB8F514A3DF4200002DD0 /* b64_tests.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = b64_tests.c; sourceTree = "<group>"; };
-		DA3AB8F714A3E00900002DD0 /* unittests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = unittests.h; sourceTree = "<group>"; };
-		DA3AB8F814A3E08400002DD0 /* libcunit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcunit.a; path = "../../../../../usr/local/Cellar/cunit/2.1-2/lib/libcunit.a"; sourceTree = "<group>"; };
+		DA3AB8F514A3DF4200002DD0 /* b64_tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = b64_tests.cpp; sourceTree = "<group>"; };
 		DA3FD1201452320800431974 /* XMLWriter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = XMLWriter.cpp; sourceTree = "<group>"; };
 		DA3FD126145240A700431974 /* XMLParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = XMLParser.cpp; sourceTree = "<group>"; };
 		DA5EA857144A5D86000DC973 /* b64.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = b64.c; sourceTree = "<group>"; };
 		DA5EA85B144A66A4000DC973 /* b64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = b64.h; sourceTree = "<group>"; };
+		DA8C8C5C14A58B84000B990B /* libgtest.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgtest.a; path = /usr/local/Cellar/gtest/1.6.0/lib/libgtest.a; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,7 +130,7 @@
 			files = (
 				DA05A31D146F1275001425BA /* eSerial.dylib in Frameworks */,
 				DA01388E144A028E0014EBD1 /* libxml2.2.dylib in Frameworks */,
-				DA3AB8F914A3E08400002DD0 /* libcunit.a in Frameworks */,
+				DA8C8C5D14A58B84000B990B /* libgtest.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -217,11 +216,10 @@
 		DA013884144A01EC0014EBD1 /* test */ = {
 			isa = PBXGroup;
 			children = (
-				DA3AB8F814A3E08400002DD0 /* libcunit.a */,
+				DA8C8C5C14A58B84000B990B /* libgtest.a */,
 				DA013885144A01EC0014EBD1 /* main.cpp */,
-				DA3AB8F714A3E00900002DD0 /* unittests.h */,
 				DA3AB8F214A3DEEA00002DD0 /* unittests.cpp */,
-				DA3AB8F514A3DF4200002DD0 /* b64_tests.c */,
+				DA3AB8F514A3DF4200002DD0 /* b64_tests.cpp */,
 			);
 			path = test;
 			sourceTree = "<group>";
@@ -353,7 +351,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA3AB8F314A3DEEA00002DD0 /* unittests.cpp in Sources */,
-				DA3AB8F614A3DF4200002DD0 /* b64_tests.c in Sources */,
+				DA3AB8F614A3DF4200002DD0 /* b64_tests.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -391,7 +389,6 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				HEADER_SEARCH_PATHS = (
 					/usr/local/include,
 					"$(inherited)",
@@ -399,9 +396,8 @@
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"/usr/local/Cellar/cunit/2.1-2/lib\"",
+					/usr/local/Cellar/gtest/1.6.0/lib,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -413,7 +409,7 @@
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				HEADER_SEARCH_PATHS = (
 					/usr/local/include,
 					"$(inherited)",
@@ -421,9 +417,8 @@
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"/usr/local/Cellar/cunit/2.1-2/lib\"",
+					/usr/local/Cellar/gtest/1.6.0/lib,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -434,12 +429,27 @@
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_IMPLICIT_SIGN_CONVERSION = YES;
+				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				GCC_PREPROCESSOR_DEFINITIONS = "GTEST_HAS_TR1_TUPLE=0";
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = YES;
+				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
+				GCC_WARN_NON_VIRTUAL_DESTRUCTOR = YES;
+				GCC_WARN_PEDANTIC = YES;
+				GCC_WARN_SHADOW = YES;
+				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNKNOWN_PRAGMAS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = macosx;
@@ -452,9 +462,25 @@
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_IMPLICIT_SIGN_CONVERSION = YES;
+				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_PREPROCESSOR_DEFINITIONS = "GTEST_HAS_TR1_TUPLE=0";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = YES;
+				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
+				GCC_WARN_NON_VIRTUAL_DESTRUCTOR = YES;
+				GCC_WARN_PEDANTIC = YES;
+				GCC_WARN_SHADOW = YES;
+				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNKNOWN_PRAGMAS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = macosx;
