@@ -52,12 +52,6 @@ void XMLWriter::writeFile(const string& filename)
   xmlFreeDoc(doc);
 }
 
-
-#define WRITE_XML(x)\
-else if( Data<x>* data = dynamic_cast<Data<x>*>(iter.second) ) { \
-  field = xmlNewChild(node, nullptr, (const xmlChar*)#x, (const xmlChar*)toString(data->data).c_str()); \
-}
-
 template<typename T>
 static inline char * toString(const T * data, size_t count)
 {
@@ -129,11 +123,17 @@ void XMLWriter::writeArrayToXML(xmlNodePtr node, xmlNodePtr field, ArrayData<T> 
   xmlNewProp(field, (const xmlChar*)"count", (const xmlChar*)toString(data->count).c_str());
 }
 
-#define WRITE_XML_ARRAY(x)\
-else if( ArrayData<x>* data = dynamic_cast<ArrayData<x>*>(iter.second) ) { \
-  writeArrayToXML(node, field, data, #x);\
+#define WRITE_XML(x)\
+else if( Data<x>* data##x = dynamic_cast<Data<x>*>(iter.second) ) { \
+	field = xmlNewChild(node, nullptr, (const xmlChar*)#x, (const xmlChar*)toString(data##x ->data).c_str()); \
 }
 
+#define WRITE_XML_ARRAY(x)\
+else if( ArrayData<x>* array_data_##x = dynamic_cast<ArrayData<x>*>(iter.second) ) { \
+  writeArrayToXML(node, field, array_data_##x, #x);\
+}
+
+typedef long double long_double;
 void XMLWriter::addToXML(Object *obj, xmlNodePtr parent)
 {
   xmlNodePtr node = xmlNewChild(parent, nullptr, (const xmlChar *)"object", nullptr);
@@ -154,19 +154,19 @@ void XMLWriter::addToXML(Object *obj, xmlNodePtr parent)
     WRITE_XML(int64_t)
     WRITE_XML(float)
     WRITE_XML(double)
-    WRITE_XML(long double)
-    else if( Data<bool>* data = dynamic_cast<Data<bool>*>(iter.second) ) {
-      field = xmlNewChild(node, nullptr, (const xmlChar*)"bool", (const xmlChar*)toString((int)data->data).c_str());
+    WRITE_XML(long_double)
+    else if( Data<bool>* data_bool = dynamic_cast<Data<bool>*>(iter.second) ) {
+      field = xmlNewChild(node, nullptr, (const xmlChar*)"bool", (const xmlChar*)toString((int)data_bool->data).c_str());
     }
-    else if( Data<const char*>* data = dynamic_cast<Data<const char*>*>(iter.second) ) {
-      field = xmlNewTextChild(node, nullptr, (const xmlChar*)"char_star", (const xmlChar*)data->data);
+    else if( Data<const char*>* data_char_star = dynamic_cast<Data<const char*>*>(iter.second) ) {
+      field = xmlNewTextChild(node, nullptr, (const xmlChar*)"char_star", (const xmlChar*)data_char_star->data);
     }
-    else if( Data<Writable> * data = dynamic_cast<Data<Writable>*>(iter.second) ) {
-      addToXML(data, node);
+    else if( Data<Writable> * data_writable = dynamic_cast<Data<Writable>*>(iter.second) ) {
+      addToXML(data_writable, node);
     }
-    else if( Data<Writable*> * data = dynamic_cast<Data<Writable*>*>(iter.second) ) {
+    else if( Data<Writable*> * data_writable_star = dynamic_cast<Data<Writable*>*>(iter.second) ) {
       field = xmlNewChild(node, nullptr, (const xmlChar*)"eos.serialization.Writable", nullptr);
-      xmlNewProp(field, (const xmlChar*)"id", (const xmlChar*)toString(data->id).c_str());
+      xmlNewProp(field, (const xmlChar*)"id", (const xmlChar*)toString(data_writable_star->id).c_str());
     }
     WRITE_XML_ARRAY(uint8_t)
     WRITE_XML_ARRAY(uint16_t)
@@ -178,10 +178,10 @@ void XMLWriter::addToXML(Object *obj, xmlNodePtr parent)
     WRITE_XML_ARRAY(int64_t)
     WRITE_XML_ARRAY(float)
     WRITE_XML_ARRAY(double)
-    WRITE_XML_ARRAY(long double)
+    WRITE_XML_ARRAY(long_double)
     WRITE_XML_ARRAY(bool)
-    else if( ArrayData<Writable*>* data = dynamic_cast<ArrayData<Writable*>*>(iter.second) ) {
-      writeArrayToXML(node, field, data, "eos.serialization.Writable*");
+    else if( ArrayData<Writable*>* array_data_writable_star = dynamic_cast<ArrayData<Writable*>*>(iter.second) ) {
+      writeArrayToXML(node, field, array_data_writable_star, "eos.serialization.Writable*");
     }
     
     xmlNewProp(field, (const xmlChar*)"name", (const xmlChar*)iter.first.c_str());
