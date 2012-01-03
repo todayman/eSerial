@@ -23,7 +23,6 @@ class Writer {
 protected:
 	std::map<const Writable*, Object*> idList;
 	std::vector<Object*> root_objs;
-  size_t obj_count;
 	Object * curObj;
   Object * newObject(const Writable * object);
   Object * addObjectGetID(const Writable * object);
@@ -50,7 +49,7 @@ protected:
   };
   
 public:
-  Writer() : idList(), root_objs(), obj_count(0), curObj(nullptr) { }
+  Writer() : idList(), root_objs(), curObj(nullptr) { }
   virtual ~Writer();
 	virtual void writeFile(const std::string& pathname) = 0;
 	void addObject(Writable * object) {

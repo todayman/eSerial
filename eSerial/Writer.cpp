@@ -18,10 +18,8 @@ Writer::~Writer() {
 }
 
 Object * Writer::newObject(const Writable * object) {
-  size_t id = obj_count;
 	Object *obj = new Object();
-  obj_count += 1;
-	obj->id = id;
+	obj->id = idList.size();
 	idList.insert(make_pair(object, obj));
   return obj;
 }
