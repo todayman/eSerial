@@ -16,6 +16,7 @@ class Parser;
 
 class Writable {
 public:
+	virtual ~Writable() = default;
 	virtual void write(Writer * writer) const = 0;
 	virtual void read(Parser * reader) = 0;
 };
