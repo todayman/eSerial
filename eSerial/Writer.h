@@ -36,7 +36,7 @@ protected:
 	Object * curObj;
 	
 	Object * newObject(Writable * object);
-	Object * addObjectGetID(Writable * object);
+	Object * addRootObject(Writable * object);
 	
 	template<typename T>
 	void write_impl(T val, const std::string& name);
@@ -64,7 +64,7 @@ public:
 	virtual ~Writer();
 	virtual void writeFile(const std::string& pathname) = 0;
 	void addObject(Writable * object) {
-		addObjectGetID(object);
+		addRootObject(object);
 	}
 	void writeName(const std::string& name) throw(NoCurrentObject);
 	

@@ -28,7 +28,7 @@ Object * Writer::newObject(Writable * object) {
   return obj;
 }
 
-Object * Writer::addObjectGetID(Writable * object)
+Object * Writer::addRootObject(Writable * object)
 {
 	if( nullptr == object ) return nullptr;
   Object * meta = newObject(object);
@@ -93,7 +93,7 @@ template<> void Writer::writeArray(Writable ** val, size_t count, const string& 
   ArrayData<Writable*> * data = new ArrayData<Writable*>(count, nullptr, hint);
   
   for( size_t i = 0; i < count; i++ ) {
-    data->data[i] = addObjectGetID(val[i])->id;
+    data->data[i] = addRootObject(val[i])->id;
   }
   
   curObj->data.insert(make_pair(name, data));

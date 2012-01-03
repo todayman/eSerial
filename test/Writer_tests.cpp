@@ -67,16 +67,16 @@ TEST_F(WriterTest, NewObjectTest) {
 	EXPECT_EQ(0, this->root_objs.size());
 }
 
-TEST_F(WriterTest, AddObjectGetID) {
+TEST_F(WriterTest, AddRootObject) {
 	MockWritable dataObj;
-	Object * newObj = this->addObjectGetID(&dataObj);
+	Object * newObj = this->addRootObject(&dataObj);
 	EXPECT_NE(nullptr, newObj);
 	EXPECT_EQ(1, this->root_objs.size());
 	EXPECT_EQ(newObj, this->root_objs[0]);
 	// since newObj is in root_objs, it will get cleaned up in the destructor
 	
 	// make sure that nothing bad happens when we pass nullptr
-	newObj = this->addObjectGetID(nullptr);
+	newObj = this->addRootObject(nullptr);
 	EXPECT_EQ(nullptr, newObj);
 	EXPECT_EQ(1, this->root_objs.size());
 }
