@@ -68,6 +68,14 @@ template<> void Writer::write_impl(Writable& val, const string& name) {
   curObj = oldObj;
 }
 
+template<> void Writer::write_impl(Writable * val, const string& name) {
+	if( nullptr == this->curObj ) throw NoCurrentObject();
+  Object * oldObj = curObj;
+  curObj = addRootObject(val);
+  oldObj->data.insert(make_pair(name, curObj));
+  curObj = oldObj;
+}
+
 template<typename T>
 void Writer::writeArray( T * val, size_t count, const string& name, hint_t hint) throw(NoCurrentObject)
 {

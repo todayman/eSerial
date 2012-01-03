@@ -43,6 +43,21 @@ protected:
 	
 	/* these structs are here to route
 	 instantiations of write() to the correct implementation */
+	template<bool ptr_type, typename T>
+	struct handle_pointer { };
+	
+	template<typename T>
+	struct handle_pointer<false, T> {
+		typedef T theType;
+	};
+	
+	template<typename T>
+	struct handle_pointer<true, T> {
+		static_assert(std::is_base_of<Writable, typename std::remove_pointer<T>::type >::value,
+									"You must inherit from eos::serializable::Writable to be write an object.");
+		typedef Writable* theType;
+	};
+	
 	template<bool primitve, typename T>
 	struct is_base_type_thingy {
 	};
@@ -56,8 +71,9 @@ protected:
 	
 	template<typename T>
 	struct is_base_type_thingy<true, T> {
-		typedef T theType;
+		typedef typename handle_pointer<std::is_pointer<T>::value, T>::theType theType;
 	};
+	
 	
 public:
 	Writer() : idList(), root_objs(), curObj(nullptr) { }
@@ -71,7 +87,7 @@ public:
 	/* write individual values */
 	template<typename T>
 	void write(T val, const std::string& name) {
-		static_assert( !std::is_pointer<T>::value || std::is_base_of<Writable, T>::value,
+		static_assert( !std::is_pointer<T>::value || std::is_base_of<Writable, typename std::remove_pointer<T>::type >::value,
 									"Only pointers to subclasses of eos::serialization::Writable may be written.");
 		write_impl< typename is_base_type_thingy<std::is_scalar<T>::value, T>::theType >(val, name);
 	}
