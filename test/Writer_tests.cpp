@@ -131,6 +131,8 @@ TEST_F(WriterTest, AddStackObjectTest) {
 	EXPECT_EQ(1, field_ptr->data);
 	
 	EXPECT_EQ(0, this->root_objs.size());
+	ASSERT_EQ(1, this->idList.size());
+	EXPECT_EQ(data_ptr, this->idList.at(&toWrite));
 	
 	delete newObj;
 }
@@ -154,11 +156,13 @@ TEST_F(WriterTest, AddPointerTest) {
 	
 	ASSERT_EQ(1, this->root_objs.size());
 	EXPECT_EQ(data_ptr, this->root_objs[0]);
+	ASSERT_EQ(1, this->idList.size());
+	EXPECT_EQ(data_ptr, this->idList.at(toWrite));
 	
 	delete newObj;
 }
 
-TEST_F(WriterTest, CHAR_STAR_TEST) {
+TEST_F(WriterTest, CharStarTest) {
 	const char * toWrite = "a string to write to disk";
 	EXPECT_THROW(this->write(toWrite, "toWrite"), Writer::NoCurrentObject);
 	
@@ -174,4 +178,89 @@ TEST_F(WriterTest, CHAR_STAR_TEST) {
 	EXPECT_EQ(0, this->root_objs.size());
 	
 	delete newObj;
+}
+
+TEST_F(WriterTest, SharedPointerTest) {
+	struct data_t : public Writable {
+		int data;
+		virtual void write(Writer * writer) override {
+			writer->write(data, "data");
+		}
+		virtual void read(Parser * reader) override { }
+	} data;
+	struct ptr_container_t : public Writable {
+		data_t * data;
+		virtual void write(Writer * writer) override {
+			writer->write(data, "data");
+		}
+		virtual void read(Parser * parser) override { }
+	} containerA, containerB;
+	
+	containerA.data = &data;
+	containerB.data = &data;
+	
+	this->addObject(&containerA);
+	this->addObject(&containerB);
+	
+	for( auto key : this->idList ) {
+		cout << key.first << endl;
+	}
+	
+	EXPECT_EQ(3, this->root_objs.size());
+	EXPECT_EQ(3, this->idList.size());
+	
+	Object * meta_A = this->idList[&containerA];
+	ASSERT_NE(nullptr, meta_A);
+	Object * meta_B = this->idList[&containerB];
+	ASSERT_NE(nullptr, meta_B);
+	
+	Data<Writable*> * meta_data_A = dynamic_cast<Data<Writable*>*>(meta_A->data["data"]);
+	Data<Writable*> * meta_data_B = dynamic_cast<Data<Writable*>*>(meta_B->data["data"]);
+	EXPECT_EQ(meta_data_A, meta_data_B);
+}
+
+TEST_F(WriterTest, SharedDataTest) {
+	struct data_t : public Writable {
+		int data;
+		virtual void write(Writer * writer) override {
+			writer->write(data, "data");
+		}
+		virtual void read(Parser * reader) override { }
+	};
+	struct static_data_t : public Writable {
+		data_t data;
+		virtual void write(Writer * writer) override {
+			writer->write(data, "data");
+		}
+		virtual void read(Parser * parser) override { }
+	} containerA;
+	struct ptr_container_t : public Writable {
+		data_t * data;
+		virtual void write(Writer * writer) override {
+			writer->write(data, "data");
+		}
+		virtual void read(Parser * parser) override { }
+	} containerB;
+	
+	containerA.data.data = 5;
+	containerB.data = &containerA.data;
+	
+	this->addObject(&containerA);
+	this->addObject(&containerB);
+	
+	for( auto key : this->idList ) {
+		cout << key.first << endl;
+	}
+	
+	EXPECT_EQ(2, this->root_objs.size());
+	EXPECT_EQ(3, this->idList.size());
+	
+	Object * meta_A = this->idList[&containerA];
+	ASSERT_NE(nullptr, meta_A);
+	Object * meta_B = this->idList[&containerB];
+	ASSERT_NE(nullptr, meta_B);
+	
+	Data<Writable*> * meta_data_A = dynamic_cast<Data<Writable*>*>(meta_A->data["data"]);
+	Data<Writable*> * meta_data_B = dynamic_cast<Data<Writable*>*>(meta_B->data["data"]);
+	EXPECT_EQ(meta_data_A, meta_data_B);
 }

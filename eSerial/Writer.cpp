@@ -31,12 +31,19 @@ Object * Writer::newObject(Writable * object) {
 Object * Writer::addRootObject(Writable * object)
 {
 	if( nullptr == object ) return nullptr;
-  Object * meta = newObject(object);
-  curObj = meta;
-	root_objs.push_back(curObj);
-	object->write(this);
-  curObj = nullptr;
-  return meta;
+	
+	Object * meta;
+	if( idList.count(object) ) {
+		meta = idList.at(object);
+	}
+	else {
+		meta = newObject(object);
+		curObj = meta;
+		root_objs.push_back(curObj);
+		object->write(this);
+		curObj = nullptr;
+	}
+	return meta;
 }
 
 void Writer::writeName(const string& name) throw(NoCurrentObject)
