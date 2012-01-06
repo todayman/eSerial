@@ -202,10 +202,6 @@ TEST_F(WriterTest, SharedPointerTest) {
 	this->addObject(&containerA);
 	this->addObject(&containerB);
 	
-	for( auto key : this->idList ) {
-		cout << key.first << endl;
-	}
-	
 	EXPECT_EQ(3, this->root_objs.size());
 	EXPECT_EQ(3, this->idList.size());
 	
@@ -247,11 +243,6 @@ TEST_F(WriterTest, SharedDataTest) {
 	
 	this->addObject(&containerA);
 	this->addObject(&containerB);
-	
-	for( auto key : this->idList ) {
-		cout << key.first << endl;
-	}
-	
 	EXPECT_EQ(2, this->root_objs.size());
 	EXPECT_EQ(3, this->idList.size());
 	
