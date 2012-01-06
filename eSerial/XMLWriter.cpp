@@ -11,18 +11,8 @@ using namespace std;
 #include "b64.h"
 #include "Data.h"
 #include "Writer.h"
+#include "XMLWriter.h"
 using namespace eos::serialization;
-
-class XMLWriter : public Writer {
-  void addToXML(Object * obj, xmlNodePtr parent);
-  
-  template<typename T>
-  void writeArrayToXML(xmlNodePtr node, xmlNodePtr field, ArrayData<T> * data, const char * type);
-  
-public:
-  XMLWriter() = default;
-  virtual void writeFile(const string& filename) override;
-};
 
 Writer * Writer::newXMLWriter() {
   return new XMLWriter();
@@ -36,7 +26,7 @@ static inline std::string toString (const T & t)
   return ss.str();
 }
 
-void XMLWriter::writeFile(const string& filename)
+void XMLWriter::writeStream(ostream &output)
 {
   xmlDocPtr doc = xmlNewDoc((const xmlChar *)"1.0");
   doc->encoding = xmlStrdup((const xmlChar *)"UTF-8");
@@ -44,12 +34,16 @@ void XMLWriter::writeFile(const string& filename)
   
   xmlNodePtr tree = doc->xmlRootNode;
   
-  for( auto iter = root_objs.begin(); iter != root_objs.end(); iter++ ) {
-    addToXML(*iter, tree);
+  for( auto iter : root_objs ) {
+    addToXML(iter, tree);
   }
-  
-  xmlSaveFormatFileEnc(filename.c_str(), doc, "UTF-8", 1);
+	
+	xmlChar * dump = nullptr;
+	int size = -1;
+	xmlDocDumpFormatMemory(doc, &dump, &size, true);
   xmlFreeDoc(doc);
+	output << dump;
+	xmlFree(dump);
 }
 
 template<typename T>
@@ -151,7 +145,9 @@ void XMLWriter::addToXML(Object *obj, xmlNodePtr parent)
     WRITE_XML(uint16_t)
     WRITE_XML(uint32_t)
     WRITE_XML(uint64_t)
-    WRITE_XML(int8_t)
+    else if( Data<int8_t>* data_int8_t = dynamic_cast<Data<int8_t>*>(iter.second) ) {
+      field = xmlNewChild(node, nullptr, (const xmlChar*)"int8_t", (const xmlChar*)toString((int)data_int8_t->data).c_str());
+    }
     WRITE_XML(int16_t)
     WRITE_XML(int32_t)
     WRITE_XML(int64_t)

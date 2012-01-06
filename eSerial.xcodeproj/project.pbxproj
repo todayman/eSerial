@@ -10,6 +10,7 @@
 		DA01388E144A028E0014EBD1 /* libxml2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DA01388D144A028E0014EBD1 /* libxml2.2.dylib */; };
 		DA05A31D146F1275001425BA /* eSerial.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2C381513382E200013BE0F /* eSerial.dylib */; };
 		DA05A321146F15EE001425BA /* hints.h in Headers */ = {isa = PBXBuildFile; fileRef = DA05A320146F15EE001425BA /* hints.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DA154CDC14B696E9009DE903 /* XMLWriter_test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA154CDA14B696E9009DE903 /* XMLWriter_test.cpp */; };
 		DA2C383213382F450013BE0F /* Parser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2C382E13382F450013BE0F /* Parser.cpp */; };
 		DA2C383313382F450013BE0F /* Parser.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2C382F13382F450013BE0F /* Parser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA2C383413382F450013BE0F /* Writer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2C383013382F450013BE0F /* Writer.cpp */; };
@@ -25,6 +26,7 @@
 		DA5EA85C144A66A4000DC973 /* b64.h in Headers */ = {isa = PBXBuildFile; fileRef = DA5EA85B144A66A4000DC973 /* b64.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA8C8C5D14A58B84000B990B /* libgtest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DA8C8C5C14A58B84000B990B /* libgtest.a */; };
 		DA8C8CB714A5BAFC000B990B /* Writer_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA8C8CB614A5BAFC000B990B /* Writer_tests.cpp */; };
+		DAA4FE6514B7658F00F98888 /* XMLWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = DAA4FE6414B7658F00F98888 /* XMLWriter.h */; };
 		DADEF564144AA30600EE2C6B /* libxml2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DA01388D144A028E0014EBD1 /* libxml2.2.dylib */; };
 /* End PBXBuildFile section */
 
@@ -107,6 +109,7 @@
 		DA013890144A03360014EBD1 /* dia_xml.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = dia_xml.c; path = "../../../Users/paul/Library/Caches/Homebrew/dia-0.97.1/lib/dia_xml.c"; sourceTree = "<group>"; };
 		DA013891144A03360014EBD1 /* dia_xml.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = dia_xml.h; path = "../../../Users/paul/Library/Caches/Homebrew/dia-0.97.1/lib/dia_xml.h"; sourceTree = "<group>"; };
 		DA05A320146F15EE001425BA /* hints.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hints.h; sourceTree = "<group>"; };
+		DA154CDA14B696E9009DE903 /* XMLWriter_test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = XMLWriter_test.cpp; sourceTree = "<group>"; };
 		DA2C381513382E200013BE0F /* eSerial.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = eSerial.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA2C382E13382F450013BE0F /* Parser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Parser.cpp; sourceTree = "<group>"; };
 		DA2C382F13382F450013BE0F /* Parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Parser.h; sourceTree = "<group>"; };
@@ -123,6 +126,7 @@
 		DA5EA85B144A66A4000DC973 /* b64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = b64.h; sourceTree = "<group>"; };
 		DA8C8C5C14A58B84000B990B /* libgtest.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgtest.a; path = /usr/local/Cellar/gtest/1.6.0/lib/libgtest.a; sourceTree = "<absolute>"; };
 		DA8C8CB614A5BAFC000B990B /* Writer_tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Writer_tests.cpp; sourceTree = "<group>"; };
+		DAA4FE6414B7658F00F98888 /* XMLWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLWriter.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -223,6 +227,7 @@
 				DA3AB8F214A3DEEA00002DD0 /* unittests.cpp */,
 				DA3AB8F514A3DF4200002DD0 /* b64_tests.cpp */,
 				DA8C8CB614A5BAFC000B990B /* Writer_tests.cpp */,
+				DA154CDA14B696E9009DE903 /* XMLWriter_test.cpp */,
 			);
 			path = test;
 			sourceTree = "<group>";
@@ -258,6 +263,7 @@
 				DA2C383013382F450013BE0F /* Writer.cpp */,
 				DA05A320146F15EE001425BA /* hints.h */,
 				DA3FD1201452320800431974 /* XMLWriter.cpp */,
+				DAA4FE6414B7658F00F98888 /* XMLWriter.h */,
 				DA3FD126145240A700431974 /* XMLParser.cpp */,
 				DA5EA85B144A66A4000DC973 /* b64.h */,
 				DA5EA857144A5D86000DC973 /* b64.c */,
@@ -280,6 +286,7 @@
 				DA2C38371338330D0013BE0F /* Writable.h in Headers */,
 				DA2C3852133838840013BE0F /* Data.h in Headers */,
 				DA2C385413383A350013BE0F /* macros.h in Headers */,
+				DAA4FE6514B7658F00F98888 /* XMLWriter.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -356,6 +363,7 @@
 				DA3AB8F314A3DEEA00002DD0 /* unittests.cpp in Sources */,
 				DA3AB8F614A3DF4200002DD0 /* b64_tests.cpp in Sources */,
 				DA8C8CB714A5BAFC000B990B /* Writer_tests.cpp in Sources */,
+				DA154CDC14B696E9009DE903 /* XMLWriter_test.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

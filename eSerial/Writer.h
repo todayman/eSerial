@@ -6,6 +6,8 @@
  *
  */
 
+#include <iostream>
+#include <fstream>
 #include <vector>
 #include <map>
 #include <type_traits>
@@ -78,7 +80,12 @@ protected:
 public:
 	Writer() : idList(), root_objs(), curObj(nullptr) { }
 	virtual ~Writer();
-	virtual void writeFile(const std::string& pathname) = 0;
+	void writeFile(const std::string& pathname) {
+		std::ofstream output(pathname);
+		writeStream(output);
+		output.close();
+	}
+	virtual void writeStream(std::ostream &outputStream) = 0;
 	void addObject(Writable * object) {
 		addRootObject(object);
 	}

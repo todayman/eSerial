@@ -15,7 +15,7 @@ using namespace serialization;
 template<typename T>
 class TypedWriterTest : public ::testing::Test, public Writer {
 public:
-	virtual void writeFile(const std::string& file) { }
+	virtual void writeStream(std::ostream& file) { }
 };
 
 class MockWritable : public Writable {
