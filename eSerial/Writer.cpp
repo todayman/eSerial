@@ -15,9 +15,9 @@ const char * Writer::NoCurrentObject::message =
 	"There must be an object currently being written in order to complete this operation.";
 
 Writer::~Writer() {
-  for( Object * o : root_objs ) {
-    delete o;
-  }
+	for( auto key_obj : idList ) {
+		delete key_obj.second;
+	}
 }
 
 Object * Writer::newObject(Writable * object) {

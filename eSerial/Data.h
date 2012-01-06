@@ -23,6 +23,7 @@ class _Data {
 public:
   virtual ~_Data() { }
 	virtual bool operator==(const _Data& other) const = 0;
+	virtual bool shouldBeDeletedByOwner() const = 0;
 };
 typedef _Data * pData;
 
@@ -40,6 +41,9 @@ public:
 			return false;
 		}
 	}
+	virtual bool shouldBeDeletedByOwner() const override {
+		return true;
+	}
 };
 
 template<> class Data<Writable*> : public _Data {
@@ -56,6 +60,10 @@ public:
 		catch(const std::bad_cast& e) {
 			return false;
 		}
+	}
+	
+	virtual bool shouldBeDeletedByOwner() const override {
+		return true;
 	}
 };
 
@@ -90,6 +98,10 @@ public:
 			return false;
 		}
 	}
+	
+	virtual bool shouldBeDeletedByOwner() const override {
+		return true;
+	}
 };
 
 template<> class ArrayData<Writable*> : public _Data {
@@ -116,6 +128,10 @@ public:
 			return false;
 		}
 	}
+	
+	virtual bool shouldBeDeletedByOwner() const override {
+		return true;
+	}
 };
 
 template<> class Data<Writable> : public _Data {
@@ -125,6 +141,13 @@ public:
   std::map<std::string, pData> data;
 	
 	Data() : id(static_cast<size_t>(-1)), name(), data() { }
+	virtual ~Data() {
+		for( auto kv_pair : data ) {
+			if( kv_pair.second->shouldBeDeletedByOwner() ) {
+				delete kv_pair.second;
+			}
+		}
+	}
 	
 	virtual bool operator==(const _Data& other) const noexcept {
 		try {
@@ -136,6 +159,10 @@ public:
 		catch(const std::bad_cast& e) {
 			return false;
 		}
+	}
+	
+	virtual bool shouldBeDeletedByOwner() const override {
+		return false;
 	}
 };
 

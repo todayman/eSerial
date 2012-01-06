@@ -57,13 +57,11 @@ TEST_F(WriterTest, NewObjectTest) {
 	EXPECT_EQ(cleanObj, *newObj);
 	// since newObj is not in the root_objs collection, it does not
 	// get cleaned up in the destructor.
-	delete newObj;
-	this->idList.clear();
-
+	
 	// Make sure that nothing happens when we put in nullptr
 	newObj = this->newObject(nullptr);
 	EXPECT_EQ(nullptr, newObj);
-	EXPECT_EQ(0, this->idList.size());
+	EXPECT_EQ(1, this->idList.size());
 	EXPECT_EQ(0, this->root_objs.size());
 }
 
