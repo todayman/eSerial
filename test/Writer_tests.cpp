@@ -146,19 +146,16 @@ TEST_F(WriterTest, AddPointerTest) {
 	
 	this->write(toWrite, "toWrite");
 	EXPECT_EQ(1, newObj->data.size());
-	Data<Writable> * data_ptr = dynamic_cast<Data<Writable>*>(newObj->data[std::string("toWrite")]);
+	Data<Writable*> * data_ptr = dynamic_cast<Data<Writable*>*>(newObj->data[std::string("toWrite")]);
 	ASSERT_NE(nullptr, data_ptr);
-	ASSERT_EQ(1, data_ptr->data.size());
+	ASSERT_EQ(1, root_objs.size());
+	ASSERT_EQ(1, this->idList.size());
 	
-	Data<unsigned int> * field_ptr = dynamic_cast<Data<unsigned int>*>(data_ptr->data[std::string("writeCount")]);
+	Data<unsigned int> * field_ptr = dynamic_cast<Data<unsigned int>*>(this->root_objs[data_ptr->id]->data[std::string("writeCount")]);
 	ASSERT_NE(nullptr, field_ptr);
 	EXPECT_EQ(1, field_ptr->data);
 	
-	ASSERT_EQ(1, this->root_objs.size());
-	EXPECT_EQ(data_ptr, this->root_objs[0]);
-	ASSERT_EQ(1, this->idList.size());
-	EXPECT_EQ(data_ptr, this->idList.at(toWrite));
-	
+	EXPECT_EQ(data_ptr->id, this->idList.at(toWrite)->id);
 	delete newObj;
 }
 
@@ -211,8 +208,10 @@ TEST_F(WriterTest, SharedPointerTest) {
 	ASSERT_NE(nullptr, meta_B);
 	
 	Data<Writable*> * meta_data_A = dynamic_cast<Data<Writable*>*>(meta_A->data["data"]);
+	ASSERT_NE(nullptr, meta_data_A);
 	Data<Writable*> * meta_data_B = dynamic_cast<Data<Writable*>*>(meta_B->data["data"]);
-	EXPECT_EQ(meta_data_A, meta_data_B);
+	ASSERT_NE(nullptr, meta_data_B);
+	EXPECT_EQ(meta_data_A->id, meta_data_B->id);
 }
 
 TEST_F(WriterTest, SharedDataTest) {
@@ -251,7 +250,9 @@ TEST_F(WriterTest, SharedDataTest) {
 	Object * meta_B = this->idList[&containerB];
 	ASSERT_NE(nullptr, meta_B);
 	
-	Data<Writable*> * meta_data_A = dynamic_cast<Data<Writable*>*>(meta_A->data["data"]);
+	Data<Writable> * meta_data_A = dynamic_cast<Data<Writable>*>(meta_A->data["data"]);
+	ASSERT_NE(nullptr, meta_data_A);
 	Data<Writable*> * meta_data_B = dynamic_cast<Data<Writable*>*>(meta_B->data["data"]);
-	EXPECT_EQ(meta_data_A, meta_data_B);
+	ASSERT_NE(nullptr, meta_data_B);
+	EXPECT_EQ(meta_data_A->id, meta_data_B->id);
 }

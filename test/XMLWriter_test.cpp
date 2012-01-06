@@ -137,12 +137,15 @@ PRIMITIVE_TYPE_IDENTIFIERS(WRITE_TEST)
 
 class data_t : public Writable {
 public:
-	int data;
+	static const string xmlName;
+	int32_t data;
 	void write(Writer * writer) override {
-		
+		writer->writeName(xmlName);
+		writer->write(data, "data");
 	}
 	void read(Parser * parser) override {	}
 };
+const string data_t::xmlName = "data_t";
 
 struct ptr_container_t : public Writable {
 public:
@@ -162,6 +165,7 @@ public:
 	static const string xmlName;
 	data_t data;
 	virtual void write(Writer * writer) override {
+		writer->writeName(xmlName);
 		writer->write(data, "data");
 	}
 	virtual void read(Parser * parser) override { }
@@ -177,7 +181,33 @@ TEST_F(XMLWriterTest, InternalObjectTest) {
 	this->writeStream(stream);
 	
 	string expected = xmlHeader;
-	expected += "    <object id=\"0\" name=\"" + stack_container_t::xmlName + "\">\n";
+	expected += "  <object id=\"0\" class=\"" + stack_container_t::xmlName + "\">\n";
+	expected += "    <object id=\"1\" class=\"" + data_t::xmlName + "\">\n";
+	expected += "      <int32_t name=\"data\">" + toString(stack_data.data.data) + "</int32_t>\n";
+	expected += "    </object>\n";
+	expected += "  </object>\n";
+	expected += "</eos.serialization>\n";
+	
+	EXPECT_EQ(expected, stream.str());
+}
+
+TEST_F(XMLWriterTest, InternalPointerTest) {
+	ptr_container_t ptr_data;
+	ptr_data.data = new data_t();
+	ptr_data.data->data = 5;
+	
+	this->addObject(&ptr_data);
+	stringstream stream;
+	this->writeStream(stream);
+	
+	string expected = xmlHeader;
+	expected += "  <object id=\"0\" class=\"" + ptr_container_t::xmlName + "\">\n";
+	expected += "    <eos.serialization.Writable id=\"1\" name=\"data\"/>\n";
+	expected += "  </object>\n";
+	expected += "  <object id=\"1\" class=\"" + data_t::xmlName + "\">\n";
+	expected += "    <int32_t name=\"data\">" + toString(ptr_data.data->data) + "</int32_t>\n";
+	expected += "  </object>\n";
+	expected += "</eos.serialization>\n";
 	
 	EXPECT_EQ(expected, stream.str());
 }

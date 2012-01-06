@@ -79,7 +79,8 @@ template<> void Writer::write_impl(Writable * val, const string& name) {
 	if( nullptr == this->curObj ) throw NoCurrentObject();
   Object * oldObj = curObj;
   curObj = addRootObject(val);
-  oldObj->data.insert(make_pair(name, curObj));
+	Data<Writable*> * ptr = new Data<Writable*>(curObj->id);
+  oldObj->data.insert(make_pair(name, ptr));
   curObj = oldObj;
 }
 
