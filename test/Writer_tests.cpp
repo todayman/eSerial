@@ -159,6 +159,7 @@ TEST_F(WriterTest, AddPointerTest) {
 	
 	EXPECT_EQ(data_ptr->id, this->idList.at(toWrite)->id);
 	delete newObj;
+	delete toWrite;
 }
 
 TEST_F(WriterTest, CharStarTest) {
@@ -245,6 +246,8 @@ TYPED_TEST(TypedWriterTest, AddPrimitiveArrayTest) {
 	EXPECT_EQ(NO_HINT, data_ptr->hints);
 	EXPECT_EQ(valArray, data_ptr->data);
 	EXPECT_EQ(0, memcmp(valArray, data_ptr->data, sizeof(valArray)));
+	// The previous line causes valgrind to complain that a conditional/jump
+	// depends on an uninitialized variable.  Not sure why that is happening...
 	
 	this->writeArray(valArray, sizeof(valArray)/sizeof(TypeParam), "copied_value", COPY_ARRAY_HINT);
 	data_ptr = dynamic_cast<ArrayData<TypeParam>*>(newObj->data[std::string("copied_value")]);
@@ -255,4 +258,40 @@ TYPED_TEST(TypedWriterTest, AddPrimitiveArrayTest) {
 	EXPECT_EQ(0, memcmp(valArray, data_ptr->data, sizeof(valArray)));
 	
 	delete newObj;
+}
+
+TEST_F(WriterTest, PointerArrayTest) {
+	constexpr int arrayLen = 4;
+	data_t *objArray[arrayLen];
+	for( size_t i = 0; i < arrayLen; ++i ) {
+		objArray[i] = new data_t();
+		objArray[i]->data = static_cast<int>(i);
+	}
+	Object * newObj = new Object();
+	this->curObj = newObj;
+	
+	this->writeArray(objArray, arrayLen, "objArray");
+	EXPECT_EQ(1, newObj->data.size());
+	EXPECT_EQ(arrayLen, this->root_objs.size());
+	EXPECT_EQ(arrayLen, this->idList.size());
+	
+	ArrayData<Writable*> * array_ptr = dynamic_cast<ArrayData<Writable*>*>(newObj->data["objArray"]);
+	EXPECT_EQ(NO_HINT, array_ptr->hints);
+	ASSERT_NE(nullptr, array_ptr);
+	ASSERT_EQ(arrayLen, array_ptr->count);
+	for( int i = 0; i < arrayLen; ++i ) {
+		size_t id = array_ptr->data[i];
+		Data<Writable> * element_ptr = dynamic_cast<Data<Writable>*>(this->root_objs[id]);
+		ASSERT_NE(nullptr, element_ptr);
+		Data<int32_t> * data_ptr = dynamic_cast<Data<int32_t>*>(element_ptr->data["data"]);
+		ASSERT_NE(nullptr, data_ptr);
+		EXPECT_EQ(i, data_ptr->data);
+	}
+	
+	delete newObj;
+	// COPY_ARRAY_HINT is a no-op here, since we're copying the data into metadata anyway
+	
+	for( int i = 0; i < arrayLen; ++i ) {
+		delete objArray[i];
+	}
 }

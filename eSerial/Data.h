@@ -111,9 +111,11 @@ public:
   hint_t hints;
   
   ArrayData() : count(0), data(nullptr), hints(NO_HINT) { }
-  ArrayData(size_t c, size_t * d, hint_t h) : count(c), data(d), hints(h) { }
+	ArrayData(size_t c, hint_t h) : count(c), data(new size_t[count]), hints(h) { }
   ~ArrayData() {
-    delete [] data;
+		if( nullptr != data ) {
+			delete [] data;
+		}
   }
 	
 	virtual bool operator==(const _Data& other) const {

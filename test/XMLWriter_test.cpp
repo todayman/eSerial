@@ -175,4 +175,5 @@ TEST_F(XMLWriterTest, InternalPointerTest) {
 	expected += "</eos.serialization>\n";
 	
 	EXPECT_EQ(expected, stream.str());
+	delete ptr_data.data;
 }

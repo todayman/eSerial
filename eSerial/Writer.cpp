@@ -85,7 +85,7 @@ template<> void Writer::write_impl(Writable * val, const string& name) {
 }
 
 template<typename T>
-void Writer::writeArray( T * val, size_t count, const string& name, hint_t hint) throw(NoCurrentObject)
+void Writer::write_array_impl( T * val, size_t count, const string& name, hint_t hint)
 {
 	if( nullptr == this->curObj ) throw NoCurrentObject();
   T * array = nullptr;
@@ -100,17 +100,18 @@ void Writer::writeArray( T * val, size_t count, const string& name, hint_t hint)
 }
 
 #define WRITE_ARRAY(x) \
-template void Writer::writeArray(x * elements, size_t count, const string& name, hint_t hints);
+template void Writer::write_array_impl(x * elements, size_t count, const string& name, hint_t hints);
 
 PRIMITIVE_TYPES(WRITE_ARRAY)
-template<> void Writer::writeArray(Writable ** val, size_t count, const string& name, hint_t hint) throw(NoCurrentObject) {
+template<> void Writer::write_array_impl(Writable ** val, size_t count, const string& name, hint_t hint) {
 	if( nullptr == this->curObj ) throw NoCurrentObject();
 	
-  ArrayData<Writable*> * data = new ArrayData<Writable*>(count, nullptr, hint);
-  
+  ArrayData<Writable*> * data = new ArrayData<Writable*>(count, hint);
+  Object * oldObj = curObj;
   for( size_t i = 0; i < count; i++ ) {
     data->data[i] = addRootObject(val[i])->id;
   }
   
+	curObj = oldObj;
   curObj->data.insert(make_pair(name, data));
 }

@@ -42,6 +42,8 @@ protected:
 	
 	template<typename T>
 	void write_impl(T val, const std::string& name);
+	template<typename T>
+	void write_array_impl(T * elements, size_t count, const std::string& name, hint_t hint);
 	
 	/* these structs are here to route
 	 instantiations of write() to the correct implementation */
@@ -101,7 +103,12 @@ public:
 	
 	/* write arrays of values */
 	template<typename T>
-	void writeArray(T * elements, size_t count, const std::string& name, hint_t hint = NO_HINT) throw(NoCurrentObject);
+	void writeArray(T * elements, size_t count, const std::string& name, hint_t hint = NO_HINT) {
+		static_assert( !std::is_pointer<T>::value || std::is_base_of<Writable, typename std::remove_pointer<T>::type >::value,
+									"Only pointers to subclasses of eos::serialization::Writable may be written.");
+		typedef typename is_base_type_thingy<std::is_scalar<T>::value, T>::theType implType;
+		write_array_impl< implType  >(reinterpret_cast<implType*>(elements), count, name, hint);
+	}
 	
 	// Get a writer
 	static Writer * newXMLWriter();
