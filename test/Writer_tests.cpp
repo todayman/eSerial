@@ -9,6 +9,7 @@
 #include "Writer.h"
 using namespace eos;
 using namespace serialization;
+#include <cstring>
 
 #include <gtest/gtest.h>
 
@@ -38,6 +39,11 @@ typedef ::testing::Types< char, unsigned char,
 	float, double, long double, bool > primitives;
 
 TYPED_TEST_CASE(TypedWriterTest, primitives);
+
+static char val1 = 0;
+static char val2 = 1;
+static char val3 = 10;
+static float val4 = 127.134f;
 
 TEST_F(WriterTest, ConstructorTest) {
 	EXPECT_EQ(0, this->idList.size());
@@ -80,34 +86,34 @@ TEST_F(WriterTest, AddRootObject) {
 }
 
 TYPED_TEST(TypedWriterTest, AddPrimitiveTest) {
-	TypeParam val1 = 0;
-	TypeParam val2 = 1;
-	TypeParam val3 = 10;
-	TypeParam val4 = 127;
+	TypeParam local_val1 = static_cast<TypeParam>(val1);
+	TypeParam local_val2 = static_cast<TypeParam>(val2);
+	TypeParam local_val3 = static_cast<TypeParam>(val3);
+	TypeParam local_val4 = static_cast<TypeParam>(val4);
 	
 	// you cannot call writer->write() just for fun; you must be writing an object
-	EXPECT_THROW(this->write(val1, "value"), Writer::NoCurrentObject);
+	EXPECT_THROW(this->write(local_val1, "value"), Writer::NoCurrentObject);
 	
 	Object * newObj = new Object();
 	this->curObj = newObj;
 	
-	this->write(val1, "value1");
-	this->write(val2, "value2");
-	this->write(val3, "value3");
-	this->write(val4, "value4");
+	this->write(local_val1, "value1");
+	this->write(local_val2, "value2");
+	this->write(local_val3, "value3");
+	this->write(local_val4, "value4");
 	EXPECT_EQ(4, newObj->data.size());
 	Data<TypeParam> * data_ptr = dynamic_cast<Data<TypeParam>*>(newObj->data[std::string("value1")]);
 	ASSERT_NE(nullptr, data_ptr);
-	EXPECT_EQ(val1, data_ptr->data);
+	EXPECT_EQ(local_val1, data_ptr->data);
 	data_ptr = dynamic_cast<Data<TypeParam>*>(newObj->data[std::string("value2")]);
 	ASSERT_NE(nullptr, data_ptr);
-	EXPECT_EQ(val2, data_ptr->data);
+	EXPECT_EQ(local_val2, data_ptr->data);
 	data_ptr = dynamic_cast<Data<TypeParam>*>(newObj->data[std::string("value3")]);
 	ASSERT_NE(nullptr, data_ptr);
-	EXPECT_EQ(val3, data_ptr->data);
+	EXPECT_EQ(local_val3, data_ptr->data);
 	data_ptr = dynamic_cast<Data<TypeParam>*>(newObj->data[std::string("value4")]);
 	ASSERT_NE(nullptr, data_ptr);
-	EXPECT_EQ(val4, data_ptr->data);
+	EXPECT_EQ(local_val4, data_ptr->data);
 	delete newObj;
 }
 
@@ -253,4 +259,33 @@ TEST_F(WriterTest, SharedDataTest) {
 	Data<Writable*> * meta_data_B = dynamic_cast<Data<Writable*>*>(meta_B->data["data"]);
 	ASSERT_NE(nullptr, meta_data_B);
 	EXPECT_EQ(meta_data_A->id, meta_data_B->id);
+}
+
+TYPED_TEST(TypedWriterTest, AddPrimitiveArrayTest) {
+	TypeParam valArray[] = {static_cast<TypeParam>(val1), static_cast<TypeParam>(val2), static_cast<TypeParam>(val3), static_cast<TypeParam>(val4)};
+	
+	// you cannot call writer->write() just for fun; you must be writing an object
+	EXPECT_THROW(this->writeArray(valArray, sizeof(valArray)/sizeof(TypeParam), "value"), Writer::NoCurrentObject);
+	
+	Object * newObj = new Object();
+	this->curObj = newObj;
+	
+	this->writeArray(valArray, sizeof(valArray)/sizeof(TypeParam), "plain_value");
+	EXPECT_EQ(1, newObj->data.size());
+	ArrayData<TypeParam> * data_ptr = dynamic_cast<ArrayData<TypeParam>*>(newObj->data[std::string("plain_value")]);
+	ASSERT_NE(nullptr, data_ptr);
+	ASSERT_EQ(sizeof(valArray)/sizeof(TypeParam), data_ptr->count);
+	EXPECT_EQ(NO_HINT, data_ptr->hints);
+	EXPECT_EQ(valArray, data_ptr->data);
+	EXPECT_EQ(0, memcmp(valArray, data_ptr->data, sizeof(valArray)));
+	
+	this->writeArray(valArray, sizeof(valArray)/sizeof(TypeParam), "copied_value", COPY_ARRAY_HINT);
+	data_ptr = dynamic_cast<ArrayData<TypeParam>*>(newObj->data[std::string("copied_value")]);
+	ASSERT_NE(nullptr, data_ptr);
+	ASSERT_EQ(sizeof(valArray)/sizeof(TypeParam), data_ptr->count);
+	EXPECT_EQ(COPY_ARRAY_HINT, data_ptr->hints);
+	EXPECT_NE(valArray, data_ptr->data);
+	EXPECT_EQ(0, memcmp(valArray, data_ptr->data, sizeof(valArray)));
+	
+	delete newObj;
 }

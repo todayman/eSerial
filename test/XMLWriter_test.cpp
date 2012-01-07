@@ -23,10 +23,10 @@ static const string xmlFooter("</eos.serialization>\n");
 class XMLWriterTest : public ::testing::Test, public XMLWriter {
 };
 
-char val1 = 0;
-char val2 = 1;
-char val3 = 10;
-float val4 = 127.345f;
+static char val1 = 0;
+static char val2 = 1;
+static char val3 = 10;
+static float val4 = 127.345f;
 
 template<typename TypeParam>
 class PrimitiveObject : public Writable {
