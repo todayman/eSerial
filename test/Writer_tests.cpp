@@ -7,11 +7,16 @@
 //
 
 #include "Writer.h"
+#include "Writer_tests_common.h"
 using namespace eos;
 using namespace serialization;
 #include <cstring>
 
 #include <gtest/gtest.h>
+
+const std::string data_t::xmlName = "data_t";
+const std::string ptr_container_t::xmlName = "ptr_container_t";
+const std::string stack_container_t::xmlName = "stack_container_t";
 
 template<typename T>
 class TypedWriterTest : public ::testing::Test, public Writer {
@@ -40,11 +45,6 @@ typedef ::testing::Types< char, unsigned char,
 
 TYPED_TEST_CASE(TypedWriterTest, primitives);
 
-static char val1 = 0;
-static char val2 = 1;
-static char val3 = 10;
-static float val4 = 127.134f;
-
 TEST_F(WriterTest, ConstructorTest) {
 	EXPECT_EQ(0, this->idList.size());
 	EXPECT_EQ(0, this->root_objs.size());
@@ -61,8 +61,6 @@ TEST_F(WriterTest, NewObjectTest) {
 	EXPECT_EQ(newObj, this->idList[&dataObj]);
 	EXPECT_EQ(0, this->root_objs.size());
 	EXPECT_EQ(cleanObj, *newObj);
-	// since newObj is not in the root_objs collection, it does not
-	// get cleaned up in the destructor.
 	
 	// Make sure that nothing happens when we put in nullptr
 	newObj = this->newObject(nullptr);
@@ -182,20 +180,8 @@ TEST_F(WriterTest, CharStarTest) {
 }
 
 TEST_F(WriterTest, SharedPointerTest) {
-	struct data_t : public Writable {
-		int data;
-		virtual void write(Writer * writer) override {
-			writer->write(data, "data");
-		}
-		virtual void read(Parser * reader) override { }
-	} data;
-	struct ptr_container_t : public Writable {
-		data_t * data;
-		virtual void write(Writer * writer) override {
-			writer->write(data, "data");
-		}
-		virtual void read(Parser * parser) override { }
-	} containerA, containerB;
+	data_t data;
+	ptr_container_t containerA, containerB;
 	
 	containerA.data = &data;
 	containerB.data = &data;
@@ -219,27 +205,8 @@ TEST_F(WriterTest, SharedPointerTest) {
 }
 
 TEST_F(WriterTest, SharedDataTest) {
-	struct data_t : public Writable {
-		int data;
-		virtual void write(Writer * writer) override {
-			writer->write(data, "data");
-		}
-		virtual void read(Parser * reader) override { }
-	};
-	struct static_data_t : public Writable {
-		data_t data;
-		virtual void write(Writer * writer) override {
-			writer->write(data, "data");
-		}
-		virtual void read(Parser * parser) override { }
-	} containerA;
-	struct ptr_container_t : public Writable {
-		data_t * data;
-		virtual void write(Writer * writer) override {
-			writer->write(data, "data");
-		}
-		virtual void read(Parser * parser) override { }
-	} containerB;
+	stack_container_t containerA;
+	ptr_container_t containerB;
 	
 	containerA.data.data = 5;
 	containerB.data = &containerA.data;

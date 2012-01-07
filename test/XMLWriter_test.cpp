@@ -8,6 +8,7 @@
 
 #include "macros.h"
 #include "XMLWriter.h"
+#include "Writer_tests_common.h"
 using namespace eos;
 using namespace serialization;
 #include <string>
@@ -23,10 +24,10 @@ static const string xmlFooter("</eos.serialization>\n");
 class XMLWriterTest : public ::testing::Test, public XMLWriter {
 };
 
-static char val1 = 0;
-static char val2 = 1;
-static char val3 = 10;
-static float val4 = 127.345f;
+char val1 = 0;
+char val2 = 1;
+char val3 = 10;
+float val4 = 127.345f;
 
 template<typename TypeParam>
 class PrimitiveObject : public Writable {
@@ -135,42 +136,6 @@ TEST_F(XMLWriterTest, Add##TYPE##Test) { \
 
 PRIMITIVE_TYPE_IDENTIFIERS(WRITE_TEST)
 
-class data_t : public Writable {
-public:
-	static const string xmlName;
-	int32_t data;
-	void write(Writer * writer) override {
-		writer->writeName(xmlName);
-		writer->write(data, "data");
-	}
-	void read(Parser * parser) override {	}
-};
-const string data_t::xmlName = "data_t";
-
-struct ptr_container_t : public Writable {
-public:
-	static const string xmlName;
-	data_t * data;
-	virtual void write(Writer * writer) override {
-		writer->writeName(xmlName);
-		writer->write(data, "data");
-	}
-	virtual void read(Parser * parser) override { }
-};
-
-const string ptr_container_t::xmlName = "ptr_container_t";
-
-struct stack_container_t : public Writable {
-public:
-	static const string xmlName;
-	data_t data;
-	virtual void write(Writer * writer) override {
-		writer->writeName(xmlName);
-		writer->write(data, "data");
-	}
-	virtual void read(Parser * parser) override { }
-};
-const string stack_container_t::xmlName = "stack_container_t";
 
 TEST_F(XMLWriterTest, InternalObjectTest) {
 	stack_container_t stack_data;

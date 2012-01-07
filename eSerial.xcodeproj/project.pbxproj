@@ -127,6 +127,7 @@
 		DA8C8C5C14A58B84000B990B /* libgtest.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgtest.a; path = /usr/local/Cellar/gtest/1.6.0/lib/libgtest.a; sourceTree = "<absolute>"; };
 		DA8C8CB614A5BAFC000B990B /* Writer_tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Writer_tests.cpp; sourceTree = "<group>"; };
 		DAA4FE6414B7658F00F98888 /* XMLWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLWriter.h; sourceTree = "<group>"; };
+		DAFE763914B7F674000BD1B7 /* Writer_tests_common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Writer_tests_common.h; path = ../Writer_tests_common.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -226,6 +227,7 @@
 				DA013885144A01EC0014EBD1 /* main.cpp */,
 				DA3AB8F214A3DEEA00002DD0 /* unittests.cpp */,
 				DA3AB8F514A3DF4200002DD0 /* b64_tests.cpp */,
+				DAFE763914B7F674000BD1B7 /* Writer_tests_common.h */,
 				DA8C8CB614A5BAFC000B990B /* Writer_tests.cpp */,
 				DA154CDA14B696E9009DE903 /* XMLWriter_test.cpp */,
 			);
