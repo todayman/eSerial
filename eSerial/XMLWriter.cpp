@@ -170,6 +170,7 @@ void XMLWriter::addToXML(Object *obj, xmlNodePtr parent)
       field = xmlNewChild(node, nullptr, (const xmlChar*)"eos.serialization.Writable", nullptr);
       xmlNewProp(field, (const xmlChar*)"id", (const xmlChar*)toString(data_writable_star->id).c_str());
     }
+    WRITE_XML_ARRAY(char)
     WRITE_XML_ARRAY(uint8_t)
     WRITE_XML_ARRAY(uint16_t)
     WRITE_XML_ARRAY(uint32_t)

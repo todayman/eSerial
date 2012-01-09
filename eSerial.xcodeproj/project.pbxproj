@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		DA01388E144A028E0014EBD1 /* libxml2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DA01388D144A028E0014EBD1 /* libxml2.2.dylib */; };
 		DA05A31D146F1275001425BA /* eSerial.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2C381513382E200013BE0F /* eSerial.dylib */; };
 		DA05A321146F15EE001425BA /* hints.h in Headers */ = {isa = PBXBuildFile; fileRef = DA05A320146F15EE001425BA /* hints.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA154CDC14B696E9009DE903 /* XMLWriter_test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA154CDA14B696E9009DE903 /* XMLWriter_test.cpp */; };
@@ -27,7 +26,7 @@
 		DA8C8C5D14A58B84000B990B /* libgtest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DA8C8C5C14A58B84000B990B /* libgtest.a */; };
 		DA8C8CB714A5BAFC000B990B /* Writer_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA8C8CB614A5BAFC000B990B /* Writer_tests.cpp */; };
 		DAA4FE6514B7658F00F98888 /* XMLWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = DAA4FE6414B7658F00F98888 /* XMLWriter.h */; };
-		DADEF564144AA30600EE2C6B /* libxml2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DA01388D144A028E0014EBD1 /* libxml2.2.dylib */; };
+		DAABC42014BB9CC700D569FF /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DAABC41F14BB9CC700D569FF /* libxml2.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -104,7 +103,6 @@
 		DA0138491449FDA70014EBD1 /* load_save.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = load_save.h; path = "../../../Users/paul/Library/Caches/Homebrew/dia-0.97.1/app/load_save.h"; sourceTree = "<group>"; };
 		DA013882144A01EB0014EBD1 /* test */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = test; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA013885144A01EC0014EBD1 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		DA01388D144A028E0014EBD1 /* libxml2.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.2.dylib; path = /usr/lib/libxml2.2.dylib; sourceTree = "<absolute>"; };
 		DA01388F144A03360014EBD1 /* dia_xml_libxml.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = dia_xml_libxml.h; path = "../../../Users/paul/Library/Caches/Homebrew/dia-0.97.1/lib/dia_xml_libxml.h"; sourceTree = "<group>"; };
 		DA013890144A03360014EBD1 /* dia_xml.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = dia_xml.c; path = "../../../Users/paul/Library/Caches/Homebrew/dia-0.97.1/lib/dia_xml.c"; sourceTree = "<group>"; };
 		DA013891144A03360014EBD1 /* dia_xml.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = dia_xml.h; path = "../../../Users/paul/Library/Caches/Homebrew/dia-0.97.1/lib/dia_xml.h"; sourceTree = "<group>"; };
@@ -127,6 +125,7 @@
 		DA8C8C5C14A58B84000B990B /* libgtest.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgtest.a; path = /usr/local/Cellar/gtest/1.6.0/lib/libgtest.a; sourceTree = "<absolute>"; };
 		DA8C8CB614A5BAFC000B990B /* Writer_tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Writer_tests.cpp; sourceTree = "<group>"; };
 		DAA4FE6414B7658F00F98888 /* XMLWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLWriter.h; sourceTree = "<group>"; };
+		DAABC41F14BB9CC700D569FF /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		DAFE763914B7F674000BD1B7 /* Writer_tests_common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Writer_tests_common.h; path = ../Writer_tests_common.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -136,7 +135,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA05A31D146F1275001425BA /* eSerial.dylib in Frameworks */,
-				DA01388E144A028E0014EBD1 /* libxml2.2.dylib in Frameworks */,
 				DA8C8C5D14A58B84000B990B /* libgtest.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -145,7 +143,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DADEF564144AA30600EE2C6B /* libxml2.2.dylib in Frameworks */,
+				DAABC42014BB9CC700D569FF /* libxml2.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -237,9 +235,9 @@
 		DA2C380A13382E200013BE0F = {
 			isa = PBXGroup;
 			children = (
+				DAABC41F14BB9CC700D569FF /* libxml2.dylib */,
 				DA2C381713382E200013BE0F /* eSerial */,
 				DA013884144A01EC0014EBD1 /* test */,
-				DA01388D144A028E0014EBD1 /* libxml2.2.dylib */,
 				DA2C381613382E200013BE0F /* Products */,
 			);
 			sourceTree = "<group>";
@@ -397,6 +395,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -411,6 +410,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/usr/local/Cellar/gtest/1.6.0/lib,
+					"\"$(SRCROOT)/../../Downloads/libxml2\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -432,6 +432,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/usr/local/Cellar/gtest/1.6.0/lib,
+					"\"$(SRCROOT)/../../Downloads/libxml2\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -503,15 +504,21 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_WARN_IMPLICIT_SIGN_CONVERSION = YES;
 				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
 				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				GCC_WARN_NON_VIRTUAL_DESTRUCTOR = YES;
 				GCC_WARN_PEDANTIC = YES;
 				GCC_WARN_SIGN_COMPARE = YES;
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../Downloads/libxml2/.libs\"",
+				);
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include/eos/serialization;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = /usr/local/include/eos/serialization;
@@ -522,6 +529,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_WARN_IMPLICIT_SIGN_CONVERSION = YES;
 				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
 				COPY_PHASE_STRIP = YES;
@@ -531,6 +539,10 @@
 				GCC_WARN_PEDANTIC = YES;
 				GCC_WARN_SIGN_COMPARE = YES;
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../Downloads/libxml2/.libs\"",
+				);
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include/eos/serialization;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = /usr/local/include/eos/serialization;

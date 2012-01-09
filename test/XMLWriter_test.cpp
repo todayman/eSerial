@@ -8,6 +8,7 @@
 
 #include "macros.h"
 #include "XMLWriter.h"
+#include "b64.h"
 #include "Writer_tests_common.h"
 using namespace eos;
 using namespace serialization;
@@ -177,3 +178,52 @@ TEST_F(XMLWriterTest, InternalPointerTest) {
 	EXPECT_EQ(expected, stream.str());
 	delete ptr_data.data;
 }
+
+template<typename TypeParam>
+class PrimitiveArrayObject : public Writable {
+public:
+	size_t arrayLen;
+	TypeParam values[4];
+	PrimitiveArrayObject() : arrayLen(4), values() {
+		values[0] = static_cast<TypeParam>(::val1);
+		values[1] = static_cast<TypeParam>(::val2);
+		values[2] = static_cast<TypeParam>(::val3);
+		values[3] = static_cast<TypeParam>(::val4);
+	}
+	void write(Writer * writer) override {
+		writer->writeName("PrimitiveArrayObject");
+		writer->writeArray(values, arrayLen, "array");
+	}
+	void read(Parser * reader) override { }
+};
+
+
+#define makeXMLArrayString(TYPE) \
+static string makeXMLArrayString_##TYPE(PrimitiveArrayObject<TYPE> * data) { \
+	string result = xmlHeader; \
+	result += "  <object id=\"0\" class=\"PrimitiveArrayObject\">\n"; \
+	result += "    <array type=\"" #TYPE "\" count=\"" + toString(data->arrayLen) + "\">"; \
+	char * b64_string; \
+	convert_to_base64(data->values, data->arrayLen, &b64_string); \
+	result += b64_string; \
+	free(b64_string); \
+	result += "</array>\n"; \
+	result += "  </object>\n"; \
+	result += xmlFooter; \
+	return result; \
+}
+
+PRIMITIVE_TYPE_IDENTIFIERS(makeXMLArrayString)
+
+#define WRITE_ARRAY_TEST(TYPE) \
+TEST_F(XMLWriterTest, PrimitiveArrayTest_##TYPE) { \
+	PrimitiveArrayObject<TYPE> arrayObj; \
+	this->addObject(&arrayObj); \
+	\
+	stringstream stream; \
+	this->writeStream(stream); \
+	\
+	EXPECT_EQ(makeXMLArrayString_##TYPE(&arrayObj), (stream.str())); \
+}
+
+PRIMITIVE_TYPE_IDENTIFIERS(WRITE_ARRAY_TEST)
