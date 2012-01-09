@@ -43,9 +43,10 @@ void XMLWriter::writeStream(ostream &output)
 	xmlDocDumpFormatMemory(doc, &dump, &size, true);
 	// TODO something in the xml writing is leaking memory.
 	// See line 188 (end of addToXML())
-  xmlFreeDoc(doc);
 	output << dump;
 	xmlFree(dump);
+	xmlFreeDoc(doc);
+	xmlCleanupMemory();
 }
 
 template<typename T>

@@ -141,10 +141,11 @@ size_t _convert_to_base64(const char * data, size_t length, char ** encoded)
   size_t mod_3_length = length - remainder; // max multiple of 3 < length
   size_t padding_size = 3 - (length % 3); // how many bytes left until a multiple of 3?
   padding_size = (padding_size == 3 ? 0 : padding_size);
-  size_t product_length = (length + remainder) * 4 / 3 + padding_size;
+  size_t product_length = (mod_3_length + (remainder ? 3 : 0)) * 4 / 3;
   
-  char * result = malloc(product_length * 4 / 3 + 1);
+  char * result = malloc(product_length + 1);
   if( NULL == result ) {
+		(*encoded) = NULL;
     return 0;
   }
   
