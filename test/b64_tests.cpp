@@ -17,7 +17,7 @@ TEST(Base64Test, Base64EncodingTest) {
 	char * encoded;
 	// length of the array includes the null terminator, which isn't part of the data
 	convert_to_base64(text, sizeof(text) - 1, &encoded);
-	EXPECT_EQ(memcmp(encoded, data, sizeof(data)-1), 0);
+	EXPECT_EQ(0, memcmp(encoded, data, sizeof(data)-1));
 	free(encoded);
 }
 
@@ -25,6 +25,6 @@ TEST(Base64Test, Base64DecodingTest) {
 	char * decoded;
 	// length of the array includes the null terminator, which isn't part of the data
 	convert_from_base64(data, sizeof(data) - 1, &decoded);
-	EXPECT_EQ(memcmp(decoded, text, sizeof(text) - 1), 0);
+	EXPECT_EQ(0, memcmp(decoded, text, sizeof(text) - 1));
 	free(decoded);
 }
