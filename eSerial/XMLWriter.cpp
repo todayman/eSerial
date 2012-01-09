@@ -65,6 +65,23 @@ static inline char * toString(const T * data, size_t count)
 }
 
 template<>
+inline char * toString(const char * data, size_t count)
+{
+  stringstream ss;
+  char * dst;
+  if( count ) {
+    ss << (int)data[0];
+  }
+  for( size_t i = 1; i < count; i++ ) {
+    ss << " " << (int)data[i];
+  }
+  dst = new char[ss.str().size() + 1];
+  strncpy(dst, ss.str().c_str(), ss.str().size());
+  dst[ss.str().size()] = 0;
+  return dst;
+}
+
+template<>
 inline char * toString(const uint8_t * data, size_t count)
 {
   stringstream ss;

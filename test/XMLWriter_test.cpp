@@ -184,7 +184,8 @@ class PrimitiveArrayObject : public Writable {
 public:
 	size_t arrayLen;
 	TypeParam values[4];
-	PrimitiveArrayObject() : arrayLen(4), values() {
+	hint_t hints;
+	PrimitiveArrayObject(hint_t h = NO_HINT) : arrayLen(4), values(), hints(h) {
 		values[0] = static_cast<TypeParam>(::val1);
 		values[1] = static_cast<TypeParam>(::val2);
 		values[2] = static_cast<TypeParam>(::val3);
@@ -192,7 +193,7 @@ public:
 	}
 	void write(Writer * writer) override {
 		writer->writeName("PrimitiveArrayObject");
-		writer->writeArray(values, arrayLen, "array");
+		writer->writeArray(values, arrayLen, "array", hints);
 	}
 	void read(Parser * reader) override { }
 };
@@ -227,3 +228,91 @@ TEST_F(XMLWriterTest, PrimitiveArrayTest_##TYPE) { \
 }
 
 PRIMITIVE_TYPE_IDENTIFIERS(WRITE_ARRAY_TEST)
+
+#define makeXMLArray_ReadableString(TYPE) \
+static string makeXMLArray_ReadableString_##TYPE(PrimitiveArrayObject<TYPE> * data) { \
+	string result = xmlHeader; \
+	result += "  <object id=\"0\" class=\"PrimitiveArrayObject\">\n"; \
+	result += "    <array hints=\"1\" type=\"" #TYPE "\" count=\"" + toString(data->arrayLen) + "\">"; \
+	size_t i; \
+	for( i = 0; i < data->arrayLen - 1; ++i ) { \
+	result += toString(data->values[i]) + " "; \
+	} \
+	if( i < data->arrayLen ) { \
+	result += toString(data->values[i]); \
+	} \
+	result += "</array>\n"; \
+	result += "  </object>\n"; \
+	result += xmlFooter; \
+	return result; \
+}
+
+INTEGER_TYPES(makeXMLArray_ReadableString)
+makeXMLArray_ReadableString(float)
+makeXMLArray_ReadableString(double)
+makeXMLArray_ReadableString(long_double)
+makeXMLArray_ReadableString(bool)
+
+static string makeXMLArray_ReadableString_char(PrimitiveArrayObject<char> * data) { \
+	string result = xmlHeader;
+	result += "  <object id=\"0\" class=\"PrimitiveArrayObject\">\n";
+	result += "    <array hints=\"1\" type=\"" "char" "\" count=\"" + toString(data->arrayLen) + "\">";
+	size_t i;
+	for( i = 0; i < data->arrayLen - 1; ++i ) {
+		result += toString<int>(data->values[i]) + " ";
+	}
+	if( i < data->arrayLen ) {
+		result += toString<int>(data->values[i]);
+	}
+	result += "</array>\n";
+	result += "  </object>\n";
+	result += xmlFooter;
+	return result;
+}
+
+static string makeXMLArray_ReadableString_uint8_t(PrimitiveArrayObject<uint8_t> * data) { \
+	string result = xmlHeader;
+	result += "  <object id=\"0\" class=\"PrimitiveArrayObject\">\n";
+	result += "    <array hints=\"1\" type=\"" "uint8_t" "\" count=\"" + toString(data->arrayLen) + "\">";
+	size_t i;
+	for( i = 0; i < data->arrayLen - 1; ++i ) {
+		result += toString<int>(data->values[i]) + " ";
+	}
+	if( i < data->arrayLen ) {
+		result += toString<int>(data->values[i]);
+	}
+	result += "</array>\n";
+	result += "  </object>\n";
+	result += xmlFooter;
+	return result;
+}
+
+static string makeXMLArray_ReadableString_int8_t(PrimitiveArrayObject<int8_t> * data) { \
+	string result = xmlHeader;
+	result += "  <object id=\"0\" class=\"PrimitiveArrayObject\">\n";
+	result += "    <array hints=\"1\" type=\"" "int8_t" "\" count=\"" + toString(data->arrayLen) + "\">";
+	size_t i;
+	for( i = 0; i < data->arrayLen - 1; ++i ) {
+		result += toString<int>(data->values[i]) + " ";
+	}
+	if( i < data->arrayLen ) {
+		result += toString<int>(data->values[i]);
+	}
+	result += "</array>\n";
+	result += "  </object>\n";
+	result += xmlFooter;
+	return result;
+}
+
+#define WRITE_READABLE_ARRAY_TEST(TYPE) \
+TEST_F(XMLWriterTest, PrimitiveReadableArrayTest_##TYPE) { \
+	PrimitiveArrayObject<TYPE> arrayObj(READABLE_HINT); \
+	this->addObject(&arrayObj); \
+	\
+	stringstream stream; \
+	this->writeStream(stream); \
+	\
+	EXPECT_EQ(makeXMLArray_ReadableString_##TYPE(&arrayObj), (stream.str())); \
+}
+
+PRIMITIVE_TYPE_IDENTIFIERS(WRITE_READABLE_ARRAY_TEST)
