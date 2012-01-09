@@ -41,8 +41,6 @@ void XMLWriter::writeStream(ostream &output)
 	xmlChar * dump = nullptr;
 	int size = -1;
 	xmlDocDumpFormatMemory(doc, &dump, &size, true);
-	// TODO something in the xml writing is leaking memory.
-	// See line 188 (end of addToXML())
 	output << dump;
 	xmlFree(dump);
 	xmlFreeDoc(doc);
