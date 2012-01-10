@@ -1,13 +1,13 @@
 //
-//  Writer_tests.cpp
+//  eos/serialization/Writer_tests.cpp
 //  eSerial
 //
 //  Created by Paul O'Neil on 12/24/11.
-//  Copyright (c) 2011 Paul O'Neil. All rights reserved.
+//  Copyright (c) 2012 Paul O'Neil. All rights reserved.
 //
 
 #include "Writer.h"
-#include "Writer_tests_common.h"
+#include "tests_common.h"
 using namespace eos;
 using namespace serialization;
 #include <cstring>
