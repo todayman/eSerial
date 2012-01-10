@@ -17,10 +17,10 @@ namespace eos {
 namespace serialization {
 
 class XMLWriter : public Writer {
-  void addToXML(Object * obj, xmlNodePtr parent);
+  xmlNodePtr addToXML(Object * obj, xmlNodePtr parent);
   
   template<typename T>
-  void writeArrayToXML(xmlNodePtr node, xmlNodePtr field, ArrayData<T> * data, const char * type);
+  xmlNodePtr writeArrayToXML(xmlNodePtr node, ArrayData<T> * data, const char * type);
   
 public:
   XMLWriter() = default;

@@ -44,95 +44,81 @@ void XMLWriter::writeStream(ostream &output)
 	output << dump;
 	xmlFree(dump);
 	xmlFreeDoc(doc);
-	xmlCleanupMemory();
 }
 
 template<typename T>
-static inline char * toString(const T * data, size_t count)
+static inline std::string toString(const T * data, size_t count)
 {
   stringstream ss;
-  char * dst;
   if( count ) {
     ss << data[0];
   }
   for( size_t i = 1; i < count; i++ ) {
     ss << " " << data[i];
   }
-  dst = new char[ss.str().size() + 1];
-  strncpy(dst, ss.str().c_str(), ss.str().size());
-  dst[ss.str().size()] = 0;
-  return dst;
+	return ss.str();
 }
 
 template<>
-inline char * toString(const char * data, size_t count)
+inline std::string toString(const char * data, size_t count)
 {
   stringstream ss;
-  char * dst;
   if( count ) {
     ss << (int)data[0];
   }
   for( size_t i = 1; i < count; i++ ) {
     ss << " " << (int)data[i];
   }
-  dst = new char[ss.str().size() + 1];
-  strncpy(dst, ss.str().c_str(), ss.str().size());
-  dst[ss.str().size()] = 0;
-  return dst;
+	return ss.str();
 }
 
 template<>
-inline char * toString(const uint8_t * data, size_t count)
+inline std::string toString(const uint8_t * data, size_t count)
 {
   stringstream ss;
-  char * dst;
   if( count ) {
     ss << (int)data[0];
   }
   for( size_t i = 1; i < count; i++ ) {
     ss << " " << (int)data[i];
   }
-  dst = new char[ss.str().size() + 1];
-  strncpy(dst, ss.str().c_str(), ss.str().size());
-  dst[ss.str().size()] = 0;
-  return dst;
+	return ss.str();
 }
 
 template<>
-inline char * toString(const int8_t * data, size_t count)
+inline std::string toString(const int8_t * data, size_t count)
 {
   stringstream ss;
-  char * dst;
   if( count ) {
     ss << (int)data[0];
   }
   for( size_t i = 1; i < count; i++ ) {
     ss << " " << (int)data[i];
   }
-  dst = new char[ss.str().size() + 1];
-  strncpy(dst, ss.str().c_str(), ss.str().size());
-  dst[ss.str().size()] = 0;
-  return dst;
+	return ss.str();
 }
 
 template<typename T>
-void XMLWriter::writeArrayToXML(xmlNodePtr node, xmlNodePtr field, ArrayData<T> * data, const char * type)
+xmlNodePtr XMLWriter::writeArrayToXML(xmlNodePtr node, ArrayData<T> * data, const char * type)
 {
-  char* dst = nullptr;
+	string str;
   if( data->hints & READABLE_HINT ) {
-    dst = toString(data->data, data->count);
+		str = toString(data->data, data->count);
   }
   else {
+		char* dst = nullptr;
     convert_to_base64(data->data, data->count, &dst);
+		str = dst;
+		free(dst);
   }
-  field = xmlNewTextChild(node, nullptr, (const xmlChar*)"array", (xmlChar*)dst);
-  free(dst);
+  xmlNodePtr field = xmlNewTextChild(node, nullptr, (const xmlChar*)"array", (xmlChar*)str.c_str());
   
   if( data->hints & READABLE_HINT ) {
     xmlNewProp(field, (const xmlChar*)"hints", (const xmlChar*)toString(READABLE_HINT).c_str());
   }
   xmlNewProp(field, (const xmlChar*)"type", (const xmlChar*)type);
   xmlNewProp(field, (const xmlChar*)"count", (const xmlChar*)toString(data->count).c_str());
+	return field;
 }
 
 #define WRITE_XML(x)\
@@ -142,11 +128,11 @@ else if( Data<x>* data##x = dynamic_cast<Data<x>*>(iter.second) ) { \
 
 #define WRITE_XML_ARRAY(x)\
 else if( ArrayData<x>* array_data_##x = dynamic_cast<ArrayData<x>*>(iter.second) ) { \
-  writeArrayToXML(node, field, array_data_##x, #x);\
+  field = writeArrayToXML(node, array_data_##x, #x);\
 }
 
 typedef long double long_double;
-void XMLWriter::addToXML(Object *obj, xmlNodePtr parent)
+xmlNodePtr XMLWriter::addToXML(Object *obj, xmlNodePtr parent)
 {
   xmlNodePtr node = xmlNewChild(parent, nullptr, (const xmlChar *)"object", nullptr);
   xmlNewProp(node, (const xmlChar*)"id", (const xmlChar*)toString(obj->id).c_str());
@@ -179,7 +165,7 @@ void XMLWriter::addToXML(Object *obj, xmlNodePtr parent)
       field = xmlNewTextChild(node, nullptr, (const xmlChar*)"char_star", (const xmlChar*)data_char_star->data);
     }
     else if( Data<Writable> * data_writable = dynamic_cast<Data<Writable>*>(iter.second) ) {
-      addToXML(data_writable, node);
+      field = addToXML(data_writable, node);
     }
     else if( Data<Writable*> * data_writable_star = dynamic_cast<Data<Writable*>*>(iter.second) ) {
       field = xmlNewChild(node, nullptr, (const xmlChar*)"eos.serialization.Writable", nullptr);
@@ -199,10 +185,10 @@ void XMLWriter::addToXML(Object *obj, xmlNodePtr parent)
     WRITE_XML_ARRAY(long_double)
     WRITE_XML_ARRAY(bool)
     else if( ArrayData<Writable*>* array_data_writable_star = dynamic_cast<ArrayData<Writable*>*>(iter.second) ) {
-      writeArrayToXML(node, field, array_data_writable_star, "eos.serialization.Writable*");
+      field = writeArrayToXML(node, array_data_writable_star, "eos.serialization.Writable_star");
     }
     
-		// TODO valgrind says that something allocated in this line is leaked
     xmlNewProp(field, (const xmlChar*)"name", (const xmlChar*)iter.first.c_str());
   }
+	return node;
 }
