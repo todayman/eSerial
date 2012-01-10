@@ -13,6 +13,8 @@ using namespace eos::serialization;
 
 const char * Writer::NoCurrentObject::message =
 	"There must be an object currently being written in order to complete this operation.";
+const char * Writer::UnnamedObject::message =
+	"Serialized objects must be given a name identifying their type.";
 
 Writer::~Writer() {
 	for( auto key_obj : idList ) {
@@ -41,7 +43,13 @@ Object * Writer::addRootObject(Writable * object)
 		curObj = meta;
 		root_objs.push_back(curObj);
 		object->write(this);
-		curObj = nullptr;
+		if( curObj->name.size() == 0 ) {
+			curObj = nullptr;
+			idList.erase(object);
+			root_objs.pop_back();
+			delete meta;
+			throw UnnamedObject(); // clean up
+		}
 	}
 	return meta;
 }

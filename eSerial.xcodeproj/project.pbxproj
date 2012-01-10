@@ -393,7 +393,6 @@
 		DA013889144A01EC0014EBD1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -410,7 +409,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/usr/local/Cellar/gtest/1.6.0/lib,
-					"\"$(SRCROOT)/../../Downloads/libxml2\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -419,7 +417,6 @@
 		DA01388A144A01EC0014EBD1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -432,7 +429,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/usr/local/Cellar/gtest/1.6.0/lib,
-					"\"$(SRCROOT)/../../Downloads/libxml2\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -504,7 +500,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_WARN_IMPLICIT_SIGN_CONVERSION = YES;
 				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
 				COPY_PHASE_STRIP = NO;
@@ -515,10 +510,7 @@
 				GCC_WARN_PEDANTIC = YES;
 				GCC_WARN_SIGN_COMPARE = YES;
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../../Downloads/libxml2/.libs\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include/eos/serialization;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = /usr/local/include/eos/serialization;
@@ -529,7 +521,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_WARN_IMPLICIT_SIGN_CONVERSION = YES;
 				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
 				COPY_PHASE_STRIP = YES;
@@ -539,10 +530,7 @@
 				GCC_WARN_PEDANTIC = YES;
 				GCC_WARN_SIGN_COMPARE = YES;
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../../Downloads/libxml2/.libs\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include/eos/serialization;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = /usr/local/include/eos/serialization;

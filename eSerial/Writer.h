@@ -32,6 +32,13 @@ public:
 		}
 	};
 	
+	class UnnamedObject : public std::exception {
+		static const char * message;
+	public:
+		virtual const char * what() const noexcept {
+			return message;
+		}
+	};
 protected:
 	std::map<const Writable*, Object*> idList;
 	std::vector<Object*> root_objs;

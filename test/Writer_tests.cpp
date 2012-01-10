@@ -31,6 +31,7 @@ public:
 	virtual ~MockWritable() { }
 	virtual void write(Writer * writer) {
 		++writeCount;
+		writer->writeName("MockWritable");
 		writer->write(writeCount, "writeCount");
 	}
 	virtual void read(Parser * reader) { }
@@ -70,6 +71,12 @@ TEST_F(WriterTest, NewObjectTest) {
 }
 
 TEST_F(WriterTest, AddRootObject) {
+	class NoName : public Writable {
+		virtual void write(Writer * writer) override { }
+		virtual void read(Parser * reader) override { }
+	} no_name;
+	EXPECT_THROW(this->addRootObject(&no_name), Writer::UnnamedObject);
+	
 	MockWritable dataObj;
 	Object * newObj = this->addRootObject(&dataObj);
 	EXPECT_NE(nullptr, newObj);
