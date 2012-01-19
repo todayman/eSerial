@@ -6,6 +6,7 @@
 //  Copyright (c) 2012 Paul O'Neil. All rights reserved.
 //
 
+#include <cmath>
 #include <string>
 using namespace std;
 #include "b64.h"
@@ -17,12 +18,26 @@ static const string xmlHeader("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<eos.
 static const string xmlFooter("</eos.serialization>\n");
 
 namespace eos {
-	namespace serialization {
+namespace serialization {
+
+data_t * new_data_t() {
+	return new data_t();
+}
+
+stack_container_t * new_stack_container_t() {
+	return new stack_container_t();
+}
+
+ptr_container_t * new_ptr_container_t() {
+	return new ptr_container_t();
+}
 
 char val1 = 0;
 char val2 = 1;
 char val3 = 10;
 float val4 = 127.345f;
+
+#define FLOAT_EPSILON	0.000001221
 
 template<typename TypeParam>
 PrimitiveObject<TypeParam>::PrimitiveObject() :
@@ -35,9 +50,57 @@ PrimitiveObject<TypeParam>::PrimitiveObject() :
 #define PRIMITIVE_CTOR(x) template PrimitiveObject<x>::PrimitiveObject();
 PRIMITIVE_TYPES(PRIMITIVE_CTOR);
 
+template<typename TypeParam>
+PrimitiveObject<TypeParam> * new_PrimitiveObject() {
+	return new PrimitiveObject<TypeParam>();
+}
+#define PRIMITIVE_CTOR_FUNC(x) template PrimitiveObject<x> * new_PrimitiveObject();
+PRIMITIVE_TYPE_IDENTIFIERS(PRIMITIVE_CTOR_FUNC)
+
+#define PRIMITIVE_XMLNAME(x) template<> const string PrimitiveObject<x>::xmlName("PrimitiveObject");
+PRIMITIVE_TYPES(PRIMITIVE_XMLNAME)
+
+template<> bool PrimitiveObject<double>::operator==(const PrimitiveObject<double>& other) const {
+	return
+		abs(this->val1 - other.val1) < FLOAT_EPSILON &&
+		abs(this->val2 - other.val2) < FLOAT_EPSILON &&
+		abs(this->val3 - other.val3) < FLOAT_EPSILON &&
+		abs(this->val4 - other.val4) < FLOAT_EPSILON;
+}
+
+template<> bool PrimitiveObject<long_double>::operator==(const PrimitiveObject<long_double>& other) const {
+	return
+		abs(this->val1 - other.val1) < FLOAT_EPSILON &&
+		abs(this->val2 - other.val2) < FLOAT_EPSILON &&
+		abs(this->val3 - other.val3) < FLOAT_EPSILON &&
+		abs(this->val4 - other.val4) < FLOAT_EPSILON;
+}
+
+template<> bool PrimitiveArrayObject<double>::operator==(const PrimitiveArrayObject<double>& other) const {
+	if( this->arrayLen != other.arrayLen ) {
+		return false;
+	}
+	for( size_t idx = 0; idx < this->arrayLen; ++idx ) {
+		if( abs(this->values[idx] - other.values[idx]) > FLOAT_EPSILON ) {
+			return false;
+		}
+	}
+	return true;
+}
+template<> bool PrimitiveArrayObject<long double>::operator==(const PrimitiveArrayObject<long double>& other) const {
+	if( this->arrayLen != other.arrayLen ) {
+		return false;
+	}
+	for( size_t idx = 0; idx < this->arrayLen; ++idx ) {
+		if( abs(this->values[idx] - other.values[idx]) > FLOAT_EPSILON ) {
+			return false;
+		}
+	}
+	return true;
+}
 
 template<typename TypeParam>
-PrimitiveArrayObject<TypeParam>::PrimitiveArrayObject(hint_t h) : arrayLen(4), values(), hints(h) {
+PrimitiveArrayObject<TypeParam>::PrimitiveArrayObject(hint_t h) : arrayLen(4), values(new TypeParam[arrayLen]), hints(h) {
 	values[0] = static_cast<TypeParam>(val1);
 	values[1] = static_cast<TypeParam>(val2);
 	values[2] = static_cast<TypeParam>(val3);
@@ -46,6 +109,23 @@ PrimitiveArrayObject<TypeParam>::PrimitiveArrayObject(hint_t h) : arrayLen(4), v
 #define PRIMITIVE_ARRAY_CTOR(x) template PrimitiveArrayObject<x>::PrimitiveArrayObject(hint_t);
 PRIMITIVE_TYPES(PRIMITIVE_ARRAY_CTOR);
 
+template<typename TypeParam>
+PrimitiveArrayObject<TypeParam> * new_PrimitiveArrayObject() {
+	return new PrimitiveArrayObject<TypeParam>();
+}
+#define PRIMITIVE_ARRAY_CTOR_FUNC(x) template PrimitiveArrayObject<x> * new_PrimitiveArrayObject();
+PRIMITIVE_TYPE_IDENTIFIERS(PRIMITIVE_ARRAY_CTOR_FUNC)
+
+template<typename TypeParam>
+PrimitiveArrayObject<TypeParam>::~PrimitiveArrayObject() {
+	delete []values;
+}
+#define PRIMITIVE_ARRAY_DTOR(x) template PrimitiveArrayObject<x>::~PrimitiveArrayObject();
+PRIMITIVE_TYPES(PRIMITIVE_ARRAY_DTOR);
+
+#define PRIMITIVE_ARRAY_XMLNAME(x) template<> const string PrimitiveArrayObject<x>::xmlName("PrimitiveArrayObject");
+PRIMITIVE_TYPES(PRIMITIVE_ARRAY_XMLNAME)
+	
 ObjectArray::ObjectArray(hint_t h)  : arrayLen(4), values(new data_t*[arrayLen]), hints(h) {
 	for( size_t i = 0; i < arrayLen; ++i ) {
 		values[i] = new data_t();
@@ -54,6 +134,10 @@ ObjectArray::ObjectArray(hint_t h)  : arrayLen(4), values(new data_t*[arrayLen])
 	values[1]->data = static_cast<int32_t>(val2);
 	values[2]->data = static_cast<int32_t>(val3);
 	values[3]->data = static_cast<int32_t>(val4);
+}
+
+ObjectArray * new_ObjectArray() {
+	return new ObjectArray();
 }
 
 ObjectArray::~ObjectArray() {
@@ -71,7 +155,7 @@ void ObjectArray::write(Writer * writer) {
 #define makeXMLString(TypeParam) \
 string makeXMLString_##TypeParam() {\
 string result = xmlHeader; \
-result += "  <object id=\"0\" class=\"PrimitiveObject\">\n"; \
+result += "  <object id=\"0\" class=\"" + PrimitiveObject<TypeParam>::xmlName + "\">\n"; \
 result += "    <" #TypeParam " name=\"val1\">" + toString<TypeParam>(static_cast<TypeParam>(val1)) + "</"#TypeParam">\n"; \
 result += "    <" #TypeParam " name=\"val2\">" + toString<TypeParam>(static_cast<TypeParam>(val2)) + "</"#TypeParam">\n"; \
 result += "    <" #TypeParam " name=\"val3\">" + toString<TypeParam>(static_cast<TypeParam>(val3)) + "</"#TypeParam">\n"; \
@@ -253,13 +337,13 @@ string makeXMLArray_ReadableString_int8_t(PrimitiveArrayObject<int8_t> * data) {
 
 const std::string ObjectArray::xmlName("ObjectArray");
 
-string makeXMLObjectArrayString(ObjectArray * data, const std::map<const Writable*, Object*>& idList) {
+string makeXMLObjectArrayString(ObjectArray * data) {
 	string result = xmlHeader;
 	result += "  <object id=\"0\" class=\"" + ObjectArray::xmlName + "\">\n";
 	result += "    <array type=\"" "eos.serialization.Writable_star" "\" count=\"" + toString(data->arrayLen) + "\" name=\"values\">";
 	std::vector<size_t> mapped_ids;
 	for( size_t i = 0; i < data->arrayLen; ++i ) {
-		mapped_ids.push_back(idList.at(data->values[i])->id);
+		mapped_ids.push_back(i+1);
 	}
 	char * b64_string;
 	convert_to_base64(mapped_ids.data(), data->arrayLen, &b64_string);
@@ -269,7 +353,7 @@ string makeXMLObjectArrayString(ObjectArray * data, const std::map<const Writabl
 	result += "  </object>\n";
 	for( size_t idx = 0; idx < data->arrayLen; ++idx ) {
 		const data_t& element = *(data->values[idx]);
-		result += "  <object id=\"" + toString(idList.at(&element)->id) + "\" class=\"" + data_t::xmlName + "\">\n";
+		result += "  <object id=\"" + toString(idx+1) + "\" class=\"" + data_t::xmlName + "\">\n";
 		result += "    <int32_t name=\"data\">" + toString(element.data) + "</int32_t>\n";
 		result += "  </object>\n";
 	}

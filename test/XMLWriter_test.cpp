@@ -61,6 +61,7 @@ PRIMITIVE_TYPES(PRIMITIVE_ARRAY_WRITE_METHOD)
 }
 class XMLWriterTest : public ::testing::Test, public XMLWriter {
 };
+
 #define WRITE_TEST(TYPE) \
 TEST_F(XMLWriterTest, Add##TYPE##Test) { \
 	PrimitiveObject<TYPE> primObj; \
@@ -134,5 +135,5 @@ TEST_F(XMLWriterTest, ObjectArrayTest) {
 	stringstream stream;
 	this->writeStream(stream);
 	
-	EXPECT_EQ(makeXMLObjectArrayString(&objArray, this->idList), stream.str());
+	EXPECT_EQ(makeXMLObjectArrayString(&objArray), stream.str());
 }
