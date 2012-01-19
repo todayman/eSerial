@@ -41,24 +41,32 @@ Parser * Parser::newXMLParser()
   return new XMLParser();
 }
 
-void XMLParser::firstPass(const string& filename)
+void XMLParser::firstPass(istream& input)
 {
-  doc = xmlParseFile(filename.c_str());
-  root = xmlDocGetRootElement(doc);
-  for ( node = xmlFirstElementChild(root);
+	input.seekg(0, ios::end);
+	ios::pos_type length = input.tellg();
+	char * buffer = new char[length];
+	input.seekg(0, ios::beg);
+	input.read(buffer, static_cast<std::streamsize>(length));
+	
+	xmlDocPtr doc = xmlParseMemory(buffer, static_cast<int>(length));
+	
+  xmlNodePtr root = xmlDocGetRootElement(doc);
+  for ( xmlNodePtr node = xmlFirstElementChild(root);
        node != nullptr;
        node = xmlNextElementSibling(node)
        )
   {
-    parseXMLObject(node);
+		this->root_objs.push_back(parseXMLObject(node));
   }
   
   xmlFreeDoc(doc);
   root = nullptr;
   doc = nullptr;
+	delete []buffer;
 }
 
-void XMLParser::parseXMLObject(xmlNodePtr node)
+Object * XMLParser::parseXMLObject(xmlNodePtr node)
 {
   Object * obj = new Object();
   
@@ -66,6 +74,8 @@ void XMLParser::parseXMLObject(xmlNodePtr node)
   obj->id = parse<size_t>(xmlPropText);
   xmlFree(xmlPropText);
   
+	this->metaIDList[obj->id] = obj;
+	
   xmlPropText = xmlGetProp(node, (const xmlChar *)"class");
   obj->name = string((const char*)xmlPropText);
   xmlFree(xmlPropText);
@@ -77,16 +87,14 @@ void XMLParser::parseXMLObject(xmlNodePtr node)
   {
     parseXMLField(field, obj);
   }
+	return obj;
 }
 
 template<typename T>
 static inline void parseString(T * data, const char * str, size_t count)
 {
 	stringstream ss(str);
-	if( count ) {
-		ss >> data[0];
-	}
-	for( size_t i = 1; i < count; i++ ) {
+	for( size_t i = 0; i < count; ++i ) {
 		ss >> data[i];
 	}
 }
@@ -96,11 +104,7 @@ inline void parseString(uint8_t * data, const char * str, size_t count)
 {
 	stringstream ss(str);
 	int buf;
-	if( count ) {
-		ss >> buf;
-		data[0] = (uint8_t)buf;
-	}
-	for( size_t i = 1; i < count; i++ ) {
+	for( size_t i = 0; i < count; ++i ) {
 		ss >> buf;
 		data[i] = (uint8_t)buf;
 	}
@@ -111,13 +115,20 @@ inline void parseString(int8_t * data, const char * str, size_t count)
 {
 	stringstream ss(str);
 	int buf;
-	if( count ) {
-		ss >> buf;
-		data[0] = (int8_t)buf;
-	}
-	for( size_t i = 1; i < count; i++ ) {
+	for( size_t i = 0; i < count; ++i ) {
 		ss >> buf;
 		data[i] = (int8_t)buf;
+	}
+}
+
+template<>
+inline void parseString(char * data, const char * str, size_t count)
+{
+	stringstream ss(str);
+	int buf;
+	for( size_t i = 0; i < count; i++ ) {
+		ss >> buf;
+		data[i] = (char)buf;
 	}
 }
 
@@ -125,7 +136,6 @@ inline void parseString(int8_t * data, const char * str, size_t count)
 else if( type == #x ) {\
 result = new Data<x>(parse<x>(content)); \
 }
-
 
 #define PARSE_ARRAY_TYPE( x ) \
 else if( type == #x ) { \
@@ -155,6 +165,9 @@ void XMLParser::parseXMLField(xmlNodePtr field, Object * obj)
   if( type == "uint8_t" ) {
     result = new Data<uint8_t>((uint8_t)parse<int>(content));
   }
+  else if( type == "char" ) {
+    result = new Data<char>((char)parse<int>(content));
+  }
   PARSE_TYPE(uint16_t)
   PARSE_TYPE(uint32_t)
   PARSE_TYPE(uint64_t)
@@ -166,15 +179,20 @@ void XMLParser::parseXMLField(xmlNodePtr field, Object * obj)
   PARSE_TYPE(int64_t)
   PARSE_TYPE(float)
   PARSE_TYPE(double)
-  PARSE_TYPE(long double)
+  PARSE_TYPE(long_double)
   else if( type == "bool" ) {
     result = new Data<bool>((bool)parse<int>(content));
   }
   else if( type == "char_star" ) {
     result = new Data<char*>(parse<char*>(content));
   }
-  else if( type == "eos.serialization.Writable*" ) {
-    result = new Data<Writable*>(parse<size_t>(content));
+	else if( type == "object" ) {
+		result = parseXMLObject(field);
+	}
+  else if( type == "eos.serialization.Writable" ) {
+		xmlChar* idString = xmlGetProp(field, (const xmlChar*)"id");
+    result = new Data<Writable*>(parse<size_t>(idString));
+		xmlFree(idString);
   }
   else if( type == "array" ) {
     // read the types of the elemtns in the array
@@ -197,8 +215,22 @@ void XMLParser::parseXMLField(xmlNodePtr field, Object * obj)
         readable_hint = true;
       }
     }
+		xmlFree(propText);
     
-    if( type == "uint8_t" ) {
+    if( type == "char" ) {
+      ArrayData<char> * arrData = new ArrayData<char>();
+      if( readable_hint ) {
+        arrData->data = new char[count];
+        parseString(arrData->data, reinterpret_cast<const char*>(content), count);
+      }
+      else {
+        arrData->hints |= FREE_HINT;
+        convert_from_base64(reinterpret_cast<const char *>(content), (size_t)xmlStrlen(content), &arrData->data);
+      }
+      arrData->count = count;
+      result = arrData;
+    }
+    else if( type == "uint8_t" ) {
       ArrayData<uint8_t> * arrData = new ArrayData<uint8_t>();
       if( readable_hint ) {
         arrData->data = new uint8_t[count];
@@ -220,9 +252,9 @@ void XMLParser::parseXMLField(xmlNodePtr field, Object * obj)
     PARSE_ARRAY_TYPE(int64_t)
     PARSE_ARRAY_TYPE(float)
     PARSE_ARRAY_TYPE(double)
-    PARSE_ARRAY_TYPE(long double)
+    PARSE_ARRAY_TYPE(long_double)
     PARSE_ARRAY_TYPE(bool)
-    else if( type == "eos.serialization.Writable*" ) {
+    else if( type == "eos.serialization.Writable_star" ) {
       ArrayData<Writable*> * arrData = new ArrayData<Writable*>();
       if( readable_hint ) {
         arrData->data = new size_t[count];

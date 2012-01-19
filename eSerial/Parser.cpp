@@ -13,18 +13,24 @@
 using namespace std;
 using namespace eos::serialization;
 
-class ctor_func_block {
+Factory::~Factory() {
+	for( auto ctor : ctors ) {
+		delete ctor.second;
+	}
+}
+
+class ctor_func_block : public ctor_block_t {
   ctor_func_t func;
 public:
   ctor_func_block(ctor_func_t f) : func(f) { }
   virtual ~ctor_func_block() { }
-  virtual Writable * newObject() const {
+  virtual Writable * newObject() const override {
     return func();
   }
 };
 
 void Factory::registerClass(const string &className, ctor_func_t ctor) {
-  ctors.insert( make_pair(className, (ctor_block_t*)new ctor_func_block(ctor)) );
+  ctors.insert( make_pair(className, new ctor_func_block(ctor)) );
 }
 
 Writable * Factory::newObject(std::string className) {
@@ -32,83 +38,87 @@ Writable * Factory::newObject(std::string className) {
 }
 
 Parser::~Parser() {
-  for( auto iter : data ) {
+  for( auto iter : metaIDList ) {
     delete iter.second;
   }
+	delete factory;
 }
 
 void Parser::setFactory(eos::serialization::Factory *newFactory) {
   factory = newFactory;
 }
 
-void Parser::parseFile(const string& filename)
+void Parser::parseStream(istream& input)
 {
-	firstPass(filename);
+	firstPass(input);
 	secondPass();
 }
 
 // go through the the hierarchy of EOS objects, and convert them to real objects
 void Parser::secondPass()
 {
-	auto end = data.end();
-	for(auto iter = data.begin(); iter != end; iter ++ ) {
-		if( !objects.count(iter->first) ) {
-			parseObject(iter->second);
+	for(auto iter : root_objs ) {
+		if( !realIDList.count(iter->id) ) {
+			parseObject(iter);
     }
 	}
 }
 
 void Parser::parseObject(Object * c)
 {
-	if( curObj ) {
-    objStack.push(curObj);
-  }
+	Object * oldObj = curObj;
   curObj = c;
   Writable * obj = factory->newObject(curObj->name);
-  objects.insert(make_pair(curObj->id, obj));
+  realIDList.insert(make_pair(curObj->id, obj));
 	obj->read(this);
   
-  if( !objStack.empty() ) {
-    curObj = objStack.top();
-    objStack.pop();
-  }
-  else {
-    curObj = nullptr;
-  }
+	curObj = oldObj;
 }
 
 template<typename T>
-void Parser::read(const string& name, T * val)
+void Parser::read_impl(const string& name, T * val)
 {
   (*val) = (dynamic_cast<Data<T>*>(curObj->data[name]))->data;
 }
 
 #define READ(x) \
-template void Parser::read(const string& name, x * val);
+template void Parser::read_impl(const string& name, x * val);
 
 PRIMITIVE_TYPES(READ)
 
 template<>
-void Parser::read(const string& name, Writable ** val) {
-	Data<Writable*>* newObj = dynamic_cast<Data<Writable*>*> ( curObj->data[name] );
-	if(!objects.count(newObj->id)) {
-		parseObject(data[newObj->id]);
+void Parser::read_impl(const string& name, Writable * val) {
+	Data<Writable>* newObj = dynamic_cast<Data<Writable>*> ( curObj->data[name] );
+	if(!realIDList.count(newObj->id)) {
+		realIDList.insert(make_pair(newObj->id, val));
+		Object * oldObj = curObj;
+		curObj = metaIDList[newObj->id];
+		val->read(this);
+		curObj = oldObj;
   }
-	(*val) = objects[newObj->id];
+}
+
+template<>
+void Parser::read_impl(const string& name, Writable ** val) {
+	Data<Writable*>* newObj = dynamic_cast<Data<Writable*>*> ( curObj->data[name] );
+	if(!realIDList.count(newObj->id)) {
+		parseObject(metaIDList[newObj->id]);
+  }
+	(*val) = realIDList[newObj->id];
 }
 
 template<typename T>
-void Parser::readArray(const string& name, T ** elements, size_t * count) {
+void Parser::read_array_impl(const string& name, T ** elements, size_t * count) {
   (*elements) = (dynamic_cast<ArrayData<T>*>(curObj->data[name]))->data;
   if(count) (*count) = (dynamic_cast<ArrayData<T>*>(curObj->data[name]))->count;
 }
 
 #define READ_ARRAY(x)\
-template void Parser::readArray(const string& name, x ** elements, size_t * count);
+template void Parser::read_array_impl(const string& name, x ** elements, size_t * count);
 PRIMITIVE_TYPES(READ_ARRAY)
 
 template<>
-void Parser::readArray(const string& name, Writable *** elements, size_t * count)
+void Parser::read_array_impl(const string& name, Writable *** elements, size_t * count)
 {
 	ArrayData<Writable*>* newObj = dynamic_cast<ArrayData<Writable*>*> ( curObj->data[name] );
 	
@@ -116,10 +126,10 @@ void Parser::readArray(const string& name, Writable *** elements, size_t * count
 		(*count) = newObj->count;
   
 	(*elements) = new Writable*[newObj->count];
-	for(size_t i = 0; i < newObj->count; i++) {
-		if(!objects[newObj->data[i]]) {
-			parseObject(data[newObj->data[i]]);
+	for(size_t i = 0; i < newObj->count; ++i) {
+		if(!realIDList.count(newObj->data[i])) {
+			parseObject(metaIDList[newObj->data[i]]);
     }
-		(*elements)[i] = objects[newObj->data[i]];
+		(*elements)[i] = realIDList[newObj->data[i]];
 	}
 }
