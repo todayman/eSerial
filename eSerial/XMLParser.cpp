@@ -11,26 +11,12 @@
 using namespace std;
 #include <libxml/tree.h>
 #include "Parser.h"
+#include "XMLParser.h"
 #include "Data.h"
 #include "b64.h"
 using namespace eos::serialization;
 
-class XMLParser : public Parser
-{
-private:
-  xmlDocPtr doc;
-  xmlNodePtr root;
-  xmlNodePtr node;
-  
-  void parseXMLObject(xmlNodePtr node);
-  void parseXMLField(xmlNodePtr field, Object * obj);
-protected:
-  virtual void firstPass(const string& filename) override;
-  
-public:
-  XMLParser() : doc(nullptr), root(nullptr), node(nullptr) { }
-  virtual ~XMLParser() { }
-};
+typedef long double long_double;
 
 template<typename T>
 static inline T parse(const xmlChar * text) {
