@@ -169,6 +169,43 @@ public:
 };
 
 typedef Data<Writable> Object;
+	
+// these structs are here to route instantiations of Writer.write()
+// and Parser.read() to the correct implementation
+template<bool ptr_type, typename T>
+struct handle_pointer { };
+
+template<typename T>
+struct handle_pointer<false, T> {
+	typedef T theType;
+	typedef T readType;
+};
+
+template<typename T>
+struct handle_pointer<true, T> {
+	static_assert(std::is_base_of<Writable, typename std::remove_pointer<T>::type >::value,
+								"You must inherit from eos::serializable::Writable to be write an object.");
+	typedef Writable* theType;
+	typedef Writable* readType;
+};
+
+template<bool primitve, typename T>
+struct is_base_type_thingy {
+};
+
+template<typename T>
+struct is_base_type_thingy<false, T> {
+	static_assert(std::is_base_of<Writable, T>::value,
+								"You must inherit from eos::serializable::Writable to be write an object.");
+	typedef Writable& theType;
+	typedef Writable readType;
+};
+
+template<typename T>
+struct is_base_type_thingy<true, T> {
+	typedef typename handle_pointer<std::is_pointer<T>::value, T>::theType theType;
+	typedef typename handle_pointer<std::is_pointer<T>::value, T>::readType readType;
+};
 
 } // namespace serialization
 } // namespace eos
