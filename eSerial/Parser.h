@@ -1,10 +1,10 @@
-/*
- *  eos/serialization/Parser.h
- *
- *  Created by Paul O'Neil on 7/31/09.
- *  Copyright 2011 Paul O'Neil. All rights reserved.
- *
- */
+//
+//  eos/serialization/Parser.h
+//  eSerial
+//
+//	Created by Paul O'Neil on 7/31/09.
+//  Copyright 2012 Paul O'Neil. All rights reserved.
+//
 
 #include <map>
 #include <vector>

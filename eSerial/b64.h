@@ -3,7 +3,7 @@
 //  eSerial
 //
 //  Created by Paul O'Neil on 10/15/11.
-//  Copyright (c) 2011 Paul O'Neil. All rights reserved.
+//  Copyright (c) 2012 Paul O'Neil. All rights reserved.
 //
 
 #ifndef __EOS_SERIALIZATION_B64_H__

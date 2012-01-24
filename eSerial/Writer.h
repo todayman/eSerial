@@ -1,10 +1,10 @@
-/*
- *  eos/serialization/Writer.h
- *
- *  Created by Paul O'Neil on 4/10/09.
- *  Copyright 2011 Paul O'Neil. All rights reserved.
- *
- */
+//
+//  eos/serialization/Writer.h
+//  eSerial
+//
+//  Created by Paul O'Neil on 4/10/09.
+//  Copyright 2012 Paul O'Neil. All rights reserved.
+//
 
 #include <iostream>
 #include <fstream>

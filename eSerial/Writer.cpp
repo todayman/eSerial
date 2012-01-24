@@ -1,10 +1,11 @@
-/*
- *  eos/serialization/Writer.cpp
- *
- *  Created by Paul O'Neil on 4/10/09.
- *  Copyright 2011 Paul O'Neil. All rights reserved.
- *
- */
+//
+//  eos/serialization/Writer.cpp
+//  eSerial
+//
+//  Created by Paul O'Neil on 4/10/09.
+//  Copyright 2012 Paul O'Neil. All rights reserved.
+//
+
 #include "Writer.h"
 #include "Data.h"
 #include "macros.h"

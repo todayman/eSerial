@@ -1,9 +1,9 @@
 //
-//  b64_tests.c
+//  eos/serialization/b64_tests.c
 //  eSerial
 //
 //  Created by Paul O'Neil on 12/22/11.
-//  Copyright (c) 2011 Paul O'Neil. All rights reserved.
+//  Copyright (c) 2012 Paul O'Neil. All rights reserved.
 //
 
 #include <gtest/gtest.h>

@@ -1,10 +1,10 @@
-/*
- *  eos/serialization/eParser.cpp
- *
- *  Created by Paul O'Neil on 7/31/09.
- *  Copyright 2011 Paul O'Neil. All rights reserved.
- *
- */
+//
+//  eos/serialization/eParser.cpp
+// eSerial
+//
+//  Created by Paul O'Neil on 7/31/09.
+//  Copyright 2012 Paul O'Neil. All rights reserved.
+//
 
 #include "Writable.h"
 #include "Parser.h"

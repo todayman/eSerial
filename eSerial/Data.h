@@ -1,8 +1,9 @@
 //
 //  eos/serialization/Data.h
+//  eSerial
 //
 //  Created by Paul O'Neil on 3/21/11.
-//  Copyright 2011 Paul O'Neil. All rights reserved.
+//  Copyright 2012 Paul O'Neil. All rights reserved.
 //
 
 #include <map>

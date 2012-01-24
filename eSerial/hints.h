@@ -1,8 +1,9 @@
 //
 //  eos/serialization/hints.h
+//  eSerial
 //
 //  Created by Paul O'Neil on 11/12/11.
-//  Copyright (c) 2011 Paul O'Neil. All rights reserved.
+//  Copyright (c) 2012 Paul O'Neil. All rights reserved.
 //
 
 #ifndef __EOS_SERIALIZATION_HINTS_H__

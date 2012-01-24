@@ -54,59 +54,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		DA0138191449F8D90014EBD1 /* c14n.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = c14n.h; sourceTree = "<group>"; };
-		DA01381A1449F8D90014EBD1 /* catalog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = catalog.h; sourceTree = "<group>"; };
-		DA01381B1449F8D90014EBD1 /* chvalid.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = chvalid.h; sourceTree = "<group>"; };
-		DA01381C1449F8D90014EBD1 /* debugXML.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = debugXML.h; sourceTree = "<group>"; };
-		DA01381D1449F8D90014EBD1 /* dict.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = dict.h; sourceTree = "<group>"; };
-		DA01381E1449F8D90014EBD1 /* DOCBparser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DOCBparser.h; sourceTree = "<group>"; };
-		DA01381F1449F8D90014EBD1 /* encoding.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = encoding.h; sourceTree = "<group>"; };
-		DA0138201449F8D90014EBD1 /* entities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = entities.h; sourceTree = "<group>"; };
-		DA0138211449F8D90014EBD1 /* globals.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = globals.h; sourceTree = "<group>"; };
-		DA0138221449F8D90014EBD1 /* hash.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = hash.h; sourceTree = "<group>"; };
-		DA0138231449F8D90014EBD1 /* HTMLparser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLparser.h; sourceTree = "<group>"; };
-		DA0138241449F8D90014EBD1 /* HTMLtree.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLtree.h; sourceTree = "<group>"; };
-		DA0138251449F8D90014EBD1 /* list.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = list.h; sourceTree = "<group>"; };
-		DA0138261449F8D90014EBD1 /* nanoftp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = nanoftp.h; sourceTree = "<group>"; };
-		DA0138271449F8D90014EBD1 /* nanohttp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = nanohttp.h; sourceTree = "<group>"; };
-		DA0138281449F8D90014EBD1 /* parser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = parser.h; sourceTree = "<group>"; };
-		DA0138291449F8D90014EBD1 /* parserInternals.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = parserInternals.h; sourceTree = "<group>"; };
-		DA01382A1449F8D90014EBD1 /* pattern.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = pattern.h; sourceTree = "<group>"; };
-		DA01382B1449F8D90014EBD1 /* relaxng.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = relaxng.h; sourceTree = "<group>"; };
-		DA01382C1449F8D90014EBD1 /* SAX.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SAX.h; sourceTree = "<group>"; };
-		DA01382D1449F8D90014EBD1 /* SAX2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SAX2.h; sourceTree = "<group>"; };
-		DA01382E1449F8D90014EBD1 /* schemasInternals.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = schemasInternals.h; sourceTree = "<group>"; };
-		DA01382F1449F8D90014EBD1 /* schematron.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = schematron.h; sourceTree = "<group>"; };
-		DA0138301449F8D90014EBD1 /* threads.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = threads.h; sourceTree = "<group>"; };
-		DA0138311449F8D90014EBD1 /* tree.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = tree.h; sourceTree = "<group>"; };
-		DA0138321449F8D90014EBD1 /* uri.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = uri.h; sourceTree = "<group>"; };
-		DA0138331449F8D90014EBD1 /* valid.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = valid.h; sourceTree = "<group>"; };
-		DA0138341449F8D90014EBD1 /* xinclude.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = xinclude.h; sourceTree = "<group>"; };
-		DA0138351449F8D90014EBD1 /* xlink.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = xlink.h; sourceTree = "<group>"; };
-		DA0138361449F8D90014EBD1 /* xmlautomata.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = xmlautomata.h; sourceTree = "<group>"; };
-		DA0138371449F8D90014EBD1 /* xmlerror.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = xmlerror.h; sourceTree = "<group>"; };
-		DA0138381449F8D90014EBD1 /* xmlexports.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = xmlexports.h; sourceTree = "<group>"; };
-		DA0138391449F8D90014EBD1 /* xmlIO.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = xmlIO.h; sourceTree = "<group>"; };
-		DA01383A1449F8D90014EBD1 /* xmlmemory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = xmlmemory.h; sourceTree = "<group>"; };
-		DA01383B1449F8D90014EBD1 /* xmlmodule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = xmlmodule.h; sourceTree = "<group>"; };
-		DA01383C1449F8D90014EBD1 /* xmlreader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = xmlreader.h; sourceTree = "<group>"; };
-		DA01383D1449F8D90014EBD1 /* xmlregexp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = xmlregexp.h; sourceTree = "<group>"; };
-		DA01383E1449F8D90014EBD1 /* xmlsave.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = xmlsave.h; sourceTree = "<group>"; };
-		DA01383F1449F8D90014EBD1 /* xmlschemas.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = xmlschemas.h; sourceTree = "<group>"; };
-		DA0138401449F8D90014EBD1 /* xmlschemastypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = xmlschemastypes.h; sourceTree = "<group>"; };
-		DA0138411449F8D90014EBD1 /* xmlstring.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = xmlstring.h; sourceTree = "<group>"; };
-		DA0138421449F8D90014EBD1 /* xmlunicode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = xmlunicode.h; sourceTree = "<group>"; };
-		DA0138431449F8D90014EBD1 /* xmlversion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = xmlversion.h; sourceTree = "<group>"; };
-		DA0138441449F8D90014EBD1 /* xmlwriter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = xmlwriter.h; sourceTree = "<group>"; };
-		DA0138451449F8D90014EBD1 /* xpath.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = xpath.h; sourceTree = "<group>"; };
-		DA0138461449F8D90014EBD1 /* xpathInternals.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = xpathInternals.h; sourceTree = "<group>"; };
-		DA0138471449F8D90014EBD1 /* xpointer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = xpointer.h; sourceTree = "<group>"; };
-		DA0138481449FDA70014EBD1 /* load_save.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = load_save.c; path = "../../../Users/paul/Library/Caches/Homebrew/dia-0.97.1/app/load_save.c"; sourceTree = "<group>"; };
-		DA0138491449FDA70014EBD1 /* load_save.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = load_save.h; path = "../../../Users/paul/Library/Caches/Homebrew/dia-0.97.1/app/load_save.h"; sourceTree = "<group>"; };
 		DA013882144A01EB0014EBD1 /* test */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = test; sourceTree = BUILT_PRODUCTS_DIR; };
-		DA01388F144A03360014EBD1 /* dia_xml_libxml.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = dia_xml_libxml.h; path = "../../../Users/paul/Library/Caches/Homebrew/dia-0.97.1/lib/dia_xml_libxml.h"; sourceTree = "<group>"; };
-		DA013890144A03360014EBD1 /* dia_xml.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = dia_xml.c; path = "../../../Users/paul/Library/Caches/Homebrew/dia-0.97.1/lib/dia_xml.c"; sourceTree = "<group>"; };
-		DA013891144A03360014EBD1 /* dia_xml.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = dia_xml.h; path = "../../../Users/paul/Library/Caches/Homebrew/dia-0.97.1/lib/dia_xml.h"; sourceTree = "<group>"; };
 		DA05A320146F15EE001425BA /* hints.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hints.h; sourceTree = "<group>"; };
 		DA154CDA14B696E9009DE903 /* XMLWriter_test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = XMLWriter_test.cpp; sourceTree = "<group>"; };
 		DA2C381513382E200013BE0F /* eSerial.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = eSerial.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -154,74 +102,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		DA0138171449F8D90014EBD1 /* libxml2 */ = {
-			isa = PBXGroup;
-			children = (
-				DA0138491449FDA70014EBD1 /* load_save.h */,
-				DA01388F144A03360014EBD1 /* dia_xml_libxml.h */,
-				DA013890144A03360014EBD1 /* dia_xml.c */,
-				DA013891144A03360014EBD1 /* dia_xml.h */,
-				DA0138481449FDA70014EBD1 /* load_save.c */,
-				DA0138181449F8D90014EBD1 /* libxml */,
-			);
-			name = libxml2;
-			path = /usr/include/libxml2;
-			sourceTree = "<absolute>";
-		};
-		DA0138181449F8D90014EBD1 /* libxml */ = {
-			isa = PBXGroup;
-			children = (
-				DA0138191449F8D90014EBD1 /* c14n.h */,
-				DA01381A1449F8D90014EBD1 /* catalog.h */,
-				DA01381B1449F8D90014EBD1 /* chvalid.h */,
-				DA01381C1449F8D90014EBD1 /* debugXML.h */,
-				DA01381D1449F8D90014EBD1 /* dict.h */,
-				DA01381E1449F8D90014EBD1 /* DOCBparser.h */,
-				DA01381F1449F8D90014EBD1 /* encoding.h */,
-				DA0138201449F8D90014EBD1 /* entities.h */,
-				DA0138211449F8D90014EBD1 /* globals.h */,
-				DA0138221449F8D90014EBD1 /* hash.h */,
-				DA0138231449F8D90014EBD1 /* HTMLparser.h */,
-				DA0138241449F8D90014EBD1 /* HTMLtree.h */,
-				DA0138251449F8D90014EBD1 /* list.h */,
-				DA0138261449F8D90014EBD1 /* nanoftp.h */,
-				DA0138271449F8D90014EBD1 /* nanohttp.h */,
-				DA0138281449F8D90014EBD1 /* parser.h */,
-				DA0138291449F8D90014EBD1 /* parserInternals.h */,
-				DA01382A1449F8D90014EBD1 /* pattern.h */,
-				DA01382B1449F8D90014EBD1 /* relaxng.h */,
-				DA01382C1449F8D90014EBD1 /* SAX.h */,
-				DA01382D1449F8D90014EBD1 /* SAX2.h */,
-				DA01382E1449F8D90014EBD1 /* schemasInternals.h */,
-				DA01382F1449F8D90014EBD1 /* schematron.h */,
-				DA0138301449F8D90014EBD1 /* threads.h */,
-				DA0138311449F8D90014EBD1 /* tree.h */,
-				DA0138321449F8D90014EBD1 /* uri.h */,
-				DA0138331449F8D90014EBD1 /* valid.h */,
-				DA0138341449F8D90014EBD1 /* xinclude.h */,
-				DA0138351449F8D90014EBD1 /* xlink.h */,
-				DA0138361449F8D90014EBD1 /* xmlautomata.h */,
-				DA0138371449F8D90014EBD1 /* xmlerror.h */,
-				DA0138381449F8D90014EBD1 /* xmlexports.h */,
-				DA0138391449F8D90014EBD1 /* xmlIO.h */,
-				DA01383A1449F8D90014EBD1 /* xmlmemory.h */,
-				DA01383B1449F8D90014EBD1 /* xmlmodule.h */,
-				DA01383C1449F8D90014EBD1 /* xmlreader.h */,
-				DA01383D1449F8D90014EBD1 /* xmlregexp.h */,
-				DA01383E1449F8D90014EBD1 /* xmlsave.h */,
-				DA01383F1449F8D90014EBD1 /* xmlschemas.h */,
-				DA0138401449F8D90014EBD1 /* xmlschemastypes.h */,
-				DA0138411449F8D90014EBD1 /* xmlstring.h */,
-				DA0138421449F8D90014EBD1 /* xmlunicode.h */,
-				DA0138431449F8D90014EBD1 /* xmlversion.h */,
-				DA0138441449F8D90014EBD1 /* xmlwriter.h */,
-				DA0138451449F8D90014EBD1 /* xpath.h */,
-				DA0138461449F8D90014EBD1 /* xpathInternals.h */,
-				DA0138471449F8D90014EBD1 /* xpointer.h */,
-			);
-			path = libxml;
-			sourceTree = "<group>";
-		};
 		DA013884144A01EC0014EBD1 /* test */ = {
 			isa = PBXGroup;
 			children = (
@@ -273,7 +153,6 @@
 				DA3FD126145240A700431974 /* XMLParser.cpp */,
 				DA5EA85B144A66A4000DC973 /* b64.h */,
 				DA5EA857144A5D86000DC973 /* b64.c */,
-				DA0138171449F8D90014EBD1 /* libxml2 */,
 			);
 			path = eSerial;
 			sourceTree = "<group>";

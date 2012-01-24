@@ -1,5 +1,5 @@
 //
-//  XMLParser.h
+//  eos/serialization/XMLParser.h
 //  eSerial
 //
 //  Created by Paul O'Neil on 1/9/12.

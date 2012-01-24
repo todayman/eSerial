@@ -1,9 +1,9 @@
 //
-//  macros.h
+//  eos/serialization/macros.h
 //  eSerial
 //
 //  Created by Paul O'Neil on 3/21/11.
-//  Copyright 2011 Paul O'Neil. All rights reserved.
+//  Copyright 2012 Paul O'Neil. All rights reserved.
 //
 
 #define CHAR_TYPES(macro) \
