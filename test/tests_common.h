@@ -10,10 +10,10 @@
 #include <string>
 #include <sstream>
 
-#include "Writable.h"
-#include "Writer.h"
+#include <eSerial/Writable.h>
+#include <eSerial/hints.h>
 
-#include "macros.h"
+#include "../eSerial/macros.h"
 
 #ifndef eSerial_tests_common_h
 #define eSerial_tests_common_h

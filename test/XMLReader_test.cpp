@@ -7,8 +7,8 @@
 //
 
 #include "tests_common.h"
-#include "Parser.h"
-#include "XMLParser.h"
+#include <eSerial/Parser.h>
+#include "../eSerial/XMLParser.h"
 using namespace eos;
 using namespace serialization;
 #include <sstream>

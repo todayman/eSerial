@@ -6,9 +6,9 @@
 //  Copyright (c) 2012 Paul O'Neil. All rights reserved.
 //
 
-#include "macros.h"
-#include "XMLWriter.h"
-#include "b64.h"
+#include "../eSerial/macros.h"
+#include "../eSerial/XMLWriter.h"
+#include <eSerial/b64.h>
 #include "tests_common.h"
 using namespace eos;
 using namespace serialization;
@@ -56,6 +56,11 @@ void PrimitiveArrayObject<TypeParam>::write(Writer * writer) {
 }
 #define PRIMITIVE_ARRAY_WRITE_METHOD(x) template void PrimitiveArrayObject<x>::write(Writer * writer);
 PRIMITIVE_TYPES(PRIMITIVE_ARRAY_WRITE_METHOD)
+
+void ObjectArray::write(Writer * writer) {
+	writer->writeName("ObjectArray");
+	writer->writeArray(values, arrayLen, "values");
+}
 
 }
 }

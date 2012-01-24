@@ -77,7 +77,7 @@ Object * XMLParser::parseXMLObject(xmlNodePtr node)
 	this->metaIDList[obj->id] = obj;
 	
   xmlPropText = xmlGetProp(node, (const xmlChar *)"class");
-  obj->name = string((const char*)xmlPropText);
+  obj->name = string((char*)xmlPropText);
   xmlFree(xmlPropText);
   
   for ( xmlNodePtr field = xmlFirstElementChild(node);

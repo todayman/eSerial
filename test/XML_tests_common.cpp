@@ -8,8 +8,9 @@
 
 #include <cmath>
 #include <string>
+#include <vector>
 using namespace std;
-#include "b64.h"
+#include <eSerial/b64.h>
 #include "tests_common.h"
 using namespace eos;
 using namespace serialization;
@@ -145,11 +146,6 @@ ObjectArray::~ObjectArray() {
 		delete values[i];
 	}
 	delete []values;
-}
-
-void ObjectArray::write(Writer * writer) {
-	writer->writeName("ObjectArray");
-	writer->writeArray(values, arrayLen, "values");
 }
 
 #define makeXMLString(TypeParam) \

@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 Paul O'Neil. All rights reserved.
 //
 
-#include "Writer.h"
+#include <eSerial/Writer.h>
 #include "tests_common.h"
 using namespace eos;
 using namespace serialization;

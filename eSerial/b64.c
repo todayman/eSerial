@@ -108,24 +108,26 @@ static inline char get_char(base64_conversion_t data, unsigned int idx)
     default:
       return 0;
   }
-  return toB64[result];
+	// cppcheck warns that if result > 127, this will be out of bounds b/c of sign extension
+	// it must be in range [0, 64), however, since this is b64
+  return toB64[(int)result];
 }
 
 static inline void set_char(const char in[4], char * out)
 {
   base64_conversion_t buff;
   buff.bits = 0;
-  buff.bits |= ((unsigned)fromB64[in[0]] << 2);
+  buff.bits |= ((unsigned)fromB64[(int)in[0]] << 2);
   
-  uint32_t val = fromB64[in[1]];
+  uint32_t val = fromB64[(int)in[1]];
   buff.bits |= ((val & 0x30) >> 4);
   buff.bits |= ((val & 0x0F) << 12);
   
-  val = fromB64[in[2]];
+  val = fromB64[(int)in[2]];
   buff.bits |= ((val & 0x3C) << 6);
   buff.bits |= ((val & 0x03) << 22);
   
-  val = fromB64[in[3]];
+  val = fromB64[(int)in[3]];
   buff.bits |= (val << 16);
   
   memcpy(out, buff.bytes, 3);
