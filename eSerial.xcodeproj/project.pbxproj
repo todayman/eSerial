@@ -55,6 +55,8 @@
 
 /* Begin PBXFileReference section */
 		DA013882144A01EB0014EBD1 /* test */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = test; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA01FE4C14CE40670089A173 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = SOURCE_ROOT; };
+		DA01FE4D14CE407F0089A173 /* README */ = {isa = PBXFileReference; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		DA05A320146F15EE001425BA /* hints.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hints.h; sourceTree = "<group>"; };
 		DA154CDA14B696E9009DE903 /* XMLWriter_test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = XMLWriter_test.cpp; sourceTree = "<group>"; };
 		DA2C381513382E200013BE0F /* eSerial.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = eSerial.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -120,6 +122,8 @@
 		DA2C380A13382E200013BE0F = {
 			isa = PBXGroup;
 			children = (
+				DA01FE4C14CE40670089A173 /* LICENSE */,
+				DA01FE4D14CE407F0089A173 /* README */,
 				DAABC41F14BB9CC700D569FF /* libxml2.dylib */,
 				DA2C381713382E200013BE0F /* eSerial */,
 				DA013884144A01EC0014EBD1 /* test */,

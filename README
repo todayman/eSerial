@@ -1,0 +1,18 @@
+eSerial (github.com/todayman/eSerial)
+
+eSerial is a library for the serialization of C++ objects.
+It is most useful (I think) for writing objects to disk.
+
+Currently, it only supports writing to XML.
+
+Dependencies:
+The library itself only depends on libxml (http://www.xmlsoft.org/).
+Running the tests requires Google Test (https://code.google.com/p/googletest/).
+
+I have written this using C++11 features and libc++.  eSerial doesn't compile
+with the libc++ in Xcode 4.2.1 due to a bug in libc++ (fixed in svn).
+
+To build eSerial, open the Xcode project, make sure that the "eSerial" scheme
+is selected, and build.  Using the "test" scheme will build and run the tests.
+
+Documentation is coming... I promise...
