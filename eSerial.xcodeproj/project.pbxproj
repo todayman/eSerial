@@ -71,6 +71,8 @@
 		DA3AB8F514A3DF4200002DD0 /* b64_tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = b64_tests.cpp; sourceTree = "<group>"; };
 		DA3FD1201452320800431974 /* XMLWriter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = XMLWriter.cpp; sourceTree = "<group>"; };
 		DA3FD126145240A700431974 /* XMLParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = XMLParser.cpp; sourceTree = "<group>"; };
+		DA513AAB14D11BB50074D899 /* Doxyfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Doxyfile; sourceTree = "<group>"; };
+		DA513AAD14D11BB80074D899 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		DA5EA857144A5D86000DC973 /* b64.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = b64.c; sourceTree = "<group>"; };
 		DA5EA85B144A66A4000DC973 /* b64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = b64.h; sourceTree = "<group>"; };
 		DA8C8C5C14A58B84000B990B /* libgtest.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgtest.a; path = /usr/local/Cellar/gtest/1.6.0/lib/libgtest.a; sourceTree = "<absolute>"; };
@@ -122,6 +124,8 @@
 		DA2C380A13382E200013BE0F = {
 			isa = PBXGroup;
 			children = (
+				DA513AAD14D11BB80074D899 /* Makefile */,
+				DA513AAB14D11BB50074D899 /* Doxyfile */,
 				DA01FE4C14CE40670089A173 /* LICENSE */,
 				DA01FE4D14CE407F0089A173 /* README */,
 				DAABC41F14BB9CC700D569FF /* libxml2.dylib */,
@@ -180,6 +184,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
+
+/* Begin PBXLegacyTarget section */
+		DA513AAF14D120ED0074D899 /* Documentation */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "$(SRCROOT)/Doxyfile";
+			buildConfigurationList = DA513AB014D120ED0074D899 /* Build configuration list for PBXLegacyTarget "Documentation" */;
+			buildPhases = (
+			);
+			buildToolPath = /usr/local/bin/doxygen;
+			buildWorkingDirectory = "";
+			dependencies = (
+			);
+			name = Documentation;
+			passBuildSettingsInEnvironment = 1;
+			productName = Documentation;
+		};
+/* End PBXLegacyTarget section */
 
 /* Begin PBXNativeTarget section */
 		DA013881144A01EB0014EBD1 /* test */ = {
@@ -240,6 +261,7 @@
 			targets = (
 				DA2C381413382E200013BE0F /* eSerial */,
 				DA013881144A01EB0014EBD1 /* test */,
+				DA513AAF14D120ED0074D899 /* Documentation */,
 			);
 		};
 /* End PBXProject section */
@@ -428,6 +450,50 @@
 			};
 			name = Release;
 		};
+		DA513AB114D120ED0074D899 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				DEBUGGING_SYMBOLS = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PATH = "/usr/local/bin:$PATH";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		DA513AB214D120ED0074D899 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PATH = "/usr/local/bin:$PATH";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -454,6 +520,15 @@
 			buildConfigurations = (
 				DA2C382413382E200013BE0F /* Debug */,
 				DA2C382513382E200013BE0F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DA513AB014D120ED0074D899 /* Build configuration list for PBXLegacyTarget "Documentation" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DA513AB114D120ED0074D899 /* Debug */,
+				DA513AB214D120ED0074D899 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

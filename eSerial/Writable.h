@@ -18,24 +18,35 @@
 //  You should have received a copy of the GNU General Public License
 //  along with eSerial.  If not, see <http://www.gnu.org/licenses/>.
 //
+//! \file
+//! \brief Contains the interface for all serializable objects
+//! \author Paul O'Neil <redballoon36@gmail.com>
 
 #ifndef __EOS_SERIALIZATION_WRITEABLE_H__
 #define __EOS_SERIALIZATION_WRITEABLE_H__
 
 namespace eos {
-namespace serialization {
+	namespace serialization {
 
-class Writer;
-class Parser;
+		class Writer;
+		class Parser;
 
-class Writable {
-public:
-	virtual ~Writable() = default;
-	virtual void write(Writer * writer) = 0;
-	virtual void read(Parser * reader) = 0;
-};
+		//! An object that can be written to disk.
+		class Writable {
+		public:
+			virtual ~Writable() = default;
+			
+			//! Writes this object to the given writer. Subclasses
+			//! must implement both the read() and write() methods.
+			//! \param writer the target to write to
+			virtual void write(Writer * writer) = 0;
+			
+			//! Reads / Initializes this object from the given reader.
+			//! \param reader the source for this object
+			virtual void read(Parser * reader) = 0;
+		};
 
-} // namespace serialization
+	} // namespace serialization
 } // namespace eos
 
 #endif // __E_WRITEABLE__
