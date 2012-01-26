@@ -123,7 +123,7 @@ xmlNodePtr XMLWriter::writeArrayToXML(xmlNodePtr node, ArrayData<T> * data, cons
 		char* dst = nullptr;
     convert_to_base64(data->data, data->count, &dst);
 		str = dst;
-		free(dst);
+		delete []dst;
   }
   xmlNodePtr field = xmlNewTextChild(node, nullptr, (const xmlChar*)"array", (xmlChar*)str.c_str());
   

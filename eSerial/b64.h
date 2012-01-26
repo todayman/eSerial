@@ -29,10 +29,15 @@ extern "C" {
   // Implementation of convert_{to,from}_base64,
   // the other functions are C(++) wrappers for these
   // to make the types and linking work
-  size_t _convert_to_base64(const char * data, size_t length, char ** encoded);
-  size_t _convert_from_base64(const char * data, size_t length, char ** decoded);
+  size_t _convert_to_base64(const char * data, size_t length, char ** encoded, void*(*allocator)(size_t));
+  size_t _convert_from_base64(const char * data, size_t length, char ** decoded, void*(*allocator)(size_t), size_t scale);
 
 #ifdef __cplusplus
+}
+
+template<typename T>
+static inline void * alloc(size_t count) {
+	return new T[count];
 }
 
 /**
@@ -45,7 +50,7 @@ extern "C" {
  */
 template<typename T>
 static inline size_t convert_to_base64(const T * data, size_t length, char ** encoded) {
-  return _convert_to_base64((const char *) data, length * sizeof(T), encoded);
+  return _convert_to_base64((const char *) data, length * sizeof(T), encoded, alloc<char>);
 }
 
 /**
@@ -53,12 +58,12 @@ static inline size_t convert_to_base64(const T * data, size_t length, char ** en
  *
  * \param data the data to be decoded
  * \param length the length of the data in bytes
- * \param encoded a pointer to the decoded data.  It should be released with free().
+ * \param decoded a pointer to the decoded data.  It should be released with free().
  * \return the number elements of the decoded data.
  */
 template<typename T>
 static inline size_t convert_from_base64(const char * data, size_t length, T ** encoded) {
-  return _convert_from_base64((const char *) data, length, (char**)encoded) / sizeof(T);
+  return _convert_from_base64((const char *) data, length, (char**)encoded, alloc<T>, sizeof(T)) / sizeof(T);
 }
 #else
 
@@ -70,17 +75,17 @@ static inline size_t convert_from_base64(const char * data, size_t length, T ** 
  * \param encoded a pointer to the encoded data.  It should be released with free().
  * \return the number of bytes of the encoded data
  */
-#define convert_to_base64(data, length, encoded) _convert_to_base64(data, length, encoded)
+#define convert_to_base64(data, length, encoded) _convert_to_base64(data, length, encoded, malloc)
 
 /**
  * Converts the given textual Base64 encoding to binary data.
  *
  * \param data the data to be decoded
  * \param length the length of the data in bytes
- * \param encoded a pointer to the decoded data.  It should be released with free().
+ * \param decoded a pointer to the decoded data.  It should be released with free().
  * \return the length of the decoded data in bytes
  */
-#define convert_from_base64(data, length, decoded) _convert_from_base64(data, length, decoded)
+#define convert_from_base64(data, length, decoded) _convert_from_base64(data, length, decoded, malloc, 1)
 
 #endif // __cplusplus
 

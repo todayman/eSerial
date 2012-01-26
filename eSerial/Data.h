@@ -90,13 +90,6 @@ public:
   ArrayData() : count(0), data(nullptr), hints(NO_HINT) { }
   ArrayData(size_t c, T * d, hint_t h) : count(c), data(d), hints(h) { }
   ~ArrayData() {
-    if( count && (hints & COPY_ARRAY_HINT) ) {
-      if( hints & FREE_HINT ) {
-        free(data);
-      }
-      else {
-        delete[] data;
-      }
     }
   }
 	
@@ -162,6 +155,8 @@ public:
 			if( kv_pair.second->shouldBeDeletedByOwner() ) {
 				delete kv_pair.second;
 			}
+		if( count && (hints & COPY_ARRAY_HINT) ) {
+			delete[] data;
 		}
 	}
 	

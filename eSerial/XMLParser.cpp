@@ -159,7 +159,6 @@ else if( type == #x ) { \
     parseString(arrData->data, reinterpret_cast<const char*>(content), count); \
   } \
   else { \
-    arrData->hints |= FREE_HINT; \
     convert_from_base64(reinterpret_cast<const char *>(content), (size_t)xmlStrlen(content), &arrData->data); \
   } \
   arrData->count = count; \
@@ -238,7 +237,6 @@ void XMLParser::parseXMLField(xmlNodePtr field, Object * obj)
         parseString(arrData->data, reinterpret_cast<const char*>(content), count);
       }
       else {
-        arrData->hints |= FREE_HINT;
         convert_from_base64(reinterpret_cast<const char *>(content), (size_t)xmlStrlen(content), &arrData->data);
       }
       arrData->count = count;
@@ -251,7 +249,6 @@ void XMLParser::parseXMLField(xmlNodePtr field, Object * obj)
         parseString(arrData->data, reinterpret_cast<const char*>(content), count);
       }
       else {
-        arrData->hints |= FREE_HINT;
         convert_from_base64(reinterpret_cast<const char *>(content), (size_t)xmlStrlen(content), &arrData->data);
       }
       arrData->count = count;
@@ -275,7 +272,6 @@ void XMLParser::parseXMLField(xmlNodePtr field, Object * obj)
         parseString(arrData->data, reinterpret_cast<const char*>(content), count);
       }
       else {
-        arrData->hints |= FREE_HINT;
         convert_from_base64(reinterpret_cast<const char *>(content), (size_t)xmlStrlen(content), &arrData->data);
       }
       arrData->count = count;

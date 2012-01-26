@@ -147,7 +147,7 @@ static inline void set_char(const char in[4], char * out)
   memcpy(out, buff.bytes, 3);
 }
 
-size_t _convert_to_base64(const char * data, size_t length, char ** encoded)
+size_t _convert_to_base64(const char * data, size_t length, char ** encoded, void*(*allocator)(size_t))
 {
   if( NULL == data || NULL == encoded ) {
     return 0;
@@ -159,7 +159,7 @@ size_t _convert_to_base64(const char * data, size_t length, char ** encoded)
   padding_size = (padding_size == 3 ? 0 : padding_size);
   size_t product_length = (mod_3_length + (remainder ? 3 : 0)) * 4 / 3;
   
-  char * result = malloc(product_length + 1);
+  char * result = allocator(product_length + 1);
   if( NULL == result ) {
 		(*encoded) = NULL;
     return 0;
@@ -203,7 +203,7 @@ size_t _convert_to_base64(const char * data, size_t length, char ** encoded)
   return product_length;
 }
 
-size_t _convert_from_base64(const char * data, size_t length, char ** decoded)
+size_t _convert_from_base64(const char * data, size_t length, char ** decoded, void*(*allocator)(size_t), size_t scale)
 {
   if( NULL == data || NULL == decoded ) {
     return 0;
@@ -218,7 +218,7 @@ size_t _convert_from_base64(const char * data, size_t length, char ** decoded)
   size_t padding_size = length - data_length;
   size_t product_size = mod_4_length * 3 / 4 + (padding_size ? 3 - padding_size : 0);
   
-  char * result = malloc(product_size + 1);
+  char * result = allocator((product_size + 1)/scale);
   
   size_t src_idx, dst_idx;
   for( src_idx = dst_idx = 0; src_idx < mod_4_length; src_idx += 4, dst_idx += 3 ) {
