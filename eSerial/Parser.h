@@ -48,12 +48,18 @@ public:
 };
 
 class Factory {
-  std::map<std::string, ctor_block_t*> ctors;
 public:
-	~Factory();
-  void registerClass(const std::string& className, ctor_func_t ctor);
-  void registerClass(const std::string& className, ctor_block_t* ctor);
-  Writable * newObject(std::string className);
+	virtual ~Factory() { }
+  virtual Writable * newObject(const std::string& className) = 0;
+};
+
+class DefaultFactory : public Factory {
+	std::map<std::string, ctor_block_t*> ctors;
+public:
+	virtual ~DefaultFactory();
+	void registerClass(const std::string& className, ctor_func_t ctor);
+	void registerClass(const std::string& className, ctor_block_t* ctor);
+	virtual Writable * newObject(const std::string& className) override;
 };
 
 class Parser {
@@ -84,7 +90,7 @@ public:
 	}
 	Factory * getFactory() {
 		if( nullptr == factory ) {
-			factory = new Factory();
+			factory = new DefaultFactory();
 		}
 		return factory;
 	}

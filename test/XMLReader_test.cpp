@@ -83,7 +83,7 @@ class XMLReaderTest : public ::testing::Test, public XMLParser {
 TEST_F(XMLReaderTest, Read##TYPE##Test) { \
 	PrimitiveObject<TYPE> primObj; \
 	stringstream stream(makeXMLString_##TYPE()); \
-	this->getFactory()->registerClass(PrimitiveObject<TYPE>::xmlName, (ctor_func_t)new_PrimitiveObject<TYPE>); \
+	dynamic_cast<DefaultFactory*>(this->getFactory())->registerClass(PrimitiveObject<TYPE>::xmlName, (ctor_func_t)new_PrimitiveObject<TYPE>); \
 	this->parseStream(stream); \
 	\
 	ASSERT_EQ(1, this->realIDList.size()); \
@@ -97,7 +97,7 @@ TEST_F(XMLReaderTest, InternalObjectTest) {
 	stack_container_t stack_data;
 	stack_data.data.data = 5;
 	
-	this->getFactory()->registerClass(stack_container_t::xmlName, (ctor_func_t)new_stack_container_t);
+	dynamic_cast<DefaultFactory*>(this->getFactory())->registerClass(stack_container_t::xmlName, (ctor_func_t)new_stack_container_t);
 	
 	stringstream stream(makeXMLString_stack_container_t(&stack_data));
 	this->parseStream(stream);
@@ -115,8 +115,8 @@ TEST_F(XMLReaderTest, InternalPointerTest) {
 	ptr_data.data = new data_t();
 	ptr_data.data->data = 5;
 	
-	this->getFactory()->registerClass(ptr_container_t::xmlName, (ctor_func_t)new_ptr_container_t);
-	this->getFactory()->registerClass(data_t::xmlName, (ctor_func_t)new_data_t);
+	dynamic_cast<DefaultFactory*>(this->getFactory())->registerClass(ptr_container_t::xmlName, (ctor_func_t)new_ptr_container_t);
+	dynamic_cast<DefaultFactory*>(this->getFactory())->registerClass(data_t::xmlName, (ctor_func_t)new_data_t);
 	
 	stringstream stream(makeXMLString_ptr_container_t(&ptr_data));
 	this->parseStream(stream);
@@ -136,7 +136,7 @@ TEST_F(XMLReaderTest, InternalPointerTest) {
 TEST_F(XMLReaderTest, PrimitiveArrayTest_##TYPE) { \
 	PrimitiveArrayObject<TYPE> arrayObj; \
 	\
-	this->getFactory()->registerClass(PrimitiveArrayObject<TYPE>::xmlName, (ctor_func_t)new_PrimitiveArrayObject<TYPE>); \
+	dynamic_cast<DefaultFactory*>(this->getFactory())->registerClass(PrimitiveArrayObject<TYPE>::xmlName, (ctor_func_t)new_PrimitiveArrayObject<TYPE>); \
 	\
 	stringstream stream(makeXMLArrayString_##TYPE(&arrayObj)); \
 	this->parseStream(stream); \
@@ -154,7 +154,7 @@ PRIMITIVE_TYPE_IDENTIFIERS(READ_ARRAY_TEST)
 TEST_F(XMLReaderTest, PrimitiveReadableArrayTest_##TYPE) { \
 	PrimitiveArrayObject<TYPE> arrayObj; \
 	\
-	this->getFactory()->registerClass(PrimitiveArrayObject<TYPE>::xmlName, (ctor_func_t)new_PrimitiveArrayObject<TYPE>); \
+	dynamic_cast<DefaultFactory*>(this->getFactory())->registerClass(PrimitiveArrayObject<TYPE>::xmlName, (ctor_func_t)new_PrimitiveArrayObject<TYPE>); \
 	\
 	stringstream stream(makeXMLArray_ReadableString_##TYPE(&arrayObj)); \
 	this->parseStream(stream); \
@@ -170,8 +170,8 @@ PRIMITIVE_TYPE_IDENTIFIERS(READ_READABLE_ARRAY_TEST)
 TEST_F(XMLReaderTest, ObjectArrayTest) {
 	ObjectArray objArray;
 	
-	this->getFactory()->registerClass(data_t::xmlName, (ctor_func_t)new_data_t);
-	this->getFactory()->registerClass(ObjectArray::xmlName, (ctor_func_t)new_ObjectArray);
+	dynamic_cast<DefaultFactory*>(this->getFactory())->registerClass(data_t::xmlName, (ctor_func_t)new_data_t);
+	dynamic_cast<DefaultFactory*>(this->getFactory())->registerClass(ObjectArray::xmlName, (ctor_func_t)new_ObjectArray);
 	
 	stringstream stream(makeXMLObjectArrayString(&objArray));
 	this->parseStream(stream);

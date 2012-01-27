@@ -26,7 +26,7 @@
 using namespace std;
 using namespace eos::serialization;
 
-Factory::~Factory() {
+DefaultFactory::~DefaultFactory() {
 	for( auto ctor : ctors ) {
 		delete ctor.second;
 	}
@@ -42,11 +42,11 @@ public:
   }
 };
 
-void Factory::registerClass(const string &className, ctor_func_t ctor) {
+void DefaultFactory::registerClass(const string &className, ctor_func_t ctor) {
   ctors.insert( make_pair(className, new ctor_func_block(ctor)) );
 }
 
-Writable * Factory::newObject(std::string className) {
+Writable * DefaultFactory::newObject(const std::string& className) {
   return /*dynamic_cast<eWritable*>(*/ctors[className]->newObject()/*)*/;
 }
 
