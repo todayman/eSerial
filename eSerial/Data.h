@@ -52,10 +52,12 @@ namespace eos {
 		public:
 			virtual ~_Data() { }
 			//! Returns true if this is the same kind of data with the same value
+			//! \return true if this is the same kind of data with the same value
 			virtual bool operator==(const _Data& other) const = 0;
 			
-			//! \internal Whether the owner of this object is responsible for
+			//! Whether the owner of this object is responsible for
 			//! deleting it, or whether it will be deleted by the Writer/Reader.
+			//! \return whether this object is deleted by the owner or the Writer/Reader
 			virtual bool shouldBeDeletedByOwner() const = 0;
 		};
 		//! A pointer to a metadata structure
@@ -251,7 +253,6 @@ namespace eos {
 			
 		// these structs are here to route instantiations of Writer.write()
 		// and Parser.read() to the correct implementation
-		//! hello
 		template<bool ptr_type, typename T>
 		struct handle_pointer { };
 
