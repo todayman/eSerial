@@ -660,7 +660,11 @@ RECURSIVE              = NO
 # subdirectory from a directory tree whose root is specified with the INPUT tag.
 # Note that relative paths are relative to directory from which doxygen is run.
 
-EXCLUDE                =
+EXCLUDE                = eSerial/macros.h \
+                         eSerial/XMLParser.h \
+                         eSerial/XMLWriter.h \
+                         eSerial/XMLParser.cpp \
+                         eSerial/XMLWriter.cpp \
 
 # The EXCLUDE_SYMLINKS tag can be used select whether or not files or
 # directories that are symbolic links (a Unix file system feature) are excluded
