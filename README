@@ -12,6 +12,8 @@ Running the tests requires Google Test (https://code.google.com/p/googletest/).
 I have written this using C++11 features and libc++.
 
 Documentation is coming... I promise...
+You can build what exists so far by running doxygen in the root directory.
+The product will be in docs.
 
 Building
 ==================
@@ -23,6 +25,7 @@ may not be up to date.
 
 TODO
 ==================
+Check that the #includes have the right pathnames *
 High-level documentation *
 	How to write implementations for other file formats *
 Parser::read(string name, const char * * astring) *
