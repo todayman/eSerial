@@ -58,6 +58,9 @@ Parser::~Parser() {
 }
 
 void Parser::setFactory(eos::serialization::Factory *newFactory) {
+	if( factory != nullptr ) {
+		delete factory;
+	}
   factory = newFactory;
 }
 
