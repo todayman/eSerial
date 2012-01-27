@@ -18,6 +18,9 @@
 //  You should have received a copy of the GNU General Public License
 //  along with eSerial.  If not, see <http://www.gnu.org/licenses/>.
 //
+//! \file
+//! \author Paul O'Neil <redballoon36@gmail.com>
+//! \brief Base64 encode / decode functions
 
 #ifndef __EOS_SERIALIZATION_B64_H__
 #define __EOS_SERIALIZATION_B64_H__

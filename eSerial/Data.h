@@ -19,13 +19,13 @@
 //  along with eSerial.  If not, see <http://www.gnu.org/licenses/>.
 //
 //! \file
+//! \author Paul O'Neil <redballoon36@gmail.com>
 //! \brief Data.h defines the intermediate structures.
 //!
 //! As the eos::serialization::Writer traverses the object graph, it generates
 //! these structures.  Next, the eos::serialization::Writer uses these to write
 //! data out.  These store almost all of the information needed to serialize the 
 //! object graph.  Knowledge of the root level objects is all that is missing.
-//! \author Paul O'Neil <redballoon36@gmail.com>
 
 #include <map>
 #include <string>

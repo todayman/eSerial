@@ -18,24 +18,27 @@
 //  You should have received a copy of the GNU General Public License
 //  along with eSerial.  If not, see <http://www.gnu.org/licenses/>.
 //
+//! \file
+//! \author Paul O'Neil <redballoon36@gmail.com>
+//! \brief Hints to the library to suggest different representations of data.
 
 #ifndef __EOS_SERIALIZATION_HINTS_H__
 #define __EOS_SERIALIZATION_HINTS_H__
 
 namespace eos {
-namespace serialization {
+	namespace serialization {
 
-typedef uint32_t hint_t;
+		typedef uint32_t hint_t;
 
-constexpr hint_t NO_HINT        = 0;
-//! Hints that the data should be stored in a human-readable format
-constexpr hint_t READABLE_HINT  = 1 << 0;
-//! Hints that the data should be stored in a binary format to conserve space
-constexpr hint_t BINARY_HINT    = READABLE_HINT << 1;
-//! Hints that the array should be copied, not referenced, before serialization
-constexpr hint_t COPY_ARRAY_HINT= BINARY_HINT << 1;
+		constexpr hint_t NO_HINT        = 0;
+		//! Hints that the data should be stored in a human-readable format
+		constexpr hint_t READABLE_HINT  = 1 << 0;
+		//! Hints that the data should be stored in a binary format to conserve space
+		constexpr hint_t BINARY_HINT    = READABLE_HINT << 1;
+		//! Hints that the array should be copied, not referenced, before serialization
+		constexpr hint_t COPY_ARRAY_HINT= BINARY_HINT << 1;
 
-} // namespace serialization
+	} // namespace serialization
 } // namespace eos
 
 

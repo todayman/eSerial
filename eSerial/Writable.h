@@ -19,8 +19,8 @@
 //  along with eSerial.  If not, see <http://www.gnu.org/licenses/>.
 //
 //! \file
-//! \brief Contains the interface for all serializable objects
 //! \author Paul O'Neil <redballoon36@gmail.com>
+//! \brief Contains the interface for all serializable objects
 
 #ifndef __EOS_SERIALIZATION_WRITEABLE_H__
 #define __EOS_SERIALIZATION_WRITEABLE_H__
