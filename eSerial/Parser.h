@@ -19,7 +19,7 @@
 //  along with eSerial.  If not, see <http://www.gnu.org/licenses/>.
 //
 //! \file
-//! Parser.h contains the abstract base classes used to parse serialized objects.£
+//! Parser.h contains the abstract base classes used to parse serialized objects.
 //! \author Paul O'Neil
 
 #include <map>
