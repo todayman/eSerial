@@ -29,8 +29,8 @@
 #include <type_traits>
 #include <string>
 #include <exception>
-#include "Writable.h"
-#include "Data.h"
+#include <eos/serialization/Writable.h>
+#include <eos/serialization/Data.h>
 
 #ifndef __EOS_SERIALIZATION_WRITER_H__
 #define __EOS_SERIALIZATION_WRITER_H__

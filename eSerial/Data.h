@@ -31,7 +31,7 @@
 #include <string>
 #include <cstdlib>
 
-#include <eSerial/hints.h>
+#include <eos/serialization/hints.h>
 
 #ifndef __EOS_SERIALIZATION_DATA_H__
 #define __EOS_SERIALIZATION_DATA_H__

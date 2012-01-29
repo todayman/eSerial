@@ -22,7 +22,7 @@
 #ifndef eSerial_XMLWriter_h
 #define eSerial_XMLWriter_h
 
-#include "Writer.h"
+#include <eos/serialization/Writer.h>
 #include <libxml/tree.h>
 #include <iostream>
 

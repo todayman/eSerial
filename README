@@ -25,7 +25,6 @@ may not be up to date.
 
 TODO
 ==================
-Check that the #includes have the right pathnames *
 High-level documentation *
 	How to write implementations for other file formats *
 Parser::read(string name, const char * * astring) *

@@ -28,7 +28,7 @@
 #include <string>
 #include <fstream>
 
-#include "Data.h"
+#include <eos/serialization/Data.h>
 
 #ifndef __EOS_SERIALIZTION_PARSER_H__
 #define __EOS_SERIALIZTION_PARSER_H__

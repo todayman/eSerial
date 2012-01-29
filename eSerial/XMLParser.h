@@ -24,7 +24,7 @@
 
 #include <libxml/tree.h>
 #include <string>
-#include "Data.h"
+#include <eos/serialization/Data.h>
 
 namespace eos {
 namespace serialization {
