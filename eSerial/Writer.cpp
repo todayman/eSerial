@@ -25,6 +25,16 @@
 using namespace std;
 using namespace eos::serialization;
 
+bool Data<char*>::operator==(const _Data& other) const {
+	try {
+		const Data<char*>& typed_data = dynamic_cast<const Data<char*>&>(other);
+		return strcmp(this->data, typed_data.data) == 0;
+	}
+	catch(const std::bad_cast& e) {
+		return false;
+	}
+}
+
 const char * Writer::NoCurrentObject::message =
 	"There must be an object currently being written in order to complete this operation.";
 const char * Writer::UnnamedObject::message =

@@ -20,6 +20,7 @@
 //
 
 #include <cmath>
+#include <cstring>
 #include <string>
 #include <vector>
 using namespace std;
@@ -61,8 +62,20 @@ PrimitiveObject<TypeParam>::PrimitiveObject() :
 		val4(static_cast<TypeParam>(eos::serialization::val4))
 {	
 }
+	
+static const char * astring = "a string to write to disk!";
 #define PRIMITIVE_CTOR(x) template PrimitiveObject<x>::PrimitiveObject();
 PRIMITIVE_TYPES(PRIMITIVE_CTOR);
+
+PrimitiveObject<char_star>::PrimitiveObject() {
+	size_t len = strlen(astring);
+	val1 = new char[len+1];
+	strncpy(val1, astring, len+1);
+}
+
+PrimitiveObject<char_star>::~PrimitiveObject() {
+	delete []val1;
+}
 
 template<typename TypeParam>
 PrimitiveObject<TypeParam> * new_PrimitiveObject() {
@@ -70,9 +83,11 @@ PrimitiveObject<TypeParam> * new_PrimitiveObject() {
 }
 #define PRIMITIVE_CTOR_FUNC(x) template PrimitiveObject<x> * new_PrimitiveObject();
 PRIMITIVE_TYPE_IDENTIFIERS(PRIMITIVE_CTOR_FUNC)
+PRIMITIVE_CTOR_FUNC(char_star)
 
 #define PRIMITIVE_XMLNAME(x) template<> const string PrimitiveObject<x>::xmlName("PrimitiveObject");
 PRIMITIVE_TYPES(PRIMITIVE_XMLNAME)
+const string PrimitiveObject<char_star>::xmlName("PrimitiveObject");
 
 template<> bool PrimitiveObject<double>::operator==(const PrimitiveObject<double>& other) const {
 	return
@@ -90,6 +105,10 @@ template<> bool PrimitiveObject<long_double>::operator==(const PrimitiveObject<l
 		abs(this->val4 - other.val4) < FLOAT_EPSILON;
 }
 
+bool PrimitiveObject<char*>::operator==(const PrimitiveObject<char*>& other) const {
+	return strcmp(val1, other.val1) == 0;
+}
+	
 template<> bool PrimitiveArrayObject<double>::operator==(const PrimitiveArrayObject<double>& other) const {
 	if( this->arrayLen != other.arrayLen ) {
 		return false;
@@ -162,7 +181,7 @@ ObjectArray::~ObjectArray() {
 }
 
 #define makeXMLString(TypeParam) \
-string makeXMLString_##TypeParam() {\
+string makeXMLString_##TypeParam(PrimitiveObject<TypeParam> * data) {\
 string result = xmlHeader; \
 result += "  <object id=\"0\" class=\"" + PrimitiveObject<TypeParam>::xmlName + "\">\n"; \
 result += "    <" #TypeParam " name=\"val1\">" + toString<TypeParam>(static_cast<TypeParam>(val1)) + "</"#TypeParam">\n"; \
@@ -174,7 +193,7 @@ result += xmlFooter; \
 return result;\
 }
 
-string makeXMLString_char() {
+string makeXMLString_char(PrimitiveObject<char> * data) {
 	string result = xmlHeader;
 	result += "  <object id=\"0\" class=\"PrimitiveObject\">\n";
 	result += "    <" "char" " name=\"val1\">" + toString<int>(val1) + "</""char"">\n";
@@ -186,7 +205,7 @@ string makeXMLString_char() {
 	return result;
 }
 
-string makeXMLString_int8_t() {
+string makeXMLString_int8_t(PrimitiveObject<int8_t> * data) {
 	string result = xmlHeader;
 	result += "  <object id=\"0\" class=\"PrimitiveObject\">\n";
 	result += "    <" "int8_t" " name=\"val1\">" + toString<int>(val1) + "</""int8_t"">\n";
@@ -198,7 +217,7 @@ string makeXMLString_int8_t() {
 	return result;
 }
 
-string makeXMLString_uint8_t() {
+string makeXMLString_uint8_t(PrimitiveObject<uint8_t> * data) {
 	string result = xmlHeader;
 	result += "  <object id=\"0\" class=\"PrimitiveObject\">\n";
 	result += "    <" "uint8_t" " name=\"val1\">" + toString<int>(val1) + "</""uint8_t"">\n";
@@ -217,13 +236,22 @@ makeXMLString(float)
 makeXMLString(double)
 makeXMLString(long_double)
 
-string makeXMLString_bool() {
+string makeXMLString_bool(PrimitiveObject<bool> * data) {
 	string result = xmlHeader;
 	result += "  <object id=\"0\" class=\"PrimitiveObject\">\n";
 	result += "    <" "bool" " name=\"val1\">" + toString<int>(static_cast<bool>(val1)) + "</""bool"">\n";
 	result += "    <" "bool" " name=\"val2\">" + toString<int>(static_cast<bool>(val2)) + "</""bool"">\n";
 	result += "    <" "bool" " name=\"val3\">" + toString<int>(static_cast<bool>(val3)) + "</""bool"">\n";
 	result += "    <" "bool" " name=\"val4\">" + toString<int>(static_cast<bool>(val4)) + "</""bool"">\n";
+	result += "  </object>\n";
+	result += xmlFooter;
+	return result;
+}
+
+string makeXMLString_char_star(PrimitiveObject<char*> * data) {
+	string result = xmlHeader;
+	result += "  <object id=\"0\" class=\"PrimitiveObject\">\n";
+	result += "    <" "char_star" " name=\"val1\">" + string(data->val1) + "</""char_star"">\n";
 	result += "  </object>\n";
 	result += xmlFooter;
 	return result;

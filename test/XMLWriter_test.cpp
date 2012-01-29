@@ -62,6 +62,11 @@ void PrimitiveObject<T>::write(Writer * writer) {
 #define PRIMITIVE_WRITE_METHOD(x) template void PrimitiveObject<x>::write(Writer * writer);
 PRIMITIVE_TYPES(PRIMITIVE_WRITE_METHOD)
 
+void PrimitiveObject<char_star>::write(Writer * writer) {
+	writer->writeName("PrimitiveObject");
+	writer->write(val1, "val1");
+}
+
 template<typename TypeParam>
 void PrimitiveArrayObject<TypeParam>::write(Writer * writer) {
 	writer->writeName("PrimitiveArrayObject");
@@ -88,11 +93,11 @@ TEST_F(XMLWriterTest, Add##TYPE##Test) { \
 	stringstream stream; \
 	this->writeStream(stream); \
 	\
-	EXPECT_EQ(makeXMLString_##TYPE(), (stream.str())); \
+	ASSERT_EQ(makeXMLString_##TYPE(&primObj), (stream.str())); \
 }
 
 PRIMITIVE_TYPE_IDENTIFIERS(WRITE_TEST)
-
+WRITE_TEST(char_star)
 
 TEST_F(XMLWriterTest, InternalObjectTest) {
 	stack_container_t stack_data;

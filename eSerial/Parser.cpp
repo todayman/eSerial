@@ -102,6 +102,10 @@ template void Parser::read_impl(const string& name, x * val);
 
 PRIMITIVE_TYPES(READ)
 
+template<> void Parser::read_impl(const string& name, char ** val) {
+	(*val) = dynamic_cast<Data<char*>*>(curObj->data[name])->data;
+}
+
 template<>
 void Parser::read_impl(const string& name, Writable * val) {
 	Data<Writable>* newObj = dynamic_cast<Data<Writable>*> ( curObj->data[name] );

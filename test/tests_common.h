@@ -105,6 +105,20 @@ public:
 template<> bool PrimitiveObject<double>::operator==(const PrimitiveObject<double>& other) const;
 template<> bool PrimitiveObject<long double>::operator==(const PrimitiveObject<long double>& other) const;
 
+template<>
+class PrimitiveObject<char *> : public Writable {
+public:
+	static const std::string xmlName;
+	char* val1;
+	PrimitiveObject();
+	virtual ~PrimitiveObject();
+	virtual void write(eos::serialization::Writer * writer) override;
+	virtual void read(Parser * reader) override;
+	bool operator==(const PrimitiveObject<char*>& other) const;
+};
+
+typedef char* char_star;
+
 template<typename TypeParam>
 PrimitiveObject<TypeParam> * new_PrimitiveObject(void);
 
@@ -166,8 +180,9 @@ static inline std::string toString (const T & t)
   return ss.str();
 }
 
-#define MAKE_XML_STRING_DECL(TYPE)	std::string makeXMLString_##TYPE();
+#define MAKE_XML_STRING_DECL(TYPE)	std::string makeXMLString_##TYPE(PrimitiveObject<TYPE> * data);
 PRIMITIVE_TYPE_IDENTIFIERS(MAKE_XML_STRING_DECL)
+MAKE_XML_STRING_DECL(char_star)
 std::string makeXMLString_stack_container_t(stack_container_t * stack_data);
 std::string makeXMLString_ptr_container_t(ptr_container_t * ptr_data);
 

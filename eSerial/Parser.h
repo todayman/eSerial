@@ -176,8 +176,6 @@ namespace eos {
 			//! \param val a pointer to where the new value should go
 			template<typename T>
 			void read(const std::string& name, T * val) {
-				static_assert( !std::is_pointer<T>::value || std::is_base_of<Writable, typename std::remove_pointer<T>::type >::value,
-											"Only pointers to subclasses of eos::serialization::Writable may be written.");
 				typedef typename is_base_type_thingy<std::is_scalar<T>::value, T>::readType implType;
 				read_impl< implType >(name, reinterpret_cast<implType*>(val));
 			}

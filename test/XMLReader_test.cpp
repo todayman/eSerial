@@ -56,6 +56,10 @@ void PrimitiveObject<TypeParam>::read(Parser * reader) {
 
 #define PRIMITIVE_READ_METHOD(x) template void PrimitiveObject<x>::read(Parser * reader);
 PRIMITIVE_TYPES(PRIMITIVE_READ_METHOD)
+	
+void PrimitiveObject<char_star>::read(Parser * reader) {
+	reader->read("val1", &val1);
+}
 
 template<typename TypeParam>
 void PrimitiveArrayObject<TypeParam>::read(Parser * reader) {
@@ -82,7 +86,7 @@ class XMLReaderTest : public ::testing::Test, public XMLParser {
 #define READ_TEST(TYPE)\
 TEST_F(XMLReaderTest, Read##TYPE##Test) { \
 	PrimitiveObject<TYPE> primObj; \
-	stringstream stream(makeXMLString_##TYPE()); \
+	stringstream stream(makeXMLString_##TYPE(&primObj)); \
 	dynamic_cast<DefaultFactory*>(this->getFactory())->registerClass(PrimitiveObject<TYPE>::xmlName, (ctor_func_t)new_PrimitiveObject<TYPE>); \
 	this->parseStream(stream); \
 	\
@@ -92,6 +96,7 @@ TEST_F(XMLReaderTest, Read##TYPE##Test) { \
 }
 
 PRIMITIVE_TYPE_IDENTIFIERS(READ_TEST)
+READ_TEST(char_star)
 
 TEST_F(XMLReaderTest, InternalObjectTest) {
 	stack_container_t stack_data;

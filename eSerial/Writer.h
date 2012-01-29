@@ -129,8 +129,6 @@ namespace eos {
 			//! \throws NoCurrentObject if there is not a current object.
 			template<typename T>
 			void write(T& val, const std::string& name) {
-				static_assert( !std::is_pointer<T>::value || std::is_base_of<Writable, typename std::remove_pointer<T>::type >::value,
-											"Only pointers to subclasses of eos::serialization::Writable may be written.");
 				write_impl< typename is_base_type_thingy<std::is_scalar<T>::value, T>::theType >(val, name);
 			}
 			
@@ -153,15 +151,6 @@ namespace eos {
 			//! \return a new Writer that can write objects to XML files.
 			static Writer * newXMLWriter();
 		};
-
-		//! A specialization of Writer::write that writes strings as a single field,
-		//! not as an array of chars.
-		//! \param val the string
-		//! \param name the name of this field.
-		template<> inline void Writer::write<const char*>(const char *& val, const std::string& name) {
-			write_impl<const char *>(val, name);
-		}
-
 	} // namespace serialization
 } // namespace eos
 #endif // __EOS_SERIALIZATION_WRITER_H__

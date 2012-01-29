@@ -27,7 +27,6 @@ TODO
 ==================
 High-level documentation *
 	How to write implementations for other file formats *
-Parser::read(string name, const char * * astring) *
 
 Parser won't properly construct pointers that point to stack objects
 when they are out of order in the XML file.  Maybe it does, but I need to

@@ -112,6 +112,19 @@ namespace eos {
 				return true;
 			}
 		};
+		
+		template<> class Data<char*> : public _Data {
+		public:
+			//! Creates a new metadata with the given value
+			Data(char * d = nullptr) : _Data(), data(d) {}
+			//! The value
+			char * data;
+			
+			virtual bool operator==(const _Data& other) const;			
+			virtual bool shouldBeDeletedByOwner() const override {
+				return true;
+			}
+		};
 
 		//! \brief Stores data for an array of type T
 		//! \param T the type of the data in the array
