@@ -27,10 +27,7 @@ TODO
 ==================
 High-level documentation *
 	How to write implementations for other file formats *
-
-Parser won't properly construct pointers that point to stack objects
-when they are out of order in the XML file.  Maybe it does, but I need to
-investigate this.
+A good way root objects out of the Reader (string keys) *
 
 Natively support STL containers
 

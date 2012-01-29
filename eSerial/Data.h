@@ -40,6 +40,8 @@ namespace eos {
 	namespace serialization {
 
 		class Writable;
+		template<typename T>
+		class Data;
 
 		//! The superclass of all the metadata helper classes.
 		//! This class exists so that they all have RTTI info and
@@ -50,7 +52,11 @@ namespace eos {
 		//! and it doesn't appear to be a problem (yet).
 		class _Data {
 		public:
+			Data<Writable> * owner;
+			_Data() : owner(nullptr) { }
+			_Data(Data<Writable> * o) : owner(o) { }
 			virtual ~_Data() { }
+						
 			//! Returns true if this is the same kind of data with the same value
 			//! \return true if this is the same kind of data with the same value
 			virtual bool operator==(const _Data& other) const = 0;
@@ -68,7 +74,8 @@ namespace eos {
 		template<typename T> class Data : public _Data {
 		public:
 			//! Creates a new metadata with the given value
-			Data(T d = nullptr) : data(d) {}
+			Data(T d = nullptr) : _Data(), data(d) {}
+			Data(Data<Writable>* o, T d = nullptr) : _Data(o), data(d) {}
 			//! The value
 			T data;
 			
@@ -92,7 +99,8 @@ namespace eos {
 		public:
 			//! Creates a new Data pointing to the object given ID ident.
 			//! \param ident the ID of the object this pointer points to
-			Data(size_t ident = 0) : id(ident) { }
+			Data(size_t ident = 0) : _Data(), id(ident) { }
+			Data(Data<Writable>* o, size_t ident = 0) : _Data(o), id(ident) { }
 			
 			//! \brief The ID number of the object this points to.
 			//! \see Data<Writable>::id
@@ -117,6 +125,7 @@ namespace eos {
 		public:
 			//! Creates a new metadata with the given value
 			Data(char * d = nullptr) : _Data(), data(d) {}
+			Data(Data<Writable>* o, char * d = nullptr) : _Data(o), data(d) {}
 			//! The value
 			char * data;
 			
@@ -138,7 +147,8 @@ namespace eos {
 			hint_t hints;
 			
 			//! Creates a new, emtpy ArrayData<T>
-			ArrayData() : count(0), data(nullptr), hints(NO_HINT) { }
+			ArrayData() : _Data(), count(0), data(nullptr), hints(NO_HINT) { }
+			ArrayData(Data<Writable>* o) : _Data(o), count(0), data(nullptr), hints(NO_HINT) { }
 			
 			//! \brief Creates a new ArrayData<T> with the given data and hints.
 			//! 
@@ -149,8 +159,9 @@ namespace eos {
 			//! \param h hints to be applied to the array.  Possible flags are
 			//! eos::serialization::COPY_ARRAY_HINT, eos::serialization::FREE_HINT,
 			//!	and eos::serialization::READABLE_HINT.
-			//! \todo make sure that COPY_ARRAY_HINT actually copies...
-			ArrayData(size_t c, T * d, hint_t h) : count(c), data(d), hints(h) { }
+			// COPY_ARRAY_HINT actually copy gets done by the Writer
+			ArrayData(size_t c, T * d, hint_t h) : _Data(), count(c), data(d), hints(h) { }
+			ArrayData(Data<Writable*> o, size_t c, T * d, hint_t h) : _Data(o), count(c), data(d), hints(h) { }
 			
 			//! Destroys the ArrayData.  If eos::serialization::COPY_ARRAY_HINT is set,
 			//! then this frees the data in the array
@@ -188,12 +199,14 @@ namespace eos {
 			//! Hints as to how the array should be written or how the memory is handled
 			hint_t hints;
 			
-			ArrayData() : count(0), data(nullptr), hints(NO_HINT) { }
+			ArrayData() : _Data(), count(0), data(nullptr), hints(NO_HINT) { }
+			ArrayData(Data<Writable>* o) : _Data(o), count(0), data(nullptr), hints(NO_HINT) { }
 			//! \brief Creates a new ArrayData<Writable>> with the given data and hints.
 			//! \param c the number of elements in the array
 			//! \param h hints to be applied to the array.  The only possible flag
 			//!	is eos::serialization::READABLE_HINT.
-			ArrayData(size_t c, hint_t h) : count(c), data(new size_t[count]), hints(h) { }
+			ArrayData(size_t c, hint_t h) : _Data(), count(c), data(new size_t[count]), hints(h) { }
+			ArrayData(Data<Writable>* o, size_t c, hint_t h) : _Data(o), count(c), data(new size_t[count]), hints(h) { }
 			~ArrayData() {
 				if( nullptr != data ) {
 					delete [] data;
@@ -234,7 +247,8 @@ namespace eos {
 			std::map<std::string, pData> data;
 			
 			//! Creates a new, empty object
-			Data() : id(static_cast<size_t>(-1)), name(), data() { }
+			Data() : _Data(), id(static_cast<size_t>(-1)), name(), data() { }
+			Data(Data<Writable>* o) : _Data(o), id(static_cast<size_t>(-1)), name(), data() { }
 			
 			//! Destroys the Data, and deletes its fields
 			virtual ~Data() {
@@ -281,6 +295,18 @@ namespace eos {
 										"You must inherit from eos::serializable::Writable to be write an object.");
 			typedef Writable* theType;
 			typedef Writable* readType;
+		};
+		
+		template<>
+		struct handle_pointer<true, const char*> {
+			typedef const char * theType;
+			typedef char * readType;
+		};
+
+		template<>
+		struct handle_pointer<true, char*> {
+			typedef const char * theType;
+			typedef char * readType;
 		};
 
 		template<bool primitve, typename T>

@@ -90,6 +90,9 @@ namespace eos {
 			template<typename T>
 			void write_array_impl(T * elements, size_t count, const std::string& name, hint_t hint);
 			
+			//! \private
+			pData curRootObj;
+			
 		public:
 			//! Creates an initializes a new Writer.  Not much to see here.
 			Writer() : idList(), root_objs(), curObj(nullptr) { }

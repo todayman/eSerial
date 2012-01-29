@@ -71,6 +71,7 @@ void XMLParser::firstPass(istream& input)
        node = xmlNextElementSibling(node)
        )
   {
+		cur_root_obj = nullptr;
 		this->root_objs.push_back(parseXMLObject(node));
   }
   
@@ -82,8 +83,15 @@ void XMLParser::firstPass(istream& input)
 
 Object * XMLParser::parseXMLObject(xmlNodePtr node)
 {
-  Object * obj = new Object();
-  
+	Object * obj = new Object();
+	if( cur_root_obj ) {
+		obj->owner = cur_root_obj;
+	}
+	else {
+		obj->owner = obj;
+		cur_root_obj = obj;
+	}
+	
   xmlChar * xmlPropText = xmlGetProp(node, (const xmlChar*)"id");
   obj->id = parse<size_t>(xmlPropText);
   xmlFree(xmlPropText);
@@ -148,12 +156,12 @@ inline void parseString(char * data, const char * str, size_t count)
 
 #define PARSE_TYPE( x ) \
 else if( type == #x ) {\
-result = new Data<x>(parse<x>(content)); \
+result = new Data<x>(cur_root_obj, parse<x>(content)); \
 }
 
 #define PARSE_ARRAY_TYPE( x ) \
 else if( type == #x ) { \
-  ArrayData<x> * arrData = new ArrayData<x>(); \
+  ArrayData<x> * arrData = new ArrayData<x>(cur_root_obj); \
   if( readable_hint ) { \
     arrData->data = new x[count]; \
     parseString(arrData->data, reinterpret_cast<const char*>(content), count); \
@@ -176,16 +184,16 @@ void XMLParser::parseXMLField(xmlNodePtr field, Object * obj)
   }
   
   if( type == "uint8_t" ) {
-    result = new Data<uint8_t>((uint8_t)parse<int>(content));
+    result = new Data<uint8_t>(cur_root_obj, (uint8_t)parse<int>(content));
   }
   else if( type == "char" ) {
-    result = new Data<char>((char)parse<int>(content));
+    result = new Data<char>(cur_root_obj, (char)parse<int>(content));
   }
   PARSE_TYPE(uint16_t)
   PARSE_TYPE(uint32_t)
   PARSE_TYPE(uint64_t)
   else if( type == "int8_t" ) {
-    result = new Data<int8_t>((int8_t)parse<int>(content));
+    result = new Data<int8_t>(cur_root_obj, (int8_t)parse<int>(content));
   }
   PARSE_TYPE(int16_t)
   PARSE_TYPE(int32_t)
@@ -194,17 +202,17 @@ void XMLParser::parseXMLField(xmlNodePtr field, Object * obj)
   PARSE_TYPE(double)
   PARSE_TYPE(long_double)
   else if( type == "bool" ) {
-    result = new Data<bool>((bool)parse<int>(content));
+    result = new Data<bool>(cur_root_obj, (bool)parse<int>(content));
   }
   else if( type == "char_star" ) {
-    result = new Data<char*>(parse<char*>(content));
+    result = new Data<char*>(cur_root_obj, parse<char*>(content));
   }
 	else if( type == "object" ) {
 		result = parseXMLObject(field);
 	}
   else if( type == "eos.serialization.Writable" ) {
 		xmlChar* idString = xmlGetProp(field, (const xmlChar*)"id");
-    result = new Data<Writable*>(parse<size_t>(idString));
+    result = new Data<Writable*>(cur_root_obj, parse<size_t>(idString));
 		xmlFree(idString);
   }
   else if( type == "array" ) {
@@ -231,7 +239,7 @@ void XMLParser::parseXMLField(xmlNodePtr field, Object * obj)
 		xmlFree(propText);
     
     if( type == "char" ) {
-      ArrayData<char> * arrData = new ArrayData<char>();
+      ArrayData<char> * arrData = new ArrayData<char>(cur_root_obj);
       if( readable_hint ) {
         arrData->data = new char[count];
         parseString(arrData->data, reinterpret_cast<const char*>(content), count);
@@ -243,7 +251,7 @@ void XMLParser::parseXMLField(xmlNodePtr field, Object * obj)
       result = arrData;
     }
     else if( type == "uint8_t" ) {
-      ArrayData<uint8_t> * arrData = new ArrayData<uint8_t>();
+      ArrayData<uint8_t> * arrData = new ArrayData<uint8_t>(cur_root_obj);
       if( readable_hint ) {
         arrData->data = new uint8_t[count];
         parseString(arrData->data, reinterpret_cast<const char*>(content), count);
@@ -266,7 +274,7 @@ void XMLParser::parseXMLField(xmlNodePtr field, Object * obj)
     PARSE_ARRAY_TYPE(long_double)
     PARSE_ARRAY_TYPE(bool)
     else if( type == "eos.serialization.Writable_star" ) {
-      ArrayData<Writable*> * arrData = new ArrayData<Writable*>();
+      ArrayData<Writable*> * arrData = new ArrayData<Writable*>(cur_root_obj);
       if( readable_hint ) {
         arrData->data = new size_t[count];
         parseString(arrData->data, reinterpret_cast<const char*>(content), count);

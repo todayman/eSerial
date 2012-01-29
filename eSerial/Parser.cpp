@@ -122,7 +122,7 @@ template<>
 void Parser::read_impl(const string& name, Writable ** val) {
 	Data<Writable*>* newObj = dynamic_cast<Data<Writable*>*> ( curObj->data[name] );
 	if(!realIDList.count(newObj->id)) {
-		parseObject(metaIDList[newObj->id]);
+		parseObject(metaIDList[newObj->id]->owner);
   }
 	(*val) = realIDList[newObj->id];
 }

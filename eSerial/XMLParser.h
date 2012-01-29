@@ -32,6 +32,7 @@ namespace serialization {
 class XMLParser : public Parser
 {
 private:
+	Object * cur_root_obj;
   Object * parseXMLObject(xmlNodePtr node);
   void parseXMLField(xmlNodePtr field, Object * obj);
 protected:
